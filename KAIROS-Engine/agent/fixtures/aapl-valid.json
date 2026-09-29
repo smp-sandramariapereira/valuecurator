@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "source": "fixture",
+  "symbol": "AAPLx",
+  "mint": "XsbEhLAtcf6HdfpFZ5xEMdqW8nfAvcsP5bdudRLJzJp",
+  "referenceFeedId": "922",
+  "referencePriceMicros": "343440000",
+  "executablePriceMicros": "343810000",
+  "confidenceMicros": "62170",
+  "ageMs": 1000
+}

@@ -1,0 +1,123 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web-and-agent:
+    name: Web and agent
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.18"
+          cache: pnpm
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            agent/pnpm-lock.yaml
+
+      - name: Install dashboard dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install agent dependencies
+        run: pnpm --dir agent install --frozen-lockfile
+
+      - name: Reject tracked secrets
+        run: pnpm security:check
+
+      - name: Typecheck agent
+        run: pnpm --dir agent typecheck
+
+      - name: Test agent
+        run: pnpm --dir agent test
+
+      - name: Lint dashboard
+        run: pnpm lint
+
+      - name: Build dashboard
+        run: pnpm build
+
+  rust:
+    name: Rust checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pinned Rust toolchain
+        run: rustup toolchain install 1.89.0 --profile minimal --component rustfmt --component clippy
+
+      - name: Check formatting
+        run: cargo +1.89.0 fmt --all --check
+
+      - name: Clippy
+        run: cargo +1.89.0 clippy --workspace --all-targets -- -D warnings
+
+      - name: Unit tests
+        run: cargo +1.89.0 test --workspace
+
+  anchor-e2e:
+    name: Anchor end-to-end
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.18"
+          cache: pnpm
+
+      - name: Install JavaScript dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Solana toolchain
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSfL https://solana-install.solana.workers.dev | bash
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> "$GITHUB_PATH"
+
+      - name: Create ephemeral local-validator wallet
+        run: solana-keygen new --no-bip39-passphrase --silent --force -o "$HOME/.config/solana/id.json"
+
+      - name: Install Rust required by Anchor CLI
+        run: rustup toolchain install 1.91.0 --profile minimal
+
+      - name: Install Anchor CLI
+        run: cargo +1.91.0 install --git https://github.com/coral-xyz/anchor --tag v1.2.0 anchor-cli --locked
+
+      - name: Preserve committed IDL
+        run: cp idl/kairos_engine.json /tmp/kairos_engine.committed.json
+
+      - name: Build and run local-validator tests
+        run: pnpm test:e2e
+
+      - name: Upload generated IDL
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-kairos-idl
+          path: target/idl/kairos_engine.json
+          if-no-files-found: ignore
+          retention-days: 1
+
+      - name: Verify generated IDL is committed
+        run: diff -u /tmp/kairos_engine.committed.json target/idl/kairos_engine.json

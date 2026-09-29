@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #09131f;
+  --foreground: #f5f7fb;
+}
+
+* {
+  border-color: #2b3a4b;
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background-color: #09131f;
+  background-image:
+    linear-gradient(rgba(168, 179, 194, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 179, 194, 0.028) 1px, transparent 1px),
+    radial-gradient(920px 520px at 8% -8%, rgba(125, 162, 248, 0.14), transparent 60%),
+    radial-gradient(700px 420px at 96% 4%, rgba(224, 185, 106, 0.08), transparent 58%),
+    radial-gradient(560px 380px at 52% 104%, rgba(107, 174, 214, 0.06), transparent 64%);
+  background-size: 64px 64px, 64px 64px, auto, auto, auto;
+  background-attachment: fixed;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: rgba(125, 162, 248, 0.28);
+  color: #ffffff;
+}
+
+.wallet-adapter-button {
+  background: linear-gradient(135deg, #7da2f8, #a9bbff) !important;
+  color: #09131f !important;
+  font-weight: 750 !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 0.75rem !important;
+  height: 2.75rem !important;
+  padding-inline: 1.1rem !important;
+  font-family: var(--font-jetbrains), ui-monospace, monospace !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  font-size: 0.72rem !important;
+  box-shadow: 0 10px 30px rgba(125, 162, 248, 0.14) !important;
+}
+
+.wallet-adapter-button:not([disabled]):hover {
+  background: linear-gradient(135deg, #9bb5f9, #c1ccff) !important;
+  transform: translateY(-1px);
+}
+
+.proofgate-brand-mark {
+  filter: drop-shadow(0 12px 28px rgba(125, 162, 248, 0.16));
+}
+
+.proofgate-hero {
+  position: relative;
+  isolation: isolate;
+  border-color: rgba(125, 162, 248, 0.42);
+  background-color: #152536;
+  box-shadow:
+    0 24px 80px rgba(2, 8, 16, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 0 0 1px rgba(125, 162, 248, 0.12);
+}
+
+.proofgate-hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background:
+    linear-gradient(115deg, rgba(125, 162, 248, 0.18), transparent 38%),
+    radial-gradient(640px 280px at 92% -10%, rgba(224, 185, 106, 0.16), transparent 68%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 42%);
+  pointer-events: none;
+}
+
+.proofgate-pitch {
+  border-left: 2px solid rgba(125, 162, 248, 0.7);
+  padding-left: 1rem;
+}
+
+.demo-zebra > *:nth-child(odd) {
+  background-color: rgba(17, 29, 43, 0.92);
+}
+
+.demo-zebra > *:nth-child(even) {
+  background-color: rgba(26, 49, 72, 0.96);
+  border-color: rgba(125, 162, 248, 0.28);
+}
+
+.demo-zebra > section {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.demo-zebra > section > * {
+  background-color: rgba(17, 29, 43, 0.92);
+}
+
+.demo-zebra > section > *:nth-child(even) {
+  background-color: rgba(26, 49, 72, 0.96);
+  border-color: rgba(125, 162, 248, 0.28);
+}
+
+.safe-bottom-nav {
+  bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 640px) {
+  .safe-bottom-nav {
+    bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+.live-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: #4bc59a;
+  box-shadow: 0 0 0 0 rgba(75, 197, 154, 0.55);
+  animation: live-pulse 1.8s ease-out infinite;
+}
+
+.live-dot-purple {
+  background: #e0b96a;
+  box-shadow: 0 0 0 0 rgba(224, 185, 106, 0.5);
+  animation-name: live-pulse-amber;
+}
+
+@keyframes live-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(75, 197, 154, 0.42); }
+  70% { box-shadow: 0 0 0 8px rgba(75, 197, 154, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(75, 197, 154, 0); }
+}
+
+@keyframes live-pulse-amber {
+  0% { box-shadow: 0 0 0 0 rgba(224, 185, 106, 0.42); }
+  70% { box-shadow: 0 0 0 8px rgba(224, 185, 106, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(224, 185, 106, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .live-dot,
+  .live-dot-purple { animation: none; }
+  .wallet-adapter-button:not([disabled]):hover { transform: none; }
+}
+
+
+/* ValueCurator Discovery — shared product DNA, distinct research identity */
+.discovery-hero,
+.discovery-panel {
+  position: relative;
+  isolation: isolate;
+  border-color: rgba(178, 140, 255, 0.34);
+  background-color: rgba(17, 29, 43, 0.96);
+  box-shadow:
+    0 24px 80px rgba(2, 8, 16, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 0 1px rgba(178, 140, 255, 0.08);
+}
+.discovery-hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background:
+    linear-gradient(120deg, rgba(178, 140, 255, 0.14), transparent 42%),
+    radial-gradient(560px 260px at 96% 0%, rgba(201, 178, 255, 0.10), transparent 68%);
+  pointer-events: none;
+}
+.discovery-button {
+  border: 1px solid rgba(255,255,255,.12);
+  background: linear-gradient(135deg, #B28CFF, #C9B2FF);
+  color: #09131f;
+  box-shadow: 0 12px 32px rgba(178, 140, 255, .16);
+  transition: transform .15s ease, filter .15s ease;
+}
+.discovery-button:not(:disabled):hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+@media (prefers-reduced-motion: reduce) {
+  .discovery-button:not(:disabled):hover { transform: none; }
+}

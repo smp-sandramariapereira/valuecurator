@@ -1,0 +1,23 @@
+# Secrets and local environment
+.env
+.env.local
+.env.*.local
+agent/.env
+*.key
+*-keypair.json
+
+# Generated Anchor/Rust artifacts
+target/
+.anchor/
+test-ledger/
+
+# JavaScript
+node_modules/
+.next/
+coverage/
+agent/data/
+public/execution-proposal.json
+public/execution-approval.json
+
+# Editor and OS
+.DS_Store

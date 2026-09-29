@@ -1,0 +1,37 @@
+[package]
+name = "kairos-engine"
+version = "0.1.0"
+description = "KAIROS Autonomous Capital Node — metabolize RWA yield on Solana"
+edition.workspace = true
+rust-version.workspace = true
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "kairos_engine"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+anchor-debug = []
+custom-heap = []
+custom-panic = []
+
+[dependencies]
+anchor-lang = "1.2.0"
+anchor-spl = { version = "1.2.0", features = ["token_2022"] }
+spl-discriminator = "0.5"
+spl-tlv-account-resolution = "0.11"
+spl-transfer-hook-interface = "2"
+
+[dev-dependencies]
+litesvm = "0.10.0"
+solana-message = "3.0.1"
+solana-transaction = "3.0.2"
+solana-signer = "3.0.0"
+solana-keypair = "3.0.1"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(target_os, values("solana"))'] }

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">ValueCurator</title>
+  <desc id="desc">A protected gate crossed by a verified path</desc>
+  <defs>
+    <linearGradient id="shield" x1="10" y1="8" x2="54" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#17324A"/>
+      <stop offset="1" stop-color="#0A1726"/>
+    </linearGradient>
+    <linearGradient id="proof" x1="16" y1="42" x2="49" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7DA2F8"/>
+      <stop offset="1" stop-color="#A9BBFF"/>
+    </linearGradient>
+  </defs>
+  <path d="M32 5 54 13v18c0 13.2-8.8 22.8-22 28C18.8 53.8 10 44.2 10 31V13L32 5Z" fill="url(#shield)" stroke="#29445E" stroke-width="2"/>
+  <path d="M21 46V28c0-6.1 4.9-11 11-11s11 4.9 11 11v18" fill="none" stroke="#F4B860" stroke-width="4" stroke-linecap="round"/>
+  <path d="M16 36h10l5 5 17-18" fill="none" stroke="url(#proof)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="16" cy="36" r="3" fill="#7DA2F8"/>
+</svg>

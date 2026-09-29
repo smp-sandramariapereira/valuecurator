@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "source": "fixture",
+  "simulated": true,
+  "simulationScenario": "safe",
+  "transactionSubmitted": false,
+  "generatedAt": "2026-09-24T22:30:00.000Z",
+  "symbol": "AAPLx",
+  "mint": "XsbEhLAtcf6HdfpFZ5xEMdqW8nfAvcsP5bdudRLJzJp",
+  "marketNetwork": "mainnet-beta",
+  "executableSource": "jupiter",
+  "quoteInputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+  "quoteInputAmount": "100000000",
+  "quoteInputDecimals": 6,
+  "quoteExpectedOutputAmount": "29200000",
+  "quoteMinimumOutputAmount": "29000000",
+  "quoteOutputDecimals": 8,
+  "multiplierNano": "1003269013",
+  "priceImpactBps": 25,
+  "routeHops": 1,
+  "referenceFeedId": "922",
+  "referencePriceMicros": "343440000",
+  "executablePriceMicros": "343810000",
+  "confidenceMicros": "62170",
+  "publishTimeMs": 1790288999000,
+  "priceAgeMs": 1000,
+  "deviationBps": 10.77,
+  "confidenceBps": 1.81,
+  "maximumPriceAgeMs": 30000,
+  "maximumDeviationBps": 200,
+  "maximumConfidenceBps": 100,
+  "maximumPriceImpactBps": 200,
+  "calculationPolicyVersion": "kairos-market-policy-v1",
+  "calculations": [
+    {
+      "id": "price_age",
+      "label": "Price age",
+      "formula": "nowMs - publishTimeMs",
+      "operands": {
+        "nowMs": "1790289000000",
+        "publishTimeMs": "1790288999000"
+      },
+      "result": {
+        "value": "1000",
+        "unit": "ms"
+      },
+      "threshold": {
+        "operator": "<=",
+        "value": "30000",
+        "unit": "ms"
+      },
+      "passed": true
+    },
+    {
+      "id": "confidence_ratio",
+      "label": "Feed confidence",
+      "formula": "(confidenceMicros * 10000) / referencePriceMicros",
+      "operands": {
+        "confidenceMicros": "62170",
+        "referencePriceMicros": "343440000"
+      },
+      "result": {
+        "value": "1.81",
+        "unit": "bps"
+      },
+      "threshold": {
+        "operator": "<=",
+        "value": "100",
+        "unit": "bps"
+      },
+      "passed": true
+    },
+    {
+      "id": "price_deviation",
+      "label": "Price deviation",
+      "formula": "(abs(executablePriceMicros - referencePriceMicros) * 10000) / referencePriceMicros",
+      "operands": {
+        "executablePriceMicros": "343810000",
+        "referencePriceMicros": "343440000"
+      },
+      "result": {
+        "value": "10.77",
+        "unit": "bps"
+      },
+      "threshold": {
+        "operator": "<=",
+        "value": "200",
+        "unit": "bps"
+      },
+      "passed": true
+    },
+    {
+      "id": "price_impact",
+      "label": "Trade impact",
+      "formula": "Jupiter priceImpactPct * 100",
+      "operands": {
+        "priceImpactBps": "25"
+      },
+      "result": {
+        "value": "25",
+        "unit": "bps"
+      },
+      "threshold": {
+        "operator": "<=",
+        "value": "200",
+        "unit": "bps"
+      },
+      "passed": true
+    }
+  ],
+  "decision": "APPROVED",
+  "reasons": []
+}
