@@ -5,6 +5,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { ArrowLeft, ArrowRight, Check, ChevronDown, ChevronUp, Lightbulb, LockKeyhole, Mic, ShieldCheck, Sparkles, Wallet } from "lucide-react";
 import Link from "next/link";
+import { STATES } from "@valuecurator/discovery-contracts";
 
 const API = process.env.NEXT_PUBLIC_DISCOVERY_API_URL ?? "http://localhost:3001";
 
@@ -55,8 +56,7 @@ export function DiscoveryInterview() {
 
   const stepIndex = useMemo(() => {
     if (!view) return 0;
-    const states = ["CONSENT","CONTEXT","AUTONOMY","CURRENT_CONTROLS","RISK","AUTHORIZATION","AUDITABILITY","BUILD_VS_BUY","VALUECURATOR_REVEAL","OBJECTIONS","PILOT_INTEREST","COMPLETE"];
-    return Math.max(0, states.indexOf(view.session.state));
+    return Math.max(0, STATES.indexOf(view.session.state as (typeof STATES)[number]));
   }, [view]);
 
   async function authenticate() {

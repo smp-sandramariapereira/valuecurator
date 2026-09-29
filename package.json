@@ -1,0 +1,27 @@
+{
+  "name": "valuecurator",
+  "private": true,
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=20.18"
+  },
+  "scripts": {
+    "dev:web": "pnpm --filter @valuecurator/web dev",
+    "dev:discovery": "pnpm --filter @valuecurator/discovery-api dev",
+    "build": "pnpm --filter @valuecurator/discovery-contracts build && pnpm --filter @valuecurator/discovery-api build && pnpm --filter @valuecurator/web build",
+    "build:web": "pnpm --filter @valuecurator/web build",
+    "build:discovery": "pnpm --filter @valuecurator/discovery-contracts build && pnpm --filter @valuecurator/discovery-api build",
+    "test": "pnpm --filter @valuecurator/discovery-contracts build && pnpm --filter @valuecurator/discovery-api test",
+    "test:discovery": "pnpm --filter @valuecurator/discovery-contracts build && pnpm --filter @valuecurator/discovery-api test",
+    "test:agent": "pnpm --filter @kairos/metabolic-agent test",
+    "typecheck": "pnpm --filter @valuecurator/discovery-contracts build && pnpm --filter @valuecurator/discovery-contracts typecheck && pnpm --filter @valuecurator/discovery-api typecheck && pnpm --filter @valuecurator/web exec tsc --noEmit && pnpm --filter @kairos/metabolic-agent typecheck",
+    "typecheck:discovery": "pnpm --filter @valuecurator/discovery-contracts build && pnpm --filter @valuecurator/discovery-api typecheck",
+    "lint:web": "pnpm --filter @valuecurator/web lint",
+    "security:check": "pnpm --filter @valuecurator/web security:check"
+  },
+  "pnpm": {
+    "overrides": {
+      "rpc-websockets>uuid": "9.0.1"
+    }
+  }
+}

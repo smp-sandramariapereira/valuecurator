@@ -1,13 +1,11 @@
 import { z } from "zod";
+import {
+  InterviewStateSchema,
+  STATES,
+  type InterviewState,
+} from "@valuecurator/discovery-contracts";
 
-export const InterviewStateSchema = z.enum([
-  "CONSENT","CONTEXT","AUTONOMY","CURRENT_CONTROLS","RISK","AUTHORIZATION",
-  "AUDITABILITY","BUILD_VS_BUY","VALUECURATOR_REVEAL","OBJECTIONS",
-  "PILOT_INTEREST","COMPLETE"
-]);
-export type InterviewState = z.infer<typeof InterviewStateSchema>;
-
-export const STATES: InterviewState[] = InterviewStateSchema.options;
+export { InterviewStateSchema, STATES, type InterviewState };
 
 export const AnswerSchema = z.object({
   id: z.string(),

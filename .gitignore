@@ -1,13 +1,35 @@
-# Root
+# Root / workspace
 node_modules/
+.pnpm-store/
 .env
 .env.local
+.env.*.local
 *.pem
 .DS_Store
+*.log
+dist/
+coverage/
 
-# Nested build artifacts
+# Nested install / build artifacts
 **/node_modules/
 **/.next/
+**/dist/
+**/coverage/
 **/target/
+**/.anchor/
+**/test-ledger/
+**/*.tsbuildinfo
+
+# Env / secrets (never commit)
 **/.env
 **/.env.local
+**/.env.*.local
+**/*.pem
+**/*.key
+**/*-keypair.json
+
+# App-specific generated outputs
+apps/web/agent/data/
+apps/web/agent/.env
+apps/web/public/execution-proposal.json
+apps/web/public/execution-approval.json

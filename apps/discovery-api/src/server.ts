@@ -8,7 +8,7 @@ import { InterviewEngine } from "./interview/engine.js";
 import { InMemorySessionRepository } from "./storage/repository.js";
 
 const app = Fastify({ logger: true });
-await app.register(cors, { origin: process.env.CORS_ORIGIN ?? "http://localhost:3000" });
+await app.register(cors, { origin: process.env.CORS_ORIGIN ?? "http://127.0.0.1:43147" });
 
 const repository = new InMemorySessionRepository();
 const engine = new InterviewEngine(repository);

@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: [
+    "@valuecurator/discovery-contracts",
     "@solana/wallet-adapter-base",
     "@solana/wallet-adapter-react",
     "@solana/wallet-adapter-react-ui",
