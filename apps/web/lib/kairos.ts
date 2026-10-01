@@ -21,6 +21,49 @@ export function explorerTxUrl(signature: string): string {
   return `https://explorer.solana.com/tx/${signature}?cluster=${cluster}`;
 }
 
+export function explorerAddressUrl(address: string, cluster: "devnet" | "mainnet-beta"): string {
+  return `https://explorer.solana.com/address/${address}?cluster=${cluster}`;
+}
+
+export const DEVNET_NODE_ADDRESS = "LwuCrFTwdkkH24Ni3Kc4UuL56pzvvnyag1gNQzjCALS";
+export const MAINNET_AAPLX_MINT = "XsbEhLAtcf6HdfpFZ5xEMdqW8nfAvcsP5bdudRLJzJp";
+export const MAINNET_PYTH_AAPLX_FEED = "922";
+
+/** Published Devnet custody transactions. They are not an AAPLx trade. */
+export const DEVNET_CUSTODY_TXS = [
+  {
+    id: "initialize",
+    label: "Initialize node",
+    instruction: "initialize_node",
+    signature:
+      "5KfFCT55w2sen5mgHm99V2V9aRJ6EM7UX9HsZQ7CTKq6ycyDNmvmPhqn8PzcAnADSEDT36fhJ4FXgyJDthtrMhX5",
+  },
+  {
+    id: "metabolize",
+    label: "15/85 split",
+    instruction: "metabolize_yield",
+    signature:
+      "5iYZdNguAxH5u1niikvtBW7oPLj9qodor5coKmDyZWoJaXKsqfwroaJdyy7r23zRTFQYinXH7wACMUdgYXQ9chJq",
+  },
+  {
+    id: "recover",
+    label: "Owner recovery",
+    instruction: "emergency_withdraw",
+    signature:
+      "FVUB863oWXv2i9ymxsro6yEjbmP2XVirBBLZEAYm8xU2qRuuSoJkpfBjUWUu5q18D4GhEKmAtTSCWbNJQ4FjrtE",
+  },
+] as const;
+
+/** Devnet metabolize_yield signed by an operator who is not registered on the node. */
+export const DEVNET_REJECTION_TX = {
+  id: "reject-operator",
+  label: "Rejected operator",
+  instruction: "metabolize_yield",
+  error: "UnauthorizedOperator",
+  signature:
+    "2sFHnWWSCMqNykUGmsmuyZaiM3Rjt82dFtZxHQx4d81gzmhxATLmp48DQvKfSuPTBngHPi3PaAWSgFYrBwAcA1dn",
+} as const;
+
 export function configuredMint(): PublicKey | null {
   const raw = process.env.NEXT_PUBLIC_MINT?.trim();
   if (!raw) return null;

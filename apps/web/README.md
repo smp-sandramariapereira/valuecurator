@@ -15,7 +15,9 @@
 
 ValueCurator turns an investor mandate into deterministic execution rules. Before an autonomous agent can proceed, the system verifies the asset, Pyth reference data, Jupiter executable quote, price age, confidence, deviation, price impact and persistent risk limits. AI may advise, but it cannot hold keys, alter custody or bypass policy.
 
-**Live Stocklana demo:** [https://www.valuecurator.xyz](https://www.valuecurator.xyz) · English UI · approval-only (no AAPLx trade submitted).
+**Public product URL:** [https://www.valuecurator.xyz](https://www.valuecurator.xyz) · English UI · approval-only.
+
+The October Colosseum dashboard in this repository separates the two clusters on Overview: Devnet executes custody, mainnet is a read. **Start demo** opens Mandate. The public site does not yet serve that UI. Publish this build before judges use the URL.
 
 ## Stocklana demo status
 
@@ -38,10 +40,12 @@ ValueCurator turns an investor mandate into deterministic execution rules. Befor
 
 ### Judge walkthrough (≈3 minutes)
 
-1. Open [https://www.valuecurator.xyz](https://www.valuecurator.xyz) → **Start demo** (Gate).
-2. **Block · stale price** (or divergence) → decision **BLOCKED** · no transaction.
-3. **Safe · APPROVED** → simulation approved · unsigned / not an AAPLx submission.
-4. **Audit** → final report separates authorization from execution; Devnet custody events are not an AAPLx trade.
+Run the local dashboard (`pnpm dev:web` from the monorepo root) until this UI is published.
+
+1. **Overview** — Devnet column executes the program. Mainnet column is a read of the AAPLx mint, Pyth feed `922`, and a Jupiter quote. No transaction leaves that column.
+2. **Start demo** opens **Mandate** on the verified asset. **Configure mandate** opens the limit bars. The overview row shows the same draft.
+3. **Gate** — **Block · stale price** or **Block · divergence** → **BLOCKED** with that policy reason. A deviation bar set below the quoted gap also blocks **Safe**. No transaction is submitted.
+4. **Audit** — Devnet custody events, including the rejected operator, stay separate from the AAPLx approval receipt.
 
 ## Team
 
@@ -189,6 +193,7 @@ These addresses and transactions are the custody proof. They use the Devnet demo
 | Node initialization | [transaction](https://explorer.solana.com/tx/5KfFCT55w2sen5mgHm99V2V9aRJ6EM7UX9HsZQ7CTKq6ycyDNmvmPhqn8PzcAnADSEDT36fhJ4FXgyJDthtrMhX5?cluster=devnet) |
 | 15/85 processing | [transaction](https://explorer.solana.com/tx/5iYZdNguAxH5u1niikvtBW7oPLj9qodor5coKmDyZWoJaXKsqfwroaJdyy7r23zRTFQYinXH7wACMUdgYXQ9chJq?cluster=devnet) |
 | Emergency recovery | [transaction](https://explorer.solana.com/tx/FVUB863oWXv2i9ymxsro6yEjbmP2XVirBBLZEAYm8xU2qRuuSoJkpfBjUWUu5q18D4GhEKmAtTSCWbNJQ4FjrtE?cluster=devnet) |
+| Rejected operator | [`metabolize_yield` · `UnauthorizedOperator`](https://explorer.solana.com/tx/2sFHnWWSCMqNykUGmsmuyZaiM3Rjt82dFtZxHQx4d81gzmhxATLmp48DQvKfSuPTBngHPi3PaAWSgFYrBwAcA1dn?cluster=devnet) |
 
 ## On-chain interface
 
@@ -217,16 +222,15 @@ A confirmed `MetabolicEvent` records `node`, `operator`, `vaulted`, `infrastruct
 ### Install
 
 ```bash
-git clone https://github.com/smp-sandramariapereira/KAIROS-Engine.git
-cd KAIROS-Engine
+git clone https://github.com/smp-sandramariapereira/valuecurator.git
+cd valuecurator
 pnpm install
-pnpm --dir agent install
 ```
 
 ### Configure the dashboard
 
 ```bash
-cp .env.example .env.local
+cp apps/web/.env.example apps/web/.env.local
 ```
 
 For public Devnet monitoring, configure `NEXT_PUBLIC_NODE_OWNER` and `NEXT_PUBLIC_MINT`. Server-only Pyth and Jupiter credentials must never use the `NEXT_PUBLIC_` prefix.
@@ -234,7 +238,7 @@ For public Devnet monitoring, configure `NEXT_PUBLIC_NODE_OWNER` and `NEXT_PUBLI
 ### Run
 
 ```bash
-pnpm dev
+pnpm dev:web
 ```
 
 Open [http://127.0.0.1:43147](http://127.0.0.1:43147).
@@ -244,9 +248,9 @@ Open [http://127.0.0.1:43147](http://127.0.0.1:43147).
 The fixtures run through the same deterministic policy used by live evidence:
 
 ```bash
-pnpm --dir agent evaluate:market -- --fixture fixtures/aapl-valid.json
-pnpm --dir agent evaluate:market -- --fixture fixtures/aapl-stale.json
-pnpm --dir agent evaluate:market -- --fixture fixtures/aapl-divergent.json
+pnpm --dir apps/web/agent evaluate:market -- --fixture fixtures/aapl-valid.json
+pnpm --dir apps/web/agent evaluate:market -- --fixture fixtures/aapl-stale.json
+pnpm --dir apps/web/agent evaluate:market -- --fixture fixtures/aapl-divergent.json
 ```
 
 Expected outcomes:
@@ -263,7 +267,7 @@ Create `agent/.env` from the example and configure the Pyth credential locally:
 
 ```bash
 cp agent/.env.example agent/.env
-pnpm --dir agent check:market -- --output ../public/market-evidence.json
+pnpm --dir apps/web/agent check:market -- --output ../public/market-evidence.json
 ```
 
 The command discovers the official AAPLx Solana deployment, reads its Token-2022 Scaled UI multiplier, requests a USDC → AAPLx Jupiter quote and evaluates the protected executable price against Pyth feed `922`.
@@ -273,16 +277,16 @@ It loads no wallet, constructs no transaction and submits no transaction.
 ## Create and verify an approval
 
 ```bash
-pnpm --dir agent propose:execution -- \
+pnpm --dir apps/web/agent propose:execution -- \
   --evidence ../public/market-evidence.json \
   --output ../public/execution-proposal.json
 
-pnpm --dir agent approve:proposal -- \
+pnpm --dir apps/web/agent approve:proposal -- \
   --proposal ../public/execution-proposal.json \
   --keypair /absolute/path/to/owner-keypair.json \
   --output ../public/execution-approval.json
 
-pnpm --dir agent verify:approval -- \
+pnpm --dir apps/web/agent verify:approval -- \
   --proposal ../public/execution-proposal.json \
   --receipt ../public/execution-approval.json
 ```
@@ -295,8 +299,8 @@ The keypair path is provided explicitly. The private key is never printed, commi
 pnpm security:check
 pnpm lint
 pnpm build
-pnpm --dir agent typecheck
-pnpm --dir agent test
+pnpm --dir apps/web/agent typecheck
+pnpm --dir apps/web/agent test
 cargo fmt --all -- --check
 cargo clippy --workspace --all-targets -- -D warnings
 cargo test --workspace
@@ -312,7 +316,7 @@ CI runs equivalent web, agent, Rust and Anchor checks.
 - The program has not completed an independent security audit.
 - `execute_strategy_swap` accepts operator-supplied Jupiter instruction data and `minimum_amount_out`; this trust boundary must be hardened before production.
 - Browser history is local evidence, not an on-chain index.
-- The public dashboard is live at [https://www.valuecurator.xyz](https://www.valuecurator.xyz).
+- The public URL [https://www.valuecurator.xyz](https://www.valuecurator.xyz) is live. The October cluster board, rejected-operator link, and mandate bars are in this repository and still need a publish.
 - Previously committed deploy material remains in Git history; follow [SECURITY.md](./SECURITY.md) before any production use.
 - Nothing in this repository guarantees investment returns or constitutes financial advice.
 

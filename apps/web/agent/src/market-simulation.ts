@@ -17,6 +17,12 @@ const MAINNET_USDC_MINT = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
 export function createMarketSimulation(
   scenario: MarketSimulationScenario,
   nowMs = Date.now(),
+  limits?: {
+    maximumPriceAgeMs?: number;
+    maximumConfidenceBps?: number;
+    maximumDeviationBps?: number;
+    maximumPriceImpactBps?: number;
+  },
 ): SimulatedMarketEvidenceReport {
   const stale = scenario === "stale";
   const divergent = scenario === "divergent";
@@ -44,10 +50,10 @@ export function createMarketSimulation(
       routeHops: 1,
     },
     nowMs,
-    maximumPriceAgeMs: 30_000,
-    maximumConfidenceBps: 100,
-    maximumDeviationBps: 200,
-    maximumPriceImpactBps: 200,
+    maximumPriceAgeMs: limits?.maximumPriceAgeMs ?? 30_000,
+    maximumConfidenceBps: limits?.maximumConfidenceBps ?? 100,
+    maximumDeviationBps: limits?.maximumDeviationBps ?? 200,
+    maximumPriceImpactBps: limits?.maximumPriceImpactBps ?? 200,
   });
 
   return {

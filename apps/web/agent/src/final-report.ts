@@ -75,6 +75,16 @@ export type ReportApprovalReceipt = {
 const SIMULATION_NOT_SIGNABLE_REASON = "only live Pyth Pro evidence can create an approval proposal";
 const SIMULATION_EXPIRY_REASON = "market evidence expired before proposal creation";
 
+/** Policy failures stay on the evidence reasons. Simulation-only proposal reasons stay off that list. */
+export function visiblePolicyReasons(input: {
+  evidenceDecision: "APPROVED" | "BLOCKED";
+  evidenceReasons: readonly string[];
+  proposalReasons: readonly string[];
+}): readonly string[] {
+  if (input.evidenceDecision === "BLOCKED") return input.evidenceReasons;
+  return input.proposalReasons;
+}
+
 export function approvedSimulationIsNotSignable(input: {
   simulated: boolean;
   decision: "APPROVED" | "BLOCKED";

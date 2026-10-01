@@ -79,7 +79,15 @@ function withinRateLimit(request: NextRequest): boolean {
   return true;
 }
 
-async function buildPayload(scenario: MarketScenario) {
+async function buildPayload(
+  scenario: MarketScenario,
+  limits?: {
+    maximumPriceAgeMs: number;
+    maximumConfidenceBps: number;
+    maximumDeviationBps: number;
+    maximumPriceImpactBps: number;
+  },
+) {
   const evidence = scenario === "live"
     ? (await refreshMarketEvidence({
     feedId: required("KAIROS_PYTH_FEED_ID"),
@@ -97,13 +105,17 @@ async function buildPayload(scenario: MarketScenario) {
     inputDecimals: boundedInt("KAIROS_QUOTE_INPUT_DECIMALS", 6, 0, 18),
     slippageBps: boundedInt("KAIROS_STRATEGY_SLIPPAGE_BPS", 100, 1, 10_000),
     maxAccounts: boundedInt("KAIROS_STRATEGY_MAX_ACCOUNTS", 32, 1, 64),
-    maxPriceImpactBps: boundedInt("KAIROS_MARKET_MAX_PRICE_IMPACT_BPS", 200, 0, 10_000),
+    maxPriceImpactBps: limits?.maximumPriceImpactBps ??
+      boundedInt("KAIROS_MARKET_MAX_PRICE_IMPACT_BPS", 200, 0, 10_000),
     activationGuardMs: boundedInt("KAIROS_MULTIPLIER_ACTIVATION_GUARD_MS", 900_000, 0, 86_400_000),
-    maximumPriceAgeMs: boundedInt("KAIROS_MARKET_MAX_PRICE_AGE_MS", 30_000, 1_000, 300_000),
-    maximumConfidenceBps: boundedInt("KAIROS_MARKET_MAX_CONFIDENCE_BPS", 100, 0, 10_000),
-    maximumDeviationBps: boundedInt("KAIROS_MARKET_MAX_DEVIATION_BPS", 200, 0, 10_000),
+    maximumPriceAgeMs: limits?.maximumPriceAgeMs ??
+      boundedInt("KAIROS_MARKET_MAX_PRICE_AGE_MS", 30_000, 1_000, 300_000),
+    maximumConfidenceBps: limits?.maximumConfidenceBps ??
+      boundedInt("KAIROS_MARKET_MAX_CONFIDENCE_BPS", 100, 0, 10_000),
+    maximumDeviationBps: limits?.maximumDeviationBps ??
+      boundedInt("KAIROS_MARKET_MAX_DEVIATION_BPS", 200, 0, 10_000),
       })).report
-    : createMarketSimulation(scenario);
+    : createMarketSimulation(scenario, Date.now(), limits);
   const requiredApprover = process.env.KAIROS_NODE_OWNER?.trim() ||
     process.env.NEXT_PUBLIC_NODE_OWNER?.trim() || null;
   const proposal = createExecutionProposal({
@@ -125,7 +137,40 @@ async function buildPayload(scenario: MarketScenario) {
   };
 }
 
-async function requestedScenario(request: NextRequest): Promise<MarketScenario> {
+type GateMandateLimits = {
+  maximumPriceAgeMs: number;
+  maximumConfidenceBps: number;
+  maximumDeviationBps: number;
+  maximumPriceImpactBps: number;
+};
+
+function integerInRange(value: unknown, minimum: number, maximum: number): number {
+  if (typeof value !== "number" || !Number.isInteger(value) || value < minimum || value > maximum) {
+    throw new Error("Mandate limit is outside the allowed range.");
+  }
+  return value;
+}
+
+function readMandate(body: unknown): GateMandateLimits | undefined {
+  if (!body || typeof body !== "object" || Array.isArray(body)) return undefined;
+  const mandate = (body as { mandate?: unknown }).mandate;
+  if (mandate === undefined) return undefined;
+  if (!mandate || typeof mandate !== "object" || Array.isArray(mandate)) {
+    throw new Error("Invalid mandate limits.");
+  }
+  const record = mandate as Record<string, unknown>;
+  return {
+    maximumPriceAgeMs: integerInRange(record.maximumPriceAgeMs, 1_000, 300_000),
+    maximumConfidenceBps: integerInRange(record.maximumConfidenceBps, 0, 1_000),
+    maximumDeviationBps: integerInRange(record.maximumDeviationBps, 0, 2_000),
+    maximumPriceImpactBps: integerInRange(record.maximumPriceImpactBps, 0, 1_000),
+  };
+}
+
+async function requestedRefresh(request: NextRequest): Promise<{
+  scenario: MarketScenario;
+  limits?: GateMandateLimits;
+}> {
   let body: unknown;
   try {
     body = await request.json();
@@ -135,8 +180,9 @@ async function requestedScenario(request: NextRequest): Promise<MarketScenario> 
   const scenario = body && typeof body === "object" && !Array.isArray(body)
     ? (body as { scenario?: unknown }).scenario
     : undefined;
-  if (scenario === undefined || scenario === "live") return "live";
-  if (scenario === "safe" || scenario === "stale" || scenario === "divergent") return scenario;
+  const limits = readMandate(body);
+  if (scenario === undefined || scenario === "live") return { scenario: "live", limits };
+  if (scenario === "safe" || scenario === "stale" || scenario === "divergent") return { scenario, limits };
   throw new Error("Invalid scenario.");
 }
 
@@ -144,16 +190,10 @@ export async function POST(request: NextRequest) {
   if (!sameOrigin(request)) {
     return NextResponse.json({ error: "Unauthorized origin." }, { status: 403 });
   }
-  if (!withinRateLimit(request)) {
-    return NextResponse.json(
-      { error: "Refresh rate limit reached. Wait one minute." },
-      { status: 429, headers: { "Cache-Control": "no-store", "Retry-After": "60" } },
-    );
-  }
 
-  let scenario: MarketScenario;
+  let refreshRequest: { scenario: MarketScenario; limits?: GateMandateLimits };
   try {
-    scenario = await requestedScenario(request);
+    refreshRequest = await requestedRefresh(request);
   } catch (error) {
     return NextResponse.json(
       { error: boundedMessage(error) },
@@ -161,15 +201,24 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  if (refreshRequest.scenario === "live" && !withinRateLimit(request)) {
+    return NextResponse.json(
+      { error: "Refresh rate limit reached. Wait one minute." },
+      { status: 429, headers: { "Cache-Control": "no-store", "Retry-After": "60" } },
+    );
+  }
+
+  const { scenario, limits } = refreshRequest;
+
   try {
     let payload: Awaited<ReturnType<typeof buildPayload>>;
-    if (scenario === "live") {
+    if (scenario === "live" && !limits) {
       liveInFlight ??= buildPayload("live").finally(() => {
         liveInFlight = null;
       });
       payload = await liveInFlight;
     } else {
-      payload = await buildPayload(scenario);
+      payload = await buildPayload(scenario, limits);
     }
     return NextResponse.json(payload, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {

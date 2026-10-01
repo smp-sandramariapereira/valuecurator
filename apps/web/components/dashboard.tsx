@@ -16,13 +16,26 @@ import { ExecutionProposalCard } from "@/components/execution-proposal-card";
 import { MarketRefreshProvider, useMarketRefresh } from "@/components/market-refresh-provider";
 import { DecisionHistoryCard } from "@/components/decision-history-card";
 import { FinalReportCard } from "@/components/final-report-card";
-import { MandateBuilder } from "@/components/mandate-builder";
+import { MandateBuilder, createInitialMandateDraft } from "@/components/mandate-builder";
 import { useKairosNode } from "@/components/use-kairos-node";
-import { rpcUrl, formatTokenAmount } from "@/lib/kairos";
+import {
+  DEFAULT_PROGRAM_ID,
+  DEVNET_CUSTODY_TXS,
+  DEVNET_NODE_ADDRESS,
+  DEVNET_REJECTION_TX,
+  MAINNET_AAPLX_MINT,
+  MAINNET_PYTH_AAPLX_FEED,
+  explorerAddressUrl,
+  explorerTxUrl,
+  rpcUrl,
+  formatTokenAmount,
+} from "@/lib/kairos";
 import { formatAgeMs, formatTokenAmount as formatMarketAmount } from "@/lib/market-format";
+import type { MandateDraft } from "@/lib/mandate-builder";
 import {
   DASHBOARD_VIEW_IDS,
   dashboardViewSearch,
+  mandateStepSearch,
   parseDashboardView,
   type DashboardView,
 } from "@/lib/dashboard-navigation";
@@ -37,6 +50,14 @@ const WalletMultiButton = dynamic(
 
 function mandateLimit(value: number): string {
   return `${value} bps`;
+}
+
+function formatDraftNumber(value: number): string {
+  return Number.isInteger(value) ? String(value) : value.toFixed(2);
+}
+
+function shortAddress(value: string): string {
+  return `${value.slice(0, 4)}…${value.slice(-4)}`;
 }
 
 function ViewStageHeader({
@@ -62,7 +83,7 @@ function viewPanelClass(): string {
 }
 
 function GateIntro() {
-  const { evidence } = useMarketRefresh();
+  const { evidence, policyLimits } = useMarketRefresh();
   return (
     <Card className="border-stocklana-accent/30 bg-stocklana-accent/5">
       <CardHeader>
@@ -71,33 +92,33 @@ function GateIntro() {
           Block stops on a stale price or on excess divergence. Safe approves the simulation and leaves the proposal unsigned. No transaction is submitted.
         </CardDescription>
       </CardHeader>
-      {evidence ? (
-        <CardContent className="grid gap-3 border-t border-stocklana-accent/20 pt-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <p className="text-xs uppercase tracking-wider text-stocklana-muted">Mandate</p>
-            <p className="mt-1 font-mono text-white">{evidence.symbol} · feed {evidence.referenceFeedId}</p>
+      <CardContent className="grid gap-3 border-t border-stocklana-accent/20 pt-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <p className="text-xs uppercase tracking-wider text-stocklana-muted">Mandate</p>
+          <p className="mt-1 font-mono text-white">
+            {evidence ? `${evidence.symbol} · feed ${evidence.referenceFeedId}` : "AAPLx · feed 922"}
+          </p>
+        </div>
+        <div>
+          <p className="text-xs uppercase tracking-wider text-stocklana-muted">Price age</p>
+          <p className="mt-1 font-mono text-white">≤ {formatAgeMs(policyLimits.maximumPriceAgeMs)}</p>
+        </div>
+        <div>
+          <p className="text-xs uppercase tracking-wider text-stocklana-muted">Confidence</p>
+          <p className="mt-1 font-mono text-white">≤ {mandateLimit(policyLimits.maximumConfidenceBps)}</p>
+        </div>
+        <div>
+          <p className="text-xs uppercase tracking-wider text-stocklana-muted">Deviation</p>
+          <p className="mt-1 font-mono text-white">≤ {mandateLimit(policyLimits.maximumDeviationBps)}</p>
+        </div>
+        {evidence?.quoteInputAmount ? (
+          <div className="sm:col-span-2 lg:col-span-4">
+            <p className="font-mono text-xs text-stocklana-muted">
+              Order checked by these paths: {formatMarketAmount(evidence.quoteInputAmount, evidence.quoteInputDecimals, "USDC")}
+            </p>
           </div>
-          <div>
-            <p className="text-xs uppercase tracking-wider text-stocklana-muted">Price age</p>
-            <p className="mt-1 font-mono text-white">≤ {formatAgeMs(evidence.maximumPriceAgeMs)}</p>
-          </div>
-          <div>
-            <p className="text-xs uppercase tracking-wider text-stocklana-muted">Confidence</p>
-            <p className="mt-1 font-mono text-white">≤ {mandateLimit(evidence.maximumConfidenceBps)}</p>
-          </div>
-          <div>
-            <p className="text-xs uppercase tracking-wider text-stocklana-muted">Deviation</p>
-            <p className="mt-1 font-mono text-white">≤ {mandateLimit(evidence.maximumDeviationBps)}</p>
-          </div>
-          {evidence.quoteInputAmount ? (
-            <div className="sm:col-span-2 lg:col-span-4">
-              <p className="font-mono text-xs text-stocklana-muted">
-                Order checked by these paths: {formatMarketAmount(evidence.quoteInputAmount, evidence.quoteInputDecimals, "USDC")}
-              </p>
-            </div>
-          ) : null}
-        </CardContent>
-      ) : null}
+        ) : null}
+      </CardContent>
     </Card>
   );
 }
@@ -114,6 +135,8 @@ export function Dashboard() {
   const [activeSignature, setActiveSignature] = useState<string | null>(null);
   const [playId, setPlayId] = useState(0);
   const [activeView, setActiveView] = useState<DashboardView>("overview");
+  const [mandateDraft, setMandateDraft] = useState<MandateDraft>(() => createInitialMandateDraft());
+  const [mandateStepRequest, setMandateStepRequest] = useState<{ step: number; nonce: number } | null>(null);
   const lastSeenSignature = useRef<string | null>(null);
 
   useEffect(() => {
@@ -168,6 +191,14 @@ export function Dashboard() {
       else window.history.pushState({}, "", nextUrl);
     }
     focusView(view, options.focus);
+  }, [focusView]);
+
+  const openMandate = useCallback((step: number) => {
+    setMandateStepRequest({ step, nonce: Date.now() });
+    setActiveView("mandate");
+    const nextUrl = `${window.location.pathname}${mandateStepSearch(window.location.search, step)}${window.location.hash}`;
+    window.history.pushState({}, "", nextUrl);
+    focusView("mandate");
   }, [focusView]);
 
   useEffect(() => {
@@ -245,7 +276,7 @@ export function Dashboard() {
               <Button
                 type="button"
                 className="h-11 w-full font-mono text-xs uppercase tracking-wider"
-                onClick={() => navigateTo("gate")}
+                onClick={() => openMandate(0)}
               >
                 Start demo
               </Button>
@@ -272,7 +303,7 @@ export function Dashboard() {
               },
               {
                 title: "The proof",
-                body: "Every approval, refusal, and confirmed record stays auditable. In this demo, on-chain Devnet custody stays separate from the Gate.",
+                body: "The Devnet program rejects an operator who is not the owner. The market gate only previews policy. It does not submit a transaction.",
               },
             ].map((item, index) => (
               <div
@@ -287,10 +318,125 @@ export function Dashboard() {
               </div>
             ))}
           </div>
+          <div className="border-t border-stocklana-border px-4 py-4 sm:px-5">
+            <p className="text-sm leading-6 text-white">
+              Program on Devnet. AAPLx evidence is a mainnet read. No AAPLx transaction is submitted. No mainnet deployment.
+            </p>
+          </div>
+          <div className="grid border-t border-stocklana-border md:grid-cols-2">
+            <div className="space-y-3 border-b border-stocklana-border px-4 py-4 sm:px-5 md:border-b-0 md:border-r">
+              <div className="flex items-center justify-between gap-3">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-300">Devnet</p>
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-blue-300">Program executes</span>
+              </div>
+              <ul className="space-y-2">
+                <li>
+                  <a
+                    href={explorerAddressUrl(DEFAULT_PROGRAM_ID, "devnet")}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between gap-3 rounded-lg border border-stocklana-border bg-[#0A121C] px-3 py-2 transition hover:border-stocklana-accent/60"
+                  >
+                    <span className="text-sm font-semibold text-white">Program</span>
+                    <span className="font-mono text-[11px] text-stocklana-accent">{shortAddress(DEFAULT_PROGRAM_ID)}</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={explorerAddressUrl(DEVNET_NODE_ADDRESS, "devnet")}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between gap-3 rounded-lg border border-stocklana-border bg-[#0A121C] px-3 py-2 transition hover:border-stocklana-accent/60"
+                  >
+                    <span className="text-sm font-semibold text-white">Node</span>
+                    <span className="font-mono text-[11px] text-stocklana-accent">{shortAddress(DEVNET_NODE_ADDRESS)}</span>
+                  </a>
+                </li>
+                {DEVNET_CUSTODY_TXS.map((tx) => (
+                  <li key={tx.id}>
+                    <a
+                      href={explorerTxUrl(tx.signature)}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center justify-between gap-3 rounded-lg border border-stocklana-border bg-[#0A121C] px-3 py-2 transition hover:border-stocklana-accent/60"
+                    >
+                      <span>
+                        <span className="block text-sm font-semibold text-white">{tx.label}</span>
+                        <span className="mt-0.5 block font-mono text-[11px] text-stocklana-muted">{tx.instruction}</span>
+                      </span>
+                      <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-blue-300">Transaction</span>
+                    </a>
+                  </li>
+                ))}
+                <li>
+                  <a
+                    href={explorerTxUrl(DEVNET_REJECTION_TX.signature)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between gap-3 rounded-lg border border-stocklana-border bg-[#0A121C] px-3 py-2 transition hover:border-stocklana-accent/60"
+                  >
+                    <span>
+                      <span className="block text-sm font-semibold text-white">{DEVNET_REJECTION_TX.label}</span>
+                      <span className="mt-0.5 block font-mono text-[11px] text-stocklana-muted">
+                        {DEVNET_REJECTION_TX.instruction} · {DEVNET_REJECTION_TX.error}
+                      </span>
+                    </span>
+                    <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-blue-300">Transaction</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="space-y-3 px-4 py-4 sm:px-5">
+              <div className="flex items-center justify-between gap-3">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-stocklana-purple">Mainnet</p>
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-stocklana-purple">Read only</span>
+              </div>
+              <ul className="space-y-2">
+                <li>
+                  <a
+                    href={explorerAddressUrl(MAINNET_AAPLX_MINT, "mainnet-beta")}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between gap-3 rounded-lg border border-stocklana-border bg-[#0A121C] px-3 py-2 transition hover:border-stocklana-accent/60"
+                  >
+                    <span>
+                      <span className="block text-sm font-semibold text-white">AAPLx mint</span>
+                      <span className="mt-0.5 block font-mono text-[11px] text-stocklana-muted">{shortAddress(MAINNET_AAPLX_MINT)}</span>
+                    </span>
+                    <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-stocklana-purple">Read</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.pyth.network/price-feeds"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between gap-3 rounded-lg border border-stocklana-border bg-[#0A121C] px-3 py-2 transition hover:border-stocklana-accent/60"
+                  >
+                    <span>
+                      <span className="block text-sm font-semibold text-white">Pyth price</span>
+                      <span className="mt-0.5 block font-mono text-[11px] text-stocklana-muted">Feed {MAINNET_PYTH_AAPLX_FEED}</span>
+                    </span>
+                    <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-stocklana-purple">Read</span>
+                  </a>
+                </li>
+                <li className="flex items-center justify-between gap-3 rounded-lg border border-stocklana-border bg-[#0A121C] px-3 py-2">
+                  <span>
+                    <span className="block text-sm font-semibold text-white">Jupiter quote</span>
+                    <span className="mt-0.5 block font-mono text-[11px] text-stocklana-muted">USDC to AAPLx</span>
+                  </span>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-stocklana-purple">Read</span>
+                </li>
+              </ul>
+              <p className="text-xs leading-5 text-stocklana-muted">
+                No transaction is submitted from this column.
+              </p>
+            </div>
+          </div>
         </section>
       </header>
 
-      <MarketRefreshProvider>
+      <MarketRefreshProvider mandate={mandateDraft}>
         <nav
           className="safe-bottom-nav fixed left-1/2 z-50 flex w-[calc(100%-2rem)] max-w-3xl -translate-x-1/2 items-center gap-1 rounded-2xl border-2 border-stocklana-accent/50 bg-[#1A3148] p-1.5 shadow-[0_18px_50px_rgba(0,0,0,0.65),0_0_0_1px_rgba(125,162,248,0.28)]"
           aria-label="Demo navigation"
@@ -330,7 +476,44 @@ export function Dashboard() {
           <div id="dashboard-panel-overview" aria-labelledby="dashboard-tab-overview" tabIndex={-1} className={viewPanelClass()} role="tabpanel">
             <ViewStageHeader step={activeViewMeta.step} label={activeViewMeta.label} description={activeViewMeta.description} />
             <div className="demo-zebra space-y-6">
-            <section className="grid gap-4 lg:grid-cols-[1.35fr_0.65fr]">
+            <Card>
+              <CardHeader>
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <CardTitle>Current mandate</CardTitle>
+                    <CardDescription>
+                      Draft limits for the gate. The bars on Mandate update this row. The Devnet program does not store this policy.
+                    </CardDescription>
+                  </div>
+                  <Button type="button" variant="outline" onClick={() => openMandate(1)}>Configure mandate</Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <dl className="grid gap-0 overflow-hidden rounded-xl border border-stocklana-border bg-[#0E1824] sm:grid-cols-2 lg:grid-cols-4">
+                  {[
+                    ["Per trade", `${formatDraftNumber(mandateDraft.maximumTradeUsdc)} USDC`],
+                    ["Daily", `${formatDraftNumber(mandateDraft.maximumDailyUsdc)} USDC`],
+                    ["Price age", `${formatDraftNumber(mandateDraft.maximumPriceAgeSeconds)} sec`],
+                    ["Deviation", `${formatDraftNumber(mandateDraft.maximumDeviationBps)} bps`],
+                  ].map(([label, detail], index) => (
+                    <div
+                      key={label}
+                      className={[
+                        "min-w-0 px-4 py-4",
+                        index > 0 ? "border-t border-stocklana-border sm:border-t-0" : "",
+                        index % 2 === 1 ? "sm:border-l" : "",
+                        index >= 2 ? "lg:border-l lg:border-t-0" : "",
+                        index === 2 ? "sm:border-t" : "",
+                      ].filter(Boolean).join(" ")}
+                    >
+                      <dt className="text-sm font-semibold text-white">{label}</dt>
+                      <dd className="mt-1 font-mono text-sm text-stocklana-accent">{detail}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </CardContent>
+            </Card>
+            <section>
               <Card>
                 <CardHeader>
                   <CardTitle>What ValueCurator verifies</CardTitle>
@@ -361,25 +544,6 @@ export function Dashboard() {
                       </div>
                     ))}
                   </dl>
-                </CardContent>
-              </Card>
-              <Card className="border-stocklana-blue/30">
-                <CardHeader>
-                  <CardTitle>Demonstrated environment</CardTitle>
-                  <CardDescription>Networks are explicitly separated.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3 text-sm">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="text-stocklana-muted">Custody</span>
-                    <Badge className="border-stocklana-blue/30 text-blue-300">Solana Devnet</Badge>
-                  </div>
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="text-stocklana-muted">Market</span>
-                    <Badge className="border-stocklana-purple/30 text-stocklana-purple">Mainnet evidence</Badge>
-                  </div>
-                  <p className="border-t border-stocklana-border pt-3 text-xs leading-5 text-stocklana-muted">
-                    Devnet signatures on Audit are custody events for the demo mint. The AAPLx gate stops at an approval receipt and does not submit a trade.
-                  </p>
                 </CardContent>
               </Card>
             </section>
@@ -478,7 +642,12 @@ export function Dashboard() {
           <div id="dashboard-panel-mandate" aria-labelledby="dashboard-tab-mandate" tabIndex={-1} className={viewPanelClass()} role="tabpanel">
             <ViewStageHeader step={activeViewMeta.step} label={activeViewMeta.label} description={activeViewMeta.description} />
             <div className="demo-zebra space-y-6">
-              <MandateBuilder />
+              <MandateBuilder
+                draft={mandateDraft}
+                onDraftChange={setMandateDraft}
+                stepRequest={mandateStepRequest}
+                onOpenGate={() => navigateTo("gate")}
+              />
             </div>
           </div>
         ) : null}

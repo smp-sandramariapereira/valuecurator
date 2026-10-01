@@ -9,7 +9,7 @@ import {
   type DecisionHistoryEntry,
   type MarketScenario,
 } from "@/components/market-refresh-provider";
-import { approvedSimulationIsNotSignable } from "@/agent/src/final-report";
+import { approvedSimulationIsNotSignable, visiblePolicyReasons } from "@/agent/src/final-report";
 import { translateMarketReason } from "@/lib/market-format";
 
 function short(value: string): string {
@@ -102,9 +102,11 @@ export function DecisionHistoryCard() {
               <tbody>
                 {history.map((entry) => {
                   const state = proposalState(entry);
-                  const reasons = entry.proposal.reasons.length
-                    ? entry.proposal.reasons
-                    : entry.evidence.reasons;
+                  const reasons = visiblePolicyReasons({
+                    evidenceDecision: entry.evidence.decision,
+                    evidenceReasons: entry.evidence.reasons,
+                    proposalReasons: entry.proposal.reasons,
+                  });
                   return (
                     <tr key={entry.proposal.proposalId} className="border-t border-stocklana-border align-top">
                       <td className="px-3 py-3">

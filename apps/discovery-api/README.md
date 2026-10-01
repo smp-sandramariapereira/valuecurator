@@ -254,9 +254,23 @@ Future channels ─────┘   Interview Engine
                   LLM Interview   Evidence Extractor
                         ↓             ↓
                       Storage / Research Dataset
+                      (SessionRepository)
+                        ↙             ↘
+                   InMemory          PostgreSQL
+                   (tests)           (Drizzle runtime)
                               ↓
                  Profile + Authorization Blueprint
 ```
+
+### Persistence (current)
+
+- Interface: `SessionRepository` (`save` / `get` / `findByWallet`)
+- `InMemorySessionRepository` — default and unit tests
+- `PostgresSessionRepository` — transactional session + answers + evidence
+- `ChallengeStore` — in-memory or `auth_challenges` via Postgres
+- Tables: `interview_sessions`, `interview_answers`, `interview_evidence`, `auth_challenges`
+- Local Postgres: `infra/docker-compose.yml` → `pnpm db:up` then `pnpm db:migrate`
+- Enable with `DATABASE_URL` and `SESSION_STORE=postgres`
 
 ### Proposed Repository Structure
 

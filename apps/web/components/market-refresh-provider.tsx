@@ -1,6 +1,8 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { applyGatePolicy, type GatePolicyLimits } from "@/lib/gate-policy";
+import type { MandateDraft } from "@/lib/mandate-builder";
 
 export type CalculationTrace = {
   id: string;
@@ -109,6 +111,7 @@ type MarketRefreshContextValue = {
   activeScenario: MarketScenario | null;
   pendingScenario: MarketScenario | null;
   history: readonly DecisionHistoryEntry[];
+  policyLimits: GatePolicyLimits;
   refresh: (scenario?: MarketScenario) => Promise<void>;
   recordApprovalReceipt: (receipt: ApprovalReceipt) => void;
 };
@@ -148,7 +151,22 @@ function persistHistory(history: readonly DecisionHistoryEntry[]): void {
   }
 }
 
-export function MarketRefreshProvider({ children }: { children: ReactNode }) {
+function policyFromDraft(draft: MandateDraft): GatePolicyLimits {
+  return {
+    maximumPriceAgeMs: Math.round(draft.maximumPriceAgeSeconds * 1_000),
+    maximumConfidenceBps: draft.maximumConfidenceBps,
+    maximumDeviationBps: draft.maximumDeviationBps,
+    maximumPriceImpactBps: draft.maximumSlippageBps,
+  };
+}
+
+export function MarketRefreshProvider({
+  children,
+  mandate,
+}: {
+  children: ReactNode;
+  mandate: MandateDraft;
+}) {
   const [evidence, setEvidence] = useState<MarketEvidence | null>(null);
   const [proposal, setProposal] = useState<ExecutionProposal | null>(null);
   const [status, setStatus] = useState<RefreshStatus>("loading");
@@ -229,6 +247,15 @@ export function MarketRefreshProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const policyLimits = useMemo(() => policyFromDraft(mandate), [
+    mandate.maximumPriceAgeSeconds,
+    mandate.maximumConfidenceBps,
+    mandate.maximumDeviationBps,
+    mandate.maximumSlippageBps,
+  ]);
+  const policyLimitsRef = useRef(policyLimits);
+  policyLimitsRef.current = policyLimits;
+
   const refresh = useCallback(async (scenario: MarketScenario = "live") => {
     setStatus("refreshing");
     setPendingScenario(scenario);
@@ -237,7 +264,7 @@ export function MarketRefreshProvider({ children }: { children: ReactNode }) {
       const response = await fetch("/api/market/refresh", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ scenario }),
+        body: JSON.stringify({ scenario, mandate: policyLimitsRef.current }),
         cache: "no-store",
       });
       const body = await response.json() as {
@@ -262,24 +289,44 @@ export function MarketRefreshProvider({ children }: { children: ReactNode }) {
     }
   }, [recordDecision]);
 
+  const visibleEvidence = useMemo(
+    () => (evidence ? applyGatePolicy(evidence, policyLimits) : null),
+    [evidence, policyLimits],
+  );
+
+  useEffect(() => {
+    if (!activeScenario || !evidence) return;
+    const aligned = evidence.maximumPriceAgeMs === policyLimits.maximumPriceAgeMs
+      && evidence.maximumConfidenceBps === policyLimits.maximumConfidenceBps
+      && evidence.maximumDeviationBps === policyLimits.maximumDeviationBps
+      && (evidence.maximumPriceImpactBps ?? policyLimits.maximumPriceImpactBps) === policyLimits.maximumPriceImpactBps;
+    if (aligned) return;
+    const timer = window.setTimeout(() => {
+      void refresh(activeScenario);
+    }, 400);
+    return () => window.clearTimeout(timer);
+  }, [activeScenario, evidence, policyLimits, refresh]);
+
   const value = useMemo(() => ({
-    evidence,
+    evidence: visibleEvidence,
     proposal,
     status,
     error,
     activeScenario,
     pendingScenario,
     history,
+    policyLimits,
     refresh,
     recordApprovalReceipt,
   }), [
-    evidence,
+    visibleEvidence,
     proposal,
     status,
     error,
     activeScenario,
     pendingScenario,
     history,
+    policyLimits,
     refresh,
     recordApprovalReceipt,
   ]);

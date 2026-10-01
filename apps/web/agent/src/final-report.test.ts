@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { createFinalExecutionReport, type ReportEvidence, type ReportProposal } from "./final-report.js";
+import { createFinalExecutionReport, visiblePolicyReasons, type ReportEvidence, type ReportProposal } from "./final-report.js";
 
 const evidence: ReportEvidence = {
   source: "pyth-pro",
@@ -103,6 +103,18 @@ describe("final execution report", () => {
     });
     assert.equal(report.operationStatus, "BLOCKED");
     assert.deepEqual(report.decision.reasons, ["stale", "only live evidence"]);
+  });
+
+  it("shows the evidence reason when a simulated quote is blocked", () => {
+    assert.deepEqual(visiblePolicyReasons({
+      evidenceDecision: "BLOCKED",
+      evidenceReasons: ["executable price deviation is too high"],
+      proposalReasons: [
+        "executable price deviation is too high",
+        "only live Pyth Pro evidence can create an approval proposal",
+        "market evidence is not approved",
+      ],
+    }), ["executable price deviation is too high"]);
   });
 
   it("keeps an approved simulation unsigned without calling it a policy block", () => {

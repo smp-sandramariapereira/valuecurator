@@ -11,7 +11,7 @@ import {
   type ApprovalReceipt,
   type ExecutionProposal,
 } from "@/components/market-refresh-provider";
-import { approvedSimulationIsNotSignable } from "@/agent/src/final-report";
+import { approvedSimulationIsNotSignable, visiblePolicyReasons } from "@/agent/src/final-report";
 import { formatCountdown, formatTokenAmount, translateMarketReason } from "@/lib/market-format";
 
 function canonicalize(value: unknown): string {
@@ -114,13 +114,14 @@ export function ExecutionProposalCard() {
     }),
   );
   const policyBlocked = Boolean(proposal && proposal.status === "BLOCKED" && !simulationNotSignable);
-  const priceIsStale = Boolean(
-    proposal?.reasons.includes("market observation is stale")
-    || evidence?.reasons.includes("market observation is stale"),
-  );
-  const visibleReasons = policyBlocked && priceIsStale
-    ? (proposal?.reasons ?? []).filter((reason) => reason === "market observation is stale")
-    : (proposal?.reasons ?? []);
+  const policyReasons = evidence
+    ? visiblePolicyReasons({
+      evidenceDecision: evidence.decision,
+      evidenceReasons: evidence.reasons,
+      proposalReasons: proposal?.reasons ?? [],
+    })
+    : [];
+  const visibleReasons = evidence?.decision === "BLOCKED" ? policyReasons : (proposal?.reasons ?? []);
   const canApprove = Boolean(
     proposal && nowMs !== null && proposal.status === "READY_FOR_APPROVAL" && integrity === "valid" && !expired &&
     connected && publicKey && signMessage && !wrongApprover && !signing,
@@ -130,14 +131,14 @@ export function ExecutionProposalCard() {
     if (nowMs === null) return "Validating proposal expiry…";
     if (integrity === "invalid") return "Tampered or invalid proposal";
     if (simulationNotSignable) return "This simulation cannot be signed. No transaction is submitted.";
-    if (policyBlocked && priceIsStale) return "Policy blocked this proposal because the price is stale. No transaction is submitted.";
+    if (evidence?.decision === "BLOCKED") return "Policy blocked this proposal. No transaction is submitted.";
     if (proposal.status === "BLOCKED") return "Policy blocked this proposal";
     if (expired) return "Evidence expired; generate a new proposal";
     if (!connected || !publicKey) return "Connect the authorized wallet";
     if (wrongApprover) return "The connected wallet is not the authorized owner";
     if (!signMessage) return "This wallet does not support message signing";
     return "Sign an auditable authorization; no transaction will be submitted";
-  }, [connected, expired, integrity, nowMs, policyBlocked, priceIsStale, proposal, publicKey, signMessage, simulationNotSignable, wrongApprover]);
+  }, [connected, evidence?.decision, expired, integrity, nowMs, proposal, publicKey, signMessage, simulationNotSignable, wrongApprover]);
 
   async function approve() {
     if (!proposal || !publicKey || !signMessage || !canApprove) return;
@@ -224,10 +225,10 @@ export function ExecutionProposalCard() {
                 <Clock3 className="h-4 w-4" />
                 Policy approved this simulation. Signing stays disabled.
               </div>
-            ) : policyBlocked && priceIsStale ? (
+            ) : evidence?.decision === "BLOCKED" ? (
               <div className="flex items-center gap-2 rounded-md border border-red-900/60 bg-red-950/20 p-3 font-mono text-sm text-red-300">
                 <Clock3 className="h-4 w-4" />
-                Market price is stale. The mandate blocks this proposal. No transaction is submitted.
+                {policyReasons.join(" · ")}. No transaction is submitted.
               </div>
             ) : (
               <div className={expired

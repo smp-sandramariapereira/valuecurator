@@ -33,7 +33,7 @@ function initialDates(): Pick<MandateDraft, "validFrom" | "validUntil"> {
   return { validFrom: start.toISOString(), validUntil: end.toISOString() };
 }
 
-function initialDraft(): MandateDraft {
+export function createInitialMandateDraft(): MandateDraft {
   return {
     maximumTradeUsdc: 100,
     maximumDailyUsdc: 500,
@@ -71,6 +71,8 @@ function Field({
   minimum = 0,
   maximum,
   step = 1,
+  sliderMaximum,
+  sliderStep,
   onChange,
 }: {
   label: string;
@@ -79,13 +81,19 @@ function Field({
   minimum?: number;
   maximum?: number;
   step?: number;
+  sliderMaximum?: number;
+  sliderStep?: number;
   onChange: (value: number) => void;
 }) {
+  const fieldId = `mandate-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+  const sliderMax = sliderMaximum ?? maximum ?? value;
+  const rangeValue = Math.min(sliderMax, Math.max(minimum, Number.isFinite(value) ? value : minimum));
   return (
-    <label className="rounded-xl border border-stocklana-border bg-stocklana-bg/35 p-3">
-      <span className="block text-xs font-medium text-stocklana-muted">{label}</span>
+    <div className="rounded-xl border border-stocklana-border bg-stocklana-bg/35 p-3">
+      <label htmlFor={fieldId} className="block text-xs font-medium text-stocklana-muted">{label}</label>
       <span className="mt-2 flex items-center gap-2">
         <input
+          id={fieldId}
           type="number"
           min={minimum}
           max={maximum}
@@ -96,7 +104,17 @@ function Field({
         />
         <span className="min-w-12 font-mono text-xs text-stocklana-accent">{unit}</span>
       </span>
-    </label>
+      <input
+        type="range"
+        min={minimum}
+        max={sliderMax}
+        step={sliderStep ?? step}
+        value={rangeValue}
+        aria-label={`${label} slider`}
+        onChange={(event) => onChange(Number(event.target.value))}
+        className="mt-3 h-2 w-full cursor-pointer accent-[#7DA2F8]"
+      />
+    </div>
   );
 }
 
@@ -108,11 +126,20 @@ function ResultBadge({ decision }: { decision: "APPROVED" | "BLOCKED" }) {
   );
 }
 
-export function MandateBuilder() {
+export function MandateBuilder({
+  draft,
+  onDraftChange,
+  stepRequest,
+  onOpenGate,
+}: {
+  draft: MandateDraft;
+  onDraftChange: (draft: MandateDraft) => void;
+  stepRequest: { step: number; nonce: number } | null;
+  onOpenGate: () => void;
+}) {
   const { publicKey } = useWallet();
   const { evidence, refresh, status, pendingScenario } = useMarketRefresh();
   const [step, setStep] = useState(0);
-  const [draft, setDraft] = useState<MandateDraft>(() => initialDraft());
   const [hash, setHash] = useState("");
   const [serverArtifact, setServerArtifact] = useState<MandateArtifact | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -142,7 +169,7 @@ export function MandateBuilder() {
   );
 
   function update<K extends keyof MandateDraft>(key: K, value: MandateDraft[K]) {
-    setDraft((current) => ({ ...current, [key]: value }));
+    onDraftChange({ ...draft, [key]: value });
   }
 
   const focusStep = useCallback((index: number, target: "panel" | "tab" = "panel") => {
@@ -170,6 +197,14 @@ export function MandateBuilder() {
     }
     focusStep(index, options.focus);
   }
+
+  const requestNonce = stepRequest?.nonce;
+  useEffect(() => {
+    if (!stepRequest || requestNonce === undefined) return;
+    navigateStep(stepRequest.step, { history: "replace" });
+    // The nonce is the only signal that a parent navigation asked for this step.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requestNonce]);
 
   function handleStepKey(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     const last = stepLabels.length - 1;
@@ -305,13 +340,13 @@ export function MandateBuilder() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              <Field label="Maximum per trade" value={draft.maximumTradeUsdc} unit="USDC" minimum={0.01} step={0.01} onChange={(v) => update("maximumTradeUsdc", v)} />
-              <Field label="Daily limit" value={draft.maximumDailyUsdc} unit="USDC" minimum={0.01} step={0.01} onChange={(v) => update("maximumDailyUsdc", v)} />
-              <Field label="Maximum allocation" value={draft.maximumAllocationPercent} unit="%" maximum={100} step={0.1} onChange={(v) => update("maximumAllocationPercent", v)} />
-              <Field label="Maximum price age" value={draft.maximumPriceAgeSeconds} unit="sec" minimum={1} maximum={300} onChange={(v) => update("maximumPriceAgeSeconds", v)} />
-              <Field label="Maximum confidence" value={draft.maximumConfidenceBps} unit="bps" maximum={1000} onChange={(v) => update("maximumConfidenceBps", v)} />
-              <Field label="Maximum deviation" value={draft.maximumDeviationBps} unit="bps" maximum={2000} onChange={(v) => update("maximumDeviationBps", v)} />
-              <Field label="Maximum slippage" value={draft.maximumSlippageBps} unit="bps" maximum={1000} onChange={(v) => update("maximumSlippageBps", v)} />
+              <Field label="Maximum per trade" value={draft.maximumTradeUsdc} unit="USDC" minimum={1} step={1} maximum={10_000} sliderMaximum={1_000} onChange={(v) => update("maximumTradeUsdc", v)} />
+              <Field label="Daily limit" value={draft.maximumDailyUsdc} unit="USDC" minimum={1} step={1} maximum={100_000} sliderMaximum={5_000} onChange={(v) => update("maximumDailyUsdc", v)} />
+              <Field label="Maximum allocation" value={draft.maximumAllocationPercent} unit="%" minimum={1} maximum={100} step={1} onChange={(v) => update("maximumAllocationPercent", v)} />
+              <Field label="Maximum price age" value={draft.maximumPriceAgeSeconds} unit="sec" minimum={1} maximum={300} step={1} onChange={(v) => update("maximumPriceAgeSeconds", v)} />
+              <Field label="Maximum confidence" value={draft.maximumConfidenceBps} unit="bps" minimum={0} maximum={1000} step={1} onChange={(v) => update("maximumConfidenceBps", v)} />
+              <Field label="Maximum deviation" value={draft.maximumDeviationBps} unit="bps" minimum={0} maximum={2000} step={1} onChange={(v) => update("maximumDeviationBps", v)} />
+              <Field label="Maximum slippage" value={draft.maximumSlippageBps} unit="bps" minimum={0} maximum={1000} step={1} onChange={(v) => update("maximumSlippageBps", v)} />
               <label className="rounded-xl border border-stocklana-border bg-stocklana-bg/35 p-3">
                 <span className="block text-xs font-medium text-stocklana-muted">Valid from</span>
                 <input type="datetime-local" value={isoToLocal(draft.validFrom)} onChange={(event) => update("validFrom", localToIso(event.target.value))} className="mt-2 w-full rounded-lg border border-stocklana-border bg-stocklana-card px-3 py-2 font-mono text-xs text-white" />
@@ -381,6 +416,7 @@ export function MandateBuilder() {
             <div className="flex flex-wrap gap-2">
               <Button type="button" aria-describedby="mandate-export-help" disabled={errors.length > 0 || validating} onClick={() => void validateOnServer()}>{validating ? "Validating…" : "Validate on server"}</Button>
               <Button type="button" variant="outline" aria-describedby="mandate-export-help" disabled={!serverArtifact} title={!serverArtifact ? "Validate the draft on the server before downloading." : undefined} onClick={downloadArtifact}><Download className="mr-2 h-4 w-4" />Download draft JSON</Button>
+              <Button type="button" variant="outline" onClick={onOpenGate}>Open gate</Button>
             </div>
             <p id="mandate-export-help" className="text-xs leading-5 text-stocklana-muted">Validate on the server to enable the download. No Pyth API key, wallet secret, operator key, endpoint or local path is present in this payload. Transaction constructed: NO · submitted: NO.</p>
           </CardContent>

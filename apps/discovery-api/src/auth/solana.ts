@@ -1,11 +1,24 @@
 import crypto from "node:crypto";
 import bs58 from "bs58";
 import nacl from "tweetnacl";
+import type { ChallengeStore } from "./challenge-store.js";
+import { InMemoryChallengeStore } from "./challenge-store.js";
 
-type Challenge = { nonce: string; message: string; expiresAt: number };
-const challenges = new Map<string, Challenge>();
+export type { AuthChallenge, ChallengeStore } from "./challenge-store.js";
+export { InMemoryChallengeStore } from "./challenge-store.js";
 
-export function createChallenge(walletAddress: string, ttlMinutes = 10): Challenge {
+let store: ChallengeStore = new InMemoryChallengeStore();
+
+/** Inject memory or Postgres challenge persistence. Defaults to in-memory. */
+export function setChallengeStore(next: ChallengeStore): void {
+  store = next;
+}
+
+export function getChallengeStore(): ChallengeStore {
+  return store;
+}
+
+export async function createChallenge(walletAddress: string, ttlMinutes = 10) {
   // Validate early so malformed public keys never become session identifiers.
   const publicKey = bs58.decode(walletAddress);
   if (publicKey.length !== nacl.sign.publicKeyLength) throw new Error("Invalid Solana wallet address");
@@ -24,12 +37,16 @@ export function createChallenge(walletAddress: string, ttlMinutes = 10): Challen
   ].join("\n");
 
   const challenge = { nonce, message, expiresAt };
-  challenges.set(walletAddress, challenge);
+  await store.put(walletAddress, challenge);
   return challenge;
 }
 
-export function verifyChallenge(walletAddress: string, nonce: string, signatureBase58: string): boolean {
-  const challenge = challenges.get(walletAddress);
+export async function verifyChallenge(
+  walletAddress: string,
+  nonce: string,
+  signatureBase58: string,
+): Promise<boolean> {
+  const challenge = await store.get(walletAddress);
   if (!challenge || challenge.nonce !== nonce || challenge.expiresAt < Date.now()) return false;
 
   try {
@@ -40,7 +57,7 @@ export function verifyChallenge(walletAddress: string, nonce: string, signatureB
       signature,
       publicKey
     );
-    if (ok) challenges.delete(walletAddress); // one-time challenge
+    if (ok) await store.delete(walletAddress); // one-time challenge
     return ok;
   } catch {
     return false;

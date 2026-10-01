@@ -6,6 +6,19 @@ Evidence-gated authorization infrastructure for autonomous finance on Solana.
 
 Operational autonomy must never imply sovereignty over capital. AI must not hold keys, alter custody, or bypass deterministic authorization policy.
 
+## Colosseum demo
+
+Program on Devnet. AAPLx evidence is a mainnet read. No AAPLx transaction is submitted. No mainnet deployment.
+
+| Cluster | What a reviewer opens | Ledger |
+| --- | --- | --- |
+| Devnet | Program `6owAcXj4FxJom96cEX9CSFjGrg6zp4U8atTjrpCUMiW5`, node PDA, `initialize_node`, `metabolize_yield`, `emergency_withdraw`, and a `metabolize_yield` rejected with `UnauthorizedOperator` | Instructions land here |
+| Mainnet | AAPLx mint `XsbEhLAtcf6HdfpFZ5xEMdqW8nfAvcsP5bdudRLJzJp`, Pyth feed `922`, Jupiter USDC → AAPLx quote | Read only |
+
+The rejected Devnet transaction is [`2sFHnWWS…A1dn`](https://explorer.solana.com/tx/2sFHnWWSCMqNykUGmsmuyZaiM3Rjt82dFtZxHQx4d81gzmhxATLmp48DQvKfSuPTBngHPi3PaAWSgFYrBwAcA1dn?cluster=devnet). The local dashboard lists it next to the three custody signatures. Signatures, the mandate walkthrough, and the owner/operator split are documented in [`apps/web/README.md`](apps/web/README.md).
+
+`https://www.valuecurator.xyz` is the public product URL. It does not yet serve this October demo UI. Publish that build before judges review the site.
+
 ## Repository structure
 
 ```
@@ -62,7 +75,9 @@ Local development defaults:
 pnpm dev:discovery    # Discovery API on :3001
 pnpm dev:web          # Next.js on 127.0.0.1:43147
 
-pnpm test             # Discovery API vitest suite
+pnpm db:up            # Postgres via Docker Compose (infra/)
+pnpm db:migrate       # Apply Drizzle migrations (requires DATABASE_URL)
+pnpm test             # Discovery unit + persistence integration tests
 pnpm typecheck        # contracts + discovery-api + metabolic agent
 pnpm build            # contracts, discovery-api, web
 ```
@@ -71,5 +86,6 @@ Run web and Discovery API in separate terminals. Customer discovery UI: `/interv
 
 ## Notes
 
-- Discovery storage remains `InMemorySessionRepository` (persistence is the next milestone).
+- Discovery persistence defaults to in-memory. Set `DATABASE_URL` + `SESSION_STORE=postgres` for PostgreSQL via Drizzle (`infra/docker-compose.yml`).
+- Unit tests use memory; integration tests use PGlite against the same SQL migrations.
 - Original standalone repos (`KAIROS-Engine`, `valuecurator-discovery-agent`) are not modified by this monorepo.
