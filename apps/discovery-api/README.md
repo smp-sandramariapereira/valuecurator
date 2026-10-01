@@ -50,12 +50,12 @@ The target interview duration is approximately **5–8 minutes**.
 
 ## Target Participants
 
-Initial customer-discovery segments:
+Initial customer-discovery segments, protocol `customer-discovery-v2` (English):
 
-1. Financial / AI agent builders
-2. On-chain treasury and asset-management teams
-3. RWA / tokenized-asset operators
-4. Wallet and security infrastructure teams
+1. B2B — a business that allocates capital, issues an asset, or employs the approver.
+2. B2A — an agent, runtime, or operator that proposes a financial action for someone else's capital.
+
+Judges read the resulting indicators at `/interview/analysis`. A wallet signature identifies the participant. It does not authorize a transaction.
 
 The research focuses on authorization, controls, evidence requirements, auditability, build-vs-buy decisions, and willingness to participate in a shadow-mode pilot.
 

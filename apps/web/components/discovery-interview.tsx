@@ -10,22 +10,22 @@ import { STATES } from "@valuecurator/discovery-contracts";
 const API = process.env.NEXT_PUBLIC_DISCOVERY_API_URL ?? "http://localhost:3001";
 
 const steps = [
-  "Consent","Context","Autonomy","Controls","Risk","Authorization",
-  "Audit","Infrastructure","ValueCurator","Objections","Pilot",
+  "Consent","Role","Autonomy","Controls","Risk","Authorization",
+  "Audit","Build or buy","Fit","Objections","Pilot",
 ];
 
 const answerExamples: Record<string, string> = {
-  CONSENT: "For example: “Yes, I consent to participate.”",
-  CONTEXT: "For example: “We are building an agent that helps manage treasury operations.”",
-  AUTONOMY: "For example: “Human approval is required today.” or “It can act within predefined limits.”",
-  CURRENT_CONTROLS: "For example: “We use an internal approval process.” or “We don't currently have formal controls.”",
-  RISK: "For example: “Acting on incorrect information.” or “Executing outside the intended mandate.”",
-  AUTHORIZATION: "For example: “I would want clear limits on what the agent is allowed to do.”",
-  AUDITABILITY: "For example: “We need to know what evidence was used and why an action was approved.”",
-  BUILD_VS_BUY: "For example: “We would prefer infrastructure we can integrate.” or “We would likely build this internally.”",
-  VALUECURATOR_REVEAL: "For example: “That addresses part of the problem.” or “I would need to understand the integration model.”",
-  OBJECTIONS: "For example: “Security review would be required.” or “I don't see a blocker yet.”",
-  PILOT_INTEREST: "For example: “Yes, I would consider a shadow-mode pilot.” or “No, not at this stage.”",
+  CONSENT: "For example: “Yes, I consent.”",
+  CONTEXT: "For example: “Our firm runs a treasury. Last Tuesday an agent drafted a transfer and a person stopped it.”",
+  AUTONOMY: "For example: “Nothing moved without a person. The agent only drafted the action.”",
+  CURRENT_CONTROLS: "For example: “A second person had to approve it in our internal tool.”",
+  RISK: "For example: “We refused a transfer because the price source was an hour old.”",
+  AUTHORIZATION: "For example: “The treasurer approves. The last cap they used was the daily desk limit.”",
+  AUDITABILITY: "For example: “We kept the approval note and the price snapshot. The treasurer read it the next morning.”",
+  BUILD_VS_BUY: "For example: “We run approvals ourselves. We pay a vendor for the price feed.”",
+  VALUECURATOR_REVEAL: "For example: “It would sit between the agent draft and the treasurer’s approval.”",
+  OBJECTIONS: "For example: “We would need a security review before relying on an outside layer.”",
+  PILOT_INTEREST: "For example: “Yes. Our treasurer would have to agree.” or “No.”",
 };
 
 type InterviewView = {
@@ -36,6 +36,11 @@ type InterviewView = {
   };
   nextQuestion: string | null;
   researchProfile?: Record<string, unknown>;
+  audience?: {
+    segment: string;
+    possibleUser: string;
+    matchedIndicators: Array<{ id: string; label: string }>;
+  };
   authorizationBlueprint?: {
     status: string;
     controlsMentioned: string[];
@@ -127,6 +132,7 @@ export function DiscoveryInterview() {
           <div className="flex items-center gap-3">
             {token && <span className="hidden items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/5 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-emerald-300 sm:flex"><ShieldCheck className="h-3.5 w-3.5"/> Authenticated</span>}
             <WalletMultiButton />
+            <Link href="/interview/analysis" className="font-mono text-[10px] uppercase tracking-wider text-discovery-accent hover:text-white">Judge analysis</Link>
           </div>
         </header>
 
@@ -135,9 +141,9 @@ export function DiscoveryInterview() {
             <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl border border-discovery-accent/35 bg-discovery-accent/10 text-discovery-accent">
               <Sparkles className="h-5 w-5" />
             </div>
-            <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-discovery-accent">Customer Discovery · Protocol v1</div>
-            <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">Help define the authorization layer for autonomous finance.</h2>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-stocklana-muted">Participate in a focused 5–8 minute research interview about autonomy, financial controls, evidence and authorization.</p>
+            <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-discovery-accent">Customer Discovery · B2B and B2A</div>
+            <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">Tell us what you operate, and what happened last time.</h2>
+            <p className="mt-5 max-w-2xl text-base leading-7 text-stocklana-muted">A 5–8 minute interview for businesses that allocate capital and for agent operators that act for them. One wallet registers one interview. Only that wallet can open it. The public panel shows indicators, not the answers.</p>
 
             <div className="mt-8 rounded-2xl border border-stocklana-border bg-[#0c1724]/75 p-5">
               <div className="flex gap-3">
@@ -209,7 +215,7 @@ export function DiscoveryInterview() {
             <aside className="space-y-4">
               <InfoCard title="Research session">
                 <Status label="Wallet authenticated" />
-                <Status label="Protocol v1" />
+                <Status label="Protocol v2 · English" />
                 <Status label={stepIndex > 0 ? "Consent recorded" : "Consent pending"} ok={stepIndex > 0} />
                 <p className="pt-2 font-mono text-[10px] uppercase tracking-wider text-stocklana-muted">{Math.min(stepIndex + 1, 11)} / 11 blocks</p>
               </InfoCard>
@@ -261,7 +267,7 @@ function Completion({ view }: { view: InterviewView }) {
           </div>
           <div className="rounded-xl border border-discovery-accent/25 bg-discovery-accent/5 px-4 py-3">
             <div className="font-mono text-[9px] uppercase tracking-[0.16em] text-stocklana-muted">Pilot interest</div>
-            <div className="mt-1 text-sm font-semibold text-white">{readBoolean(profile, ["pilotInterest", "interesse do piloto"]) ? "Interested" : "Not indicated"}</div>
+            <div className="mt-1 text-sm font-semibold text-white">{pilotLabel(profile.pilotInterest)}</div>
           </div>
         </div>
       </section>
@@ -272,6 +278,9 @@ function Completion({ view }: { view: InterviewView }) {
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-discovery-accent">Research profile</p>
             <h3 className="mt-2 text-xl font-semibold">What we heard</h3>
           </div>
+          {view.audience && (
+            <p className="mb-4 text-sm leading-6 text-slate-200">{segmentLabel(view.audience.segment)}. {view.audience.possibleUser}</p>
+          )}
           <div className="divide-y divide-stocklana-border/70">
             {profileRows.map(([label, values]) => (
               <div key={label} className="grid gap-2 py-4 sm:grid-cols-[150px_1fr]">
@@ -348,12 +357,17 @@ function readProfile(profile: Record<string, unknown>, keys: string[]) {
   return [];
 }
 
-function readBoolean(profile: Record<string, unknown>, keys: string[]) {
-  for (const key of keys) {
-    const value = profile[key];
-    if (typeof value === "boolean") return value;
-  }
-  return false;
+function pilotLabel(value: unknown) {
+  if (value === true) return "Yes";
+  if (value === false) return "No";
+  return "Not indicated";
+}
+
+function segmentLabel(segment: string) {
+  if (segment === "B2B") return "B2B";
+  if (segment === "B2A") return "B2A";
+  if (segment === "B2B_AND_B2A") return "B2B and B2A";
+  return "Unclassified";
 }
 
 function thresholdLabel(value: string) {

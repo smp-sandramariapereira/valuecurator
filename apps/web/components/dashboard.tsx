@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { Activity, Wallet } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -266,6 +267,9 @@ export function Dashboard() {
               <Badge className="border-stocklana-accent/30 text-stocklana-accent">Jupiter quote</Badge>
               <Badge className="border-amber-500/40 text-amber-200">Approval only</Badge>
             </div>
+            <Link href="/interview/analysis" className="mt-4 inline-flex text-sm font-medium text-stocklana-accent underline-offset-4 hover:underline">
+              B2B / B2A research analysis
+            </Link>
           </div>
           <div className="flex w-full flex-col gap-3 lg:w-72 lg:shrink-0">
             <Badge className="w-fit border-stocklana-accent/30 text-stocklana-accent lg:self-end">
@@ -284,6 +288,9 @@ export function Dashboard() {
                 <WalletMultiButton />
               </div>
             </div>
+            <Button asChild variant="outline" className="h-11 w-full font-mono text-xs uppercase tracking-wider">
+              <Link href="/interview">Interview</Link>
+            </Button>
           </div>
         </div>
 

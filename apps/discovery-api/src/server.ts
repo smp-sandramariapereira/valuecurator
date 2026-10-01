@@ -6,7 +6,9 @@ import { createChallenge, setChallengeStore, verifyChallenge } from "./auth/sola
 import { PostgresChallengeStore } from "./auth/postgres-challenge-store.js";
 import { issueSessionToken, verifySessionToken } from "./auth/session-token.js";
 import { closeDatabase, createDatabase } from "./db/client.js";
+import { createFileDatabase } from "./db/file-database.js";
 import { InterviewEngine } from "./interview/engine.js";
+import { buildAudienceAnalysis } from "./research/audience.js";
 import { InMemorySessionRepository } from "./storage/repository.js";
 import { PostgresSessionRepository } from "./storage/postgres-session-repository.js";
 import type { SessionRepository } from "./storage/repository.js";
@@ -21,15 +23,23 @@ const usePostgres =
   (sessionStore !== "memory" && Boolean(databaseUrl));
 
 let repository: SessionRepository = new InMemorySessionRepository();
-let dbResources: ReturnType<typeof createDatabase> | null = null;
+let closePersistence: (() => Promise<void>) | null = null;
 
-if (usePostgres) {
+if (sessionStore === "pglite") {
+  const dataDir = process.env.PGLITE_DATA_DIR?.trim() || ".data/discovery";
+  const fileDb = await createFileDatabase(dataDir);
+  repository = new PostgresSessionRepository(fileDb.db);
+  setChallengeStore(new PostgresChallengeStore(fileDb.db));
+  closePersistence = () => fileDb.close();
+  app.log.info({ dataDir: fileDb.dataDir }, "Discovery persistence: file database");
+} else if (usePostgres) {
   if (!databaseUrl) {
     throw new Error("SESSION_STORE=postgres requires DATABASE_URL");
   }
-  dbResources = createDatabase(databaseUrl);
+  const dbResources = createDatabase(databaseUrl);
   repository = new PostgresSessionRepository(dbResources.db);
   setChallengeStore(new PostgresChallengeStore(dbResources.db));
+  closePersistence = () => closeDatabase(dbResources);
   app.log.info("Discovery persistence: PostgreSQL (Drizzle)");
 } else {
   app.log.info("Discovery persistence: in-memory");
@@ -80,6 +90,8 @@ app.post("/auth/verify", async (request, reply) => {
   }
 });
 
+app.get("/interviews/analysis", async () => buildAudienceAnalysis(await repository.list()));
+
 app.get("/interviews/:id", async (request, reply) => {
   try {
     const { id } = z.object({ id: z.string().uuid() }).parse(request.params);
@@ -108,7 +120,7 @@ await app.listen({ port, host: "0.0.0.0" });
 
 const shutdown = async () => {
   await app.close();
-  if (dbResources) await closeDatabase(dbResources);
+  if (closePersistence) await closePersistence();
   process.exit(0);
 };
 process.on("SIGINT", shutdown);

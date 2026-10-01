@@ -29,6 +29,17 @@ describe("InterviewEngine", () => {
     const second = await engine.start("wallet-test");
     expect(second.id).toBe(first.id);
   });
+
+  it("registers one interview per wallet", async () => {
+    const engine = new InterviewEngine(new InMemorySessionRepository());
+    const session = await engine.start("wallet-once");
+    const answers = ["yes", "context", "human", "controls", "risk", "limits", "audit", "team", "fit", "none", "no"];
+    for (const answer of answers) await engine.answer(session.id, answer);
+    const again = await engine.start("wallet-once");
+    expect(again.id).toBe(session.id);
+    expect(again.state).toBe("COMPLETE");
+    await expect(engine.answer(again.id, "another")).rejects.toThrow("Interview already complete");
+  });
   it("does not promote unknown answers into research evidence", async () => {
     const engine = new InterviewEngine(new InMemorySessionRepository());
     const session = await engine.start("wallet-unknown");
@@ -55,6 +66,16 @@ describe("InterviewEngine", () => {
     expect(view?.researchProfile.authorizationNeeds).toEqual([]);
     expect(view?.researchProfile.buildVsBuySignals).toEqual([]);
     expect(view?.researchProfile.pilotInterest).toBeUndefined();
+  });
+
+  it("does not treat a refusal that contains would as pilot interest", async () => {
+    const engine = new InterviewEngine(new InMemorySessionRepository());
+    const session = await engine.start("wallet-pilot-no");
+    const answers = ["yes","context","human supervised","multisig","risk","limits","audit trail","inside the team","continue","objection","I would not"];
+    let view;
+    for (const answer of answers) view = await engine.answer(session.id, answer);
+    expect(view?.researchProfile.pilotInterest).toBe(false);
+    expect(view?.audience.segment).toBe("UNCLASSIFIED");
   });
 
   it("records pilot interest only when explicitly indicated", async () => {
@@ -112,5 +133,34 @@ describe("InterviewEngine", () => {
     expect(view?.authorizationBlueprint.missingThresholds).not.toContain("daily_exposure_limit");
     expect(view?.authorizationBlueprint.missingThresholds).not.toContain("maximum_price_impact");
     expect(view?.authorizationBlueprint.missingThresholds).toContain("maximum_evidence_age");
+  });
+
+  it("classifies a business and an agent from substantive answers", async () => {
+    const engine = new InterviewEngine(new InMemorySessionRepository());
+    const session = await engine.start("wallet-audience");
+    const answers = [
+      "yes",
+      "Our company runs a treasury, and an agent proposes the transfer.",
+      "The agent drafted the action. A person still approves.",
+      "A second person had to approve it.",
+      "Stale data.",
+      "The treasurer approves.",
+      "The treasurer read the note.",
+      "We pay a vendor for the price feed.",
+      "It would sit before approval.",
+      "Security review.",
+      "Yes. The treasurer would have to agree."
+    ];
+    let view;
+    for (const answer of answers) view = await engine.answer(session.id, answer);
+    expect(view?.audience.segment).toBe("B2B_AND_B2A");
+    expect(view?.audience.matchedIndicators.map((item) => item.id)).toEqual(expect.arrayContaining([
+      "allocates_capital",
+      "operates_agent",
+      "proposes_without_custody",
+      "named_approver",
+      "pays_for_control",
+    ]));
+    expect(view?.researchProfile.pilotInterest).toBe(true);
   });
 });

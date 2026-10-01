@@ -4,15 +4,16 @@ import { extractEvidence } from "../evidence/extractor.js";
 import { buildAuthorizationBlueprint, buildResearchProfile } from "../research/profile.js";
 import type { SessionRepository } from "../storage/repository.js";
 import {
-  EVIDENCE_SCHEMA_VERSION, PROMPT_VERSION, PROTOCOL_VERSION, nextState, questionFor
+  EVIDENCE_SCHEMA_VERSION, PROMPT_VERSION, PROTOCOL_VERSION, explicitPilotInterest, nextState, questionFor
 } from "./protocol.js";
+import { classifySession } from "../research/audience.js";
 
 export class InterviewEngine {
   constructor(private readonly repository: SessionRepository) {}
 
   async start(walletAddress: string): Promise<Session> {
-    const previous = (await this.repository.findByWallet(walletAddress))
-      .find((s) => s.protocolVersion === PROTOCOL_VERSION && s.state !== "COMPLETE");
+    const existing = await this.repository.findByWallet(walletAddress);
+    const previous = existing.find((session) => session.protocolVersion === PROTOCOL_VERSION) ?? existing[0];
     if (previous) return previous;
 
     const session: Session = {
@@ -58,13 +59,7 @@ export class InterviewEngine {
     session.evidence.push(...extractEvidence(answer));
 
     if (currentState === "PILOT_INTEREST") {
-      if (/\b(yes|sim|interested|interessado|interessada|would|open|aberto|aberta)\b/i.test(normalized)) {
-        session.pilotInterest = true;
-      } else if (/\b(no|não|nao|not interested|não tenho interesse|nao tenho interesse)\b/i.test(normalized)) {
-        session.pilotInterest = false;
-      } else {
-        session.pilotInterest = undefined;
-      }
+      session.pilotInterest = explicitPilotInterest(normalized);
     }
 
     session.state = nextState(currentState);
@@ -84,6 +79,7 @@ export class InterviewEngine {
     return {
       session,
       nextQuestion: questionFor(session.state),
+      audience: classifySession(session),
       ...(session.state === "COMPLETE" ? {
         researchProfile: buildResearchProfile(session),
         authorizationBlueprint: buildAuthorizationBlueprint(session)

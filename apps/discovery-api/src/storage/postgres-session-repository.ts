@@ -101,6 +101,18 @@ export class PostgresSessionRepository implements SessionRepository {
     return sessions;
   }
 
+  async list(): Promise<Session[]> {
+    const rows = await this.db
+      .select()
+      .from(interviewSessions)
+      .orderBy(asc(interviewSessions.startedAt));
+    const sessions: Session[] = [];
+    for (const row of rows) {
+      sessions.push(await this.hydrate(row));
+    }
+    return sessions;
+  }
+
   private async hydrate(row: typeof interviewSessions.$inferSelect): Promise<Session> {
     const answersRows = await this.db
       .select()

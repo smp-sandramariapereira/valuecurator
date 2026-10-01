@@ -1,22 +1,34 @@
 import type { InterviewState } from "../domain.js";
 
-export const PROTOCOL_VERSION = "customer-discovery-v1";
-export const PROMPT_VERSION = "interviewer-v1";
+export const PROTOCOL_VERSION = "customer-discovery-v2";
+export const PROMPT_VERSION = "interviewer-v2";
 export const EVIDENCE_SCHEMA_VERSION = "evidence-v2";
 
 export const QUESTIONS: Record<Exclude<InterviewState, "COMPLETE">, string> = {
   CONSENT: "Do you consent to participate in this research interview and to have your responses stored for product research?",
-  CONTEXT: "What are you building or operating, and what role do autonomous or AI-driven financial actions play in it today?",
-  AUTONOMY: "What financial actions can your system take without a person approving each action?",
-  CURRENT_CONTROLS: "What controls do you currently use before an automated financial action can proceed?",
-  RISK: "What would make you refuse to let an autonomous system execute a financial action?",
-  AUTHORIZATION: "How do you decide whether a proposed action is authorized, and which limits or evidence matter most?",
-  AUDITABILITY: "After an automated decision, what evidence or audit trail do you need to understand why it was allowed or blocked?",
-  BUILD_VS_BUY: "Which authorization or risk controls would you build internally, and which would you consider using as infrastructure?",
-  VALUECURATOR_REVEAL: "ValueCurator separates AI advice from deterministic authorization and custody. Where, if anywhere, would that model fit your workflow?",
-  OBJECTIONS: "What would prevent you from using an evidence-gated authorization layer like this?",
-  PILOT_INTEREST: "Would you consider testing this in shadow mode, where decisions are evaluated but no capital is moved?"
+  CONTEXT: "What do you operate today: a business that allocates capital, an agent or runtime that proposes financial actions, or both? Describe the last time that system was involved in a financial action.",
+  AUTONOMY: "In the last month, which financial actions went ahead without a person approving each one?",
+  CURRENT_CONTROLS: "What check stopped or allowed that action before any funds moved?",
+  RISK: "Describe the last time you refused an automated financial action. What made you refuse?",
+  AUTHORIZATION: "Who is allowed to approve an action in your organization, and which limit did they apply last time?",
+  AUDITABILITY: "After the last allowed or blocked action, what record did you keep, and who read it?",
+  BUILD_VS_BUY: "Which of those controls does your team run itself, and which do you pay another party to provide?",
+  VALUECURATOR_REVEAL: "ValueCurator keeps AI advice separate from deterministic authorization and from custody. Where, if anywhere, would that sit in the workflow you described?",
+  OBJECTIONS: "What would stop you from relying on an outside authorization layer for that workflow?",
+  PILOT_INTEREST: "Would you test this in shadow mode, where the decision is recorded and no capital moves? Reply yes or no, and name who else would have to agree."
 };
+
+/** Explicit pilot signal. The opening yes or no decides; a later "no one else" does not overturn a yes. */
+export function explicitPilotInterest(answer: string): boolean | undefined {
+  const text = answer.trim();
+  if (/^(yes|y|sim|s)\b/i.test(text)) return true;
+  if (/^(no|nao)\b/i.test(text) || /^não(?:\s|$|[,.])/i.test(text)) return false;
+  if (/not interested|não tenho interesse|nao tenho interesse|would not|wouldn't|will not/i.test(text)) {
+    return false;
+  }
+  if (/\b(i am interested|i'm interested|interessado|interessada)\b/i.test(text)) return true;
+  return undefined;
+}
 
 export function nextState(state: InterviewState): InterviewState {
   const order: InterviewState[] = [

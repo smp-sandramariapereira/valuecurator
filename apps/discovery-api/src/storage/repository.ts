@@ -4,6 +4,7 @@ export interface SessionRepository {
   save(session: Session): Promise<void>;
   get(id: string): Promise<Session | null>;
   findByWallet(walletAddress: string): Promise<Session[]>;
+  list(): Promise<Session[]>;
 }
 
 export class InMemorySessionRepository implements SessionRepository {
@@ -22,5 +23,9 @@ export class InMemorySessionRepository implements SessionRepository {
     return [...this.sessions.values()]
       .filter((s) => s.walletAddress === walletAddress)
       .map((s) => structuredClone(s));
+  }
+
+  async list(): Promise<Session[]> {
+    return [...this.sessions.values()].map((session) => structuredClone(session));
   }
 }

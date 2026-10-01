@@ -29,6 +29,7 @@ coverage/
 **/*-keypair.json
 
 # App-specific generated outputs
+apps/discovery-api/.data/
 apps/web/agent/data/
 apps/web/agent/.env
 apps/web/public/execution-proposal.json
