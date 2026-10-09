@@ -93,7 +93,7 @@ function GateIntro() {
       <CardHeader>
         <CardTitle>Two demo paths</CardTitle>
         <CardDescription>
-          Block stops on a stale price or on excess divergence. Safe approves the simulation and leaves the proposal unsigned. No transaction is submitted.
+          This reviewer preview shows why a buy would stop. Block stops on a stale price or on excess divergence. Safe leaves the proposal unsigned. No transaction is submitted from this preview.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-3 border-t border-stocklana-accent/20 pt-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -256,20 +256,28 @@ export function Dashboard() {
 
             <div className="proofgate-pitch mt-6 space-y-3">
               <p className="max-w-2xl text-xl font-semibold leading-snug tracking-[-0.02em] text-white sm:text-2xl">
-                Agents can advise. Policy decides before any move.
+                You keep the owner key. The other key proposes the buy.
               </p>
               <p className="max-w-2xl text-sm leading-6 text-stocklana-muted sm:text-[15px]">
-                Mandate, Pyth price and Jupiter quote must pass. Block stops a stale or
-                divergent quote. Safe approves the simulation and leaves it unsigned.
-                No transaction is submitted.
+                You record price age, confidence, and deviation. If a proposal leaves those limits, the buy does not go out. The other key does not sign, or the program rejects it. One USDC is one month of that lock on one node. It is not the purchase of the asset.
               </p>
             </div>
 
+            <dl className="mt-5 grid max-w-2xl gap-3 sm:grid-cols-2">
+              <div>
+                <dt className="text-xs uppercase tracking-wider text-stocklana-muted">Your signature</dt>
+                <dd className="mt-1 text-sm leading-6 text-white">Sets the limits, or pays 1 USDC for one node for one month.</dd>
+              </div>
+              <div>
+                <dt className="text-xs uppercase tracking-wider text-stocklana-muted">The other key</dt>
+                <dd className="mt-1 text-sm leading-6 text-white">Proposes the buy. It signs only inside the limits you recorded.</dd>
+              </div>
+            </dl>
+
             <div className="mt-5 flex flex-wrap gap-2">
-              <Badge className="border-stocklana-blue/30 text-blue-300">Verifiable mandate</Badge>
-              <Badge className="border-stocklana-purple/30 text-stocklana-purple">Pyth evidence</Badge>
-              <Badge className="border-stocklana-accent/30 text-stocklana-accent">Jupiter quote</Badge>
-              <Badge className="border-amber-500/40 text-amber-200">Approval only</Badge>
+              <Badge className="border-stocklana-blue/30 text-blue-300">Owner key</Badge>
+              <Badge className="border-stocklana-purple/30 text-stocklana-purple">Operator key</Badge>
+              <Badge className="border-stocklana-accent/30 text-stocklana-accent">Three limits</Badge>
             </div>
             <Link href="/interview/analysis" className="mt-4 inline-flex text-sm font-medium text-stocklana-accent underline-offset-4 hover:underline">
               B2B / B2A research analysis
@@ -295,6 +303,9 @@ export function Dashboard() {
             <Button asChild variant="outline" className="h-11 w-full font-mono text-xs uppercase tracking-wider">
               <Link href="/interview">Interview</Link>
             </Button>
+            <Button asChild variant="outline" className="h-11 w-full font-mono text-xs uppercase tracking-wider">
+              <Link href="/subscribe">Subscription</Link>
+            </Button>
           </div>
         </div>
 
@@ -306,15 +317,15 @@ export function Dashboard() {
             {[
               {
                 title: "The problem",
-                body: "Autonomous agents can act on stale prices, bad routes, or compromised operational keys.",
+                body: "Another key can buy on a stale price, a wide feed interval, or a quote far from the reference you accept.",
               },
               {
                 title: "The protection",
-                body: "A deterministic mandate combines Pyth evidence, Jupiter quote checks, and policy limits before execution.",
+                body: "You write the three limits. The operator key signs only inside them. Deviation is also rejected inside the program.",
               },
               {
                 title: "The proof",
-                body: "The Devnet program rejects an operator who is not the owner. The market gate only previews policy. It does not submit a transaction.",
+                body: "The reviewer demo below keeps the Devnet program and the mainnet price read apart. The subscription is a separate USDC transfer.",
               },
             ].map((item, index) => (
               <div
