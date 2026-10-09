@@ -4,10 +4,11 @@ use anchor_lang::{
 };
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
 
-use crate::constants::NODE_SEED;
+use crate::constants::{NODE_SEED, REFERENCE_PRICE_SEED};
 use crate::error::KairosError;
 use crate::events::StrategySwapEvent;
-use crate::state::NodeAccount;
+use crate::math::{assert_price_deviation, implied_executable_price_micros};
+use crate::state::{NodeAccount, ReferencePrice};
 
 pub const JUPITER_V6_PROGRAM_ID: Pubkey = pubkey!("JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4");
 
@@ -22,27 +23,35 @@ pub struct ExecuteStrategySwap<'info> {
         has_one = owner @ KairosError::Unauthorized,
         has_one = operator @ KairosError::UnauthorizedOperator
     )]
-    pub node: Account<'info, NodeAccount>,
-    pub input_mint: InterfaceAccount<'info, Mint>,
+    pub node: Box<Account<'info, NodeAccount>>,
+    #[account(
+        seeds = [REFERENCE_PRICE_SEED, node.key().as_ref()],
+        bump = reference_price.bump,
+        has_one = node @ KairosError::InvalidReferenceMint,
+        constraint = reference_price.mint == node.strategy_mint
+            @ KairosError::InvalidReferenceMint
+    )]
+    pub reference_price: Box<Account<'info, ReferencePrice>>,
+    pub input_mint: Box<InterfaceAccount<'info, Mint>>,
     #[account(
         constraint = output_mint.key() == node.strategy_mint
             @ KairosError::InvalidStrategyMint
     )]
-    pub output_mint: InterfaceAccount<'info, Mint>,
+    pub output_mint: Box<InterfaceAccount<'info, Mint>>,
     #[account(
         mut,
         token::mint = input_mint,
         token::authority = node,
         token::token_program = input_token_program
     )]
-    pub input_vault: InterfaceAccount<'info, TokenAccount>,
+    pub input_vault: Box<InterfaceAccount<'info, TokenAccount>>,
     #[account(
         mut,
         token::mint = output_mint,
         token::authority = node,
         token::token_program = output_token_program
     )]
-    pub output_vault: InterfaceAccount<'info, TokenAccount>,
+    pub output_vault: Box<InterfaceAccount<'info, TokenAccount>>,
     pub input_token_program: Interface<'info, TokenInterface>,
     pub output_token_program: Interface<'info, TokenInterface>,
     /// CHECK: executable address is pinned to Jupiter v6.
@@ -73,6 +82,19 @@ pub fn handle_execute_strategy_swap<'a>(
         input_before >= amount_in,
         KairosError::InsufficientVaultBalance
     );
+
+    let executable_price = implied_executable_price_micros(
+        amount_in,
+        minimum_amount_out,
+        ctx.accounts.input_mint.decimals,
+        ctx.accounts.output_mint.decimals,
+        ctx.accounts.reference_price.multiplier_nano,
+    )?;
+    assert_price_deviation(
+        ctx.accounts.reference_price.reference_price,
+        executable_price,
+        ctx.accounts.reference_price.maximum_deviation_bps,
+    )?;
 
     let metas = ctx
         .remaining_accounts

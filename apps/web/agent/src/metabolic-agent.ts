@@ -14,7 +14,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { confirmOnDevnet } from "./confirm.js";
 import { loadConfig, type AgentConfig } from "./config.js";
-import { findNodePda } from "./pda.js";
+import { findNodePda, findReferencePricePda } from "./pda.js";
 import { JUPITER_V6_PROGRAM_ID, buildJupiterSwap } from "./jupiter.js";
 import { applyDecisionPolicy, requestStrategyDecision } from "./advisor.js";
 import { ExecutionGuard } from "./risk-guard.js";
@@ -237,6 +237,11 @@ async function flushVaultThroughStrategy(
   }
 
   try {
+    const [referencePrice] = findReferencePricePda(program.programId, nodePda);
+    const posted = await (program.account as any).referencePrice.fetchNullable(referencePrice);
+    if (!posted) {
+      throw new Error(`Reference price PDA ${referencePrice.toBase58()} is not posted by the owner`);
+    }
     const { signature, slot } = await confirmRpc(connection, () =>
       (program.methods as any)
         .executeStrategySwap(
@@ -246,6 +251,7 @@ async function flushVaultThroughStrategy(
         )
         .accountsPartial({
           operator: operatorKey.publicKey, owner: config.nodeOwner, node: nodePda,
+          referencePrice,
           inputMint: config.mint, outputMint, inputVault, outputVault,
           inputTokenProgram: TOKEN_2022_PROGRAM_ID, outputTokenProgram,
           jupiterProgram: JUPITER_V6_PROGRAM_ID,

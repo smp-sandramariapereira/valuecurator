@@ -176,6 +176,37 @@
           }
         },
         {
+          "name": "reference_price",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  102,
+                  101,
+                  114,
+                  101,
+                  110,
+                  99,
+                  101,
+                  45,
+                  112,
+                  114,
+                  105,
+                  99,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "node"
+              }
+            ]
+          }
+        },
+        {
           "name": "input_mint"
         },
         {
@@ -668,6 +699,102 @@
       ]
     },
     {
+      "name": "post_reference_price",
+      "docs": [
+        "Owner posts the Devnet reference price the swap instruction must read."
+      ],
+      "discriminator": [
+        69,
+        139,
+        205,
+        65,
+        115,
+        200,
+        50,
+        208
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "node"
+          ]
+        },
+        {
+          "name": "node",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  110,
+                  111,
+                  100,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "reference_price",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  102,
+                  101,
+                  114,
+                  101,
+                  110,
+                  99,
+                  101,
+                  45,
+                  112,
+                  114,
+                  105,
+                  99,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "node"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "reference_price",
+          "type": "u64"
+        },
+        {
+          "name": "maximum_deviation_bps",
+          "type": "u16"
+        },
+        {
+          "name": "multiplier_nano",
+          "type": "u64"
+        }
+      ]
+    },
+    {
       "name": "update_operator",
       "docs": [
         "Owner-only rotation of the limited hot operator."
@@ -732,6 +859,19 @@
         127,
         86,
         220
+      ]
+    },
+    {
+      "name": "ReferencePrice",
+      "discriminator": [
+        54,
+        163,
+        158,
+        12,
+        249,
+        124,
+        163,
+        19
       ]
     }
   ],
@@ -882,6 +1022,41 @@
       "code": 6015,
       "name": "SlippageExceeded",
       "msg": "Strategy swap output was below minimum_amount_out"
+    },
+    {
+      "code": 6016,
+      "name": "InvalidReferencePrice",
+      "msg": "Reference price must be greater than zero"
+    },
+    {
+      "code": 6017,
+      "name": "InvalidExecutablePrice",
+      "msg": "Executable price must be greater than zero"
+    },
+    {
+      "code": 6018,
+      "name": "InvalidDeviationLimit",
+      "msg": "maximum_deviation_bps cannot exceed 10000"
+    },
+    {
+      "code": 6019,
+      "name": "PriceDeviationExceeded",
+      "msg": "Executable price deviation is too high"
+    },
+    {
+      "code": 6020,
+      "name": "InvalidTokenDecimals",
+      "msg": "Token decimals must be between 0 and 18"
+    },
+    {
+      "code": 6021,
+      "name": "InvalidMultiplier",
+      "msg": "xStocks multiplier must be greater than zero"
+    },
+    {
+      "code": 6022,
+      "name": "InvalidReferenceMint",
+      "msg": "Reference price mint does not match the strategy mint"
     }
   ],
   "types": [
@@ -1010,6 +1185,50 @@
       }
     },
     {
+      "name": "ReferencePrice",
+      "docs": [
+        "Owner-posted reference for the Devnet swap check."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "node",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "docs": [
+              "Strategy mint this price describes."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "reference_price",
+            "docs": [
+              "USD price of one whole output token, in micros."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "multiplier_nano",
+            "docs": [
+              "xStocks multiplier in nano units. `1_000_000_000` means 1.0."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "maximum_deviation_bps",
+            "type": "u16"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
       "name": "OperatorUpdatedEvent",
       "type": {
         "kind": "struct",
@@ -1130,6 +1349,14 @@
       ],
       "type": "bytes",
       "value": "[101, 120, 116, 114, 97, 45, 97, 99, 99, 111, 117, 110, 116, 45, 109, 101, 116, 97, 115]"
+    },
+    {
+      "name": "REFERENCE_PRICE_SEED",
+      "docs": [
+        "PDA seed for the Devnet reference price. Seeds: `[REFERENCE_PRICE_SEED, node]`."
+      ],
+      "type": "bytes",
+      "value": "[114, 101, 102, 101, 114, 101, 110, 99, 101, 45, 112, 114, 105, 99, 101]"
     },
     {
       "name": "NODE_SEED",

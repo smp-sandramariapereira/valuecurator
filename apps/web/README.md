@@ -201,7 +201,8 @@ These addresses and transactions are the custody proof. They use the Devnet demo
 | --- | --- |
 | `initialize_node` | Creates the owner-derived node PDA and stores operator, treasury, fee and strategy mint |
 | `metabolize_yield` | Splits Token-2022 inflow between infrastructure treasury and recoverable vault |
-| `execute_strategy_swap` | Implemented to invoke pinned Jupiter v6 and verify balance deltas. The Stocklana demonstration does not submit this instruction for AAPLx |
+| `post_reference_price` | Owner posts the Devnet reference price, multiplier and maximum deviation. The operator cannot write this account |
+| `execute_strategy_swap` | Reads that Devnet price and rejects the swap before Jupiter when the worst price implied by `minimum_amount_out` deviates too far. The Stocklana demonstration does not submit this instruction for AAPLx |
 | `emergency_withdraw` | Allows only the owner to recover tokens from the vault |
 | `update_operator` | Revokes and replaces the operational key |
 | `initialize_extra_account_meta_list` | Initializes Token-2022 transfer-hook metadata |
@@ -314,7 +315,7 @@ CI runs equivalent web, agent, Rust and Anchor checks.
 - The custody program is deployed on Devnet; AAPLx/Pyth/Jupiter market evidence is read from Mainnet.
 - The current cross-network flow is `APPROVAL_ONLY`; it does not submit a real AAPLx transaction.
 - The program has not completed an independent security audit.
-- `execute_strategy_swap` accepts operator-supplied Jupiter instruction data and `minimum_amount_out`; this trust boundary must be hardened before production.
+- `execute_strategy_swap` still accepts operator-supplied Jupiter instruction data. Before that call it now rejects a `minimum_amount_out` whose implied price deviates from the owner-posted Devnet reference. It does not read the mainnet AAPLx Pyth feed.
 - Browser history is local evidence, not an on-chain index.
 - The public URL [https://www.valuecurator.xyz](https://www.valuecurator.xyz) is live. The October cluster board, rejected-operator link, and mandate bars are in this repository and still need a publish.
 - Previously committed deploy material remains in Git history; follow [SECURITY.md](./SECURITY.md) before any production use.

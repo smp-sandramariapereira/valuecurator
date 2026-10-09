@@ -37,3 +37,21 @@ impl NodeAccount {
         Ok(())
     }
 }
+
+/// Owner-posted reference for the Devnet swap check.
+///
+/// The live AAPLx Pyth feed stays on mainnet. This account lives on the same
+/// cluster as the program, and only the node owner can write it.
+#[account]
+#[derive(InitSpace)]
+pub struct ReferencePrice {
+    pub node: Pubkey,
+    /// Strategy mint this price describes.
+    pub mint: Pubkey,
+    /// USD price of one whole output token, in micros.
+    pub reference_price: u64,
+    /// xStocks multiplier in nano units. `1_000_000_000` means 1.0.
+    pub multiplier_nano: u64,
+    pub maximum_deviation_bps: u16,
+    pub bump: u8,
+}

@@ -46,6 +46,21 @@ pub mod kairos_engine {
         instructions::metabolize_yield::handle_metabolize_yield(ctx, amount)
     }
 
+    /// Owner posts the Devnet reference price the swap instruction must read.
+    pub fn post_reference_price(
+        ctx: Context<PostReferencePrice>,
+        reference_price: u64,
+        maximum_deviation_bps: u16,
+        multiplier_nano: u64,
+    ) -> Result<()> {
+        instructions::post_reference_price::handle_post_reference_price(
+            ctx,
+            reference_price,
+            maximum_deviation_bps,
+            multiplier_nano,
+        )
+    }
+
     /// Execute an exact-input Jupiter swap from the recoverable vault into
     /// the node's allowlisted target mint, enforcing output on-chain.
     pub fn execute_strategy_swap<'a>(

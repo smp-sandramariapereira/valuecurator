@@ -4,6 +4,10 @@ use anchor_lang::prelude::*;
 #[constant]
 pub const NODE_SEED: &[u8] = b"node";
 
+/// PDA seed for the Devnet reference price. Seeds: `[REFERENCE_PRICE_SEED, node]`.
+#[constant]
+pub const REFERENCE_PRICE_SEED: &[u8] = b"reference-price";
+
 /// PDA seed for Token-2022 ExtraAccountMetaList. Seeds: `[EXTRA_ACCOUNT_METAS_SEED, mint]`.
 #[constant]
 pub const EXTRA_ACCOUNT_METAS_SEED: &[u8] = b"extra-account-metas";

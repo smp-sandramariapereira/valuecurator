@@ -34,4 +34,18 @@ pub enum KairosError {
     InvalidSwapInput,
     #[msg("Strategy swap output was below minimum_amount_out")]
     SlippageExceeded,
+    #[msg("Reference price must be greater than zero")]
+    InvalidReferencePrice,
+    #[msg("Executable price must be greater than zero")]
+    InvalidExecutablePrice,
+    #[msg("maximum_deviation_bps cannot exceed 10000")]
+    InvalidDeviationLimit,
+    #[msg("Executable price deviation is too high")]
+    PriceDeviationExceeded,
+    #[msg("Token decimals must be between 0 and 18")]
+    InvalidTokenDecimals,
+    #[msg("xStocks multiplier must be greater than zero")]
+    InvalidMultiplier,
+    #[msg("Reference price mint does not match the strategy mint")]
+    InvalidReferenceMint,
 }
