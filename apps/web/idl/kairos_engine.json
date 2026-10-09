@@ -8,6 +8,110 @@
   },
   "instructions": [
     {
+      "name": "assert_executable_price",
+      "docs": [
+        "Compare a proposed swap with the owner-posted Devnet reference.",
+        "",
+        "Returns `PriceDeviationExceeded` before any token movement. Jupiter is",
+        "not an account of this instruction."
+      ],
+      "discriminator": [
+        143,
+        49,
+        190,
+        106,
+        205,
+        239,
+        110,
+        180
+      ],
+      "accounts": [
+        {
+          "name": "operator",
+          "signer": true,
+          "relations": [
+            "node"
+          ]
+        },
+        {
+          "name": "owner",
+          "relations": [
+            "node"
+          ]
+        },
+        {
+          "name": "node",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  110,
+                  111,
+                  100,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          },
+          "relations": [
+            "reference_price"
+          ]
+        },
+        {
+          "name": "reference_price",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  102,
+                  101,
+                  114,
+                  101,
+                  110,
+                  99,
+                  101,
+                  45,
+                  112,
+                  114,
+                  105,
+                  99,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "node"
+              }
+            ]
+          }
+        },
+        {
+          "name": "input_mint"
+        },
+        {
+          "name": "output_mint"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount_in",
+          "type": "u64"
+        },
+        {
+          "name": "minimum_amount_out",
+          "type": "u64"
+        }
+      ]
+    },
+    {
       "name": "emergency_withdraw",
       "docs": [
         "Owner-only escape hatch for recovering vaulted funds."
@@ -173,7 +277,10 @@
                 "path": "owner"
               }
             ]
-          }
+          },
+          "relations": [
+            "reference_price"
+          ]
         },
         {
           "name": "reference_price",
@@ -1185,9 +1292,40 @@
       }
     },
     {
+      "name": "OperatorUpdatedEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "node",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "previous_operator",
+            "type": "pubkey"
+          },
+          {
+            "name": "new_operator",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
       "name": "ReferencePrice",
       "docs": [
-        "Owner-posted reference for the Devnet swap check."
+        "Owner-posted reference for the Devnet swap check.",
+        "",
+        "The live AAPLx Pyth feed stays on mainnet. This account lives on the same",
+        "cluster as the program, and only the node owner can write it."
       ],
       "type": {
         "kind": "struct",
@@ -1224,34 +1362,6 @@
           {
             "name": "bump",
             "type": "u8"
-          }
-        ]
-      }
-    },
-    {
-      "name": "OperatorUpdatedEvent",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "node",
-            "type": "pubkey"
-          },
-          {
-            "name": "owner",
-            "type": "pubkey"
-          },
-          {
-            "name": "previous_operator",
-            "type": "pubkey"
-          },
-          {
-            "name": "new_operator",
-            "type": "pubkey"
-          },
-          {
-            "name": "timestamp",
-            "type": "i64"
           }
         ]
       }
@@ -1351,20 +1461,20 @@
       "value": "[101, 120, 116, 114, 97, 45, 97, 99, 99, 111, 117, 110, 116, 45, 109, 101, 116, 97, 115]"
     },
     {
-      "name": "REFERENCE_PRICE_SEED",
-      "docs": [
-        "PDA seed for the Devnet reference price. Seeds: `[REFERENCE_PRICE_SEED, node]`."
-      ],
-      "type": "bytes",
-      "value": "[114, 101, 102, 101, 114, 101, 110, 99, 101, 45, 112, 114, 105, 99, 101]"
-    },
-    {
       "name": "NODE_SEED",
       "docs": [
         "PDA seed for `NodeAccount`. Seeds: `[NODE_SEED, owner]`."
       ],
       "type": "bytes",
       "value": "[110, 111, 100, 101]"
+    },
+    {
+      "name": "REFERENCE_PRICE_SEED",
+      "docs": [
+        "PDA seed for the Devnet reference price. Seeds: `[REFERENCE_PRICE_SEED, node]`."
+      ],
+      "type": "bytes",
+      "value": "[114, 101, 102, 101, 114, 101, 110, 99, 101, 45, 112, 114, 105, 99, 101]"
     }
   ]
 }

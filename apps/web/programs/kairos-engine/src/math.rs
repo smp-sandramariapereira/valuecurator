@@ -93,6 +93,26 @@ pub fn implied_executable_price_micros(
     u64::try_from(price).map_err(|_| error!(KairosError::MathOverflow))
 }
 
+/// Compare the owner-posted reference with the price implied by a proposed swap.
+pub fn enforce_reference_price(
+    reference_price: u64,
+    maximum_deviation_bps: u16,
+    multiplier_nano: u64,
+    amount_in: u64,
+    minimum_amount_out: u64,
+    input_decimals: u8,
+    output_decimals: u8,
+) -> Result<()> {
+    let executable_price = implied_executable_price_micros(
+        amount_in,
+        minimum_amount_out,
+        input_decimals,
+        output_decimals,
+        multiplier_nano,
+    )?;
+    assert_price_deviation(reference_price, executable_price, maximum_deviation_bps)
+}
+
 fn ten_pow(exp: u8) -> Result<u128> {
     let mut scale = 1u128;
     for _ in 0..exp {
@@ -173,6 +193,17 @@ mod tests {
         .unwrap();
         assert_eq!(executable, 130_000_000);
         let err = assert_price_deviation(100_000_000, executable, 200).unwrap_err();
+        assert_eq!(err, error!(KairosError::PriceDeviationExceeded));
+    }
+
+    #[test]
+    fn six_decimal_whole_token_uses_one_million_as_one_dollar() {
+        let fair = implied_executable_price_micros(1_000_000, 1_000_000, 6, 6, 1_000_000_000).unwrap();
+        assert_eq!(fair, 1_000_000);
+        assert!(enforce_reference_price(1_000_000, 200, 1_000_000_000, 1_000_000, 1_000_000, 6, 6).is_ok());
+
+        let err = enforce_reference_price(1_000_000, 200, 1_000_000_000, 1_300_000, 1_000_000, 6, 6)
+            .unwrap_err();
         assert_eq!(err, error!(KairosError::PriceDeviationExceeded));
     }
 }

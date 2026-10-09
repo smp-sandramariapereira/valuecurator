@@ -11,7 +11,7 @@ import {
   getOrCreateAssociatedTokenAccount,
   mintTo,
 } from "@solana/spl-token";
-import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
+import { Keypair, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import idl from "../idl/kairos_engine.json" with { type: "json" };
 
 describe("KAIROS Engine end-to-end", () => {
@@ -136,6 +136,72 @@ describe("KAIROS Engine end-to-end", () => {
     assert.equal(account.owner.toBase58(), owner.publicKey.toBase58());
     assert.equal(account.operator.toBase58(), operator.publicKey.toBase58());
     assert.equal(account.strategyMint.toBase58(), strategyMint.toBase58());
+  });
+
+  it("rejects an executable price outside the owner-posted reference", async () => {
+    const [referencePrice] = PublicKey.findProgramAddressSync(
+      [Buffer.from("reference-price"), node.toBuffer()],
+      program.programId,
+    );
+    await provider.sendAndConfirm(
+      new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: provider.wallet.publicKey,
+          toPubkey: owner.publicKey,
+          lamports: 50_000_000,
+        }),
+      ),
+    );
+    await program.methods
+      .postReferencePrice(new BN(1_000_000), 200, new BN(1_000_000_000))
+      .accountsPartial({
+        owner: owner.publicKey,
+        node,
+        referencePrice,
+        systemProgram: SystemProgram.programId,
+      })
+      .signers([owner])
+      .rpc();
+
+    const posted = await program.account.referencePrice.fetch(referencePrice);
+    assert.equal(posted.referencePrice.toString(), "1000000");
+    assert.equal(posted.maximumDeviationBps, 200);
+    assert.equal(posted.mint.toBase58(), strategyMint.toBase58());
+
+    const sourceBefore = (await getAccount(provider.connection, source, undefined, TOKEN_2022_PROGRAM_ID)).amount;
+    const vaultBefore = (await getAccount(provider.connection, vault, undefined, TOKEN_2022_PROGRAM_ID)).amount;
+
+    await program.methods
+      .assertExecutablePrice(new BN(1_000_000), new BN(1_000_000))
+      .accountsPartial({
+        operator: operator.publicKey,
+        owner: owner.publicKey,
+        node,
+        referencePrice,
+        inputMint: mint,
+        outputMint: strategyMint,
+      })
+      .signers([operator])
+      .rpc();
+
+    await assert.rejects(
+      program.methods
+        .assertExecutablePrice(new BN(1_300_000), new BN(1_000_000))
+        .accountsPartial({
+          operator: operator.publicKey,
+          owner: owner.publicKey,
+          node,
+          referencePrice,
+          inputMint: mint,
+          outputMint: strategyMint,
+        })
+        .signers([operator])
+        .rpc(),
+      /PriceDeviationExceeded/,
+    );
+
+    assert.equal((await getAccount(provider.connection, source, undefined, TOKEN_2022_PROGRAM_ID)).amount, sourceBefore);
+    assert.equal((await getAccount(provider.connection, vault, undefined, TOKEN_2022_PROGRAM_ID)).amount, vaultBefore);
   });
 
   it("rejects an unauthorized operator without moving funds", async () => {

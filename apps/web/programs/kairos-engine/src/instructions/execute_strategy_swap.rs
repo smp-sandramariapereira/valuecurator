@@ -7,7 +7,7 @@ use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
 use crate::constants::{NODE_SEED, REFERENCE_PRICE_SEED};
 use crate::error::KairosError;
 use crate::events::StrategySwapEvent;
-use crate::math::{assert_price_deviation, implied_executable_price_micros};
+use crate::math::enforce_reference_price;
 use crate::state::{NodeAccount, ReferencePrice};
 
 pub const JUPITER_V6_PROGRAM_ID: Pubkey = pubkey!("JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4");
@@ -83,17 +83,14 @@ pub fn handle_execute_strategy_swap<'a>(
         KairosError::InsufficientVaultBalance
     );
 
-    let executable_price = implied_executable_price_micros(
+    enforce_reference_price(
+        ctx.accounts.reference_price.reference_price,
+        ctx.accounts.reference_price.maximum_deviation_bps,
+        ctx.accounts.reference_price.multiplier_nano,
         amount_in,
         minimum_amount_out,
         ctx.accounts.input_mint.decimals,
         ctx.accounts.output_mint.decimals,
-        ctx.accounts.reference_price.multiplier_nano,
-    )?;
-    assert_price_deviation(
-        ctx.accounts.reference_price.reference_price,
-        executable_price,
-        ctx.accounts.reference_price.maximum_deviation_bps,
     )?;
 
     let metas = ctx

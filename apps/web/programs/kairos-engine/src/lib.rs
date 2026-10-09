@@ -61,6 +61,22 @@ pub mod kairos_engine {
         )
     }
 
+    /// Compare a proposed swap with the owner-posted Devnet reference.
+    ///
+    /// Returns `PriceDeviationExceeded` before any token movement. Jupiter is
+    /// not an account of this instruction.
+    pub fn assert_executable_price(
+        ctx: Context<AssertExecutablePrice>,
+        amount_in: u64,
+        minimum_amount_out: u64,
+    ) -> Result<()> {
+        instructions::assert_executable_price::handle_assert_executable_price(
+            ctx,
+            amount_in,
+            minimum_amount_out,
+        )
+    }
+
     /// Execute an exact-input Jupiter swap from the recoverable vault into
     /// the node's allowlisted target mint, enforcing output on-chain.
     pub fn execute_strategy_swap<'a>(

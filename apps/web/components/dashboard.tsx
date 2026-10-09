@@ -18,16 +18,19 @@ import { MarketRefreshProvider, useMarketRefresh } from "@/components/market-ref
 import { DecisionHistoryCard } from "@/components/decision-history-card";
 import { FinalReportCard } from "@/components/final-report-card";
 import { MandateBuilder, createInitialMandateDraft } from "@/components/mandate-builder";
+import { useDevnetReferencePrice } from "@/components/use-devnet-reference-price";
 import { useKairosNode } from "@/components/use-kairos-node";
 import {
   DEFAULT_PROGRAM_ID,
   DEVNET_CUSTODY_TXS,
   DEVNET_NODE_ADDRESS,
+  DEVNET_PRICE_REJECTION_TX,
   DEVNET_REJECTION_TX,
   MAINNET_AAPLX_MINT,
   MAINNET_PYTH_AAPLX_FEED,
   explorerAddressUrl,
   explorerTxUrl,
+  formatReferenceUsd,
   rpcUrl,
   formatTokenAmount,
 } from "@/lib/kairos";
@@ -133,6 +136,7 @@ const dashboardViews: readonly { id: DashboardView; step: string; label: string;
 
 export function Dashboard() {
   const { state, events, mint, refresh, connected, publicKey, readOnly, historyMessage } = useKairosNode();
+  const referencePrice = useDevnetReferencePrice();
   const [activeSignature, setActiveSignature] = useState<string | null>(null);
   const [playId, setPlayId] = useState(0);
   const [activeView, setActiveView] = useState<DashboardView>("overview");
@@ -339,6 +343,49 @@ export function Dashboard() {
               <ul className="space-y-2">
                 <li>
                   <a
+                    href={explorerAddressUrl(referencePrice.address.toBase58(), "devnet")}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between gap-3 rounded-lg border border-blue-300/40 bg-[#0A121C] px-3 py-2 transition hover:border-stocklana-accent/60"
+                  >
+                    <span>
+                      <span className="block text-sm font-semibold text-white">Reference price</span>
+                      <span className="mt-0.5 block font-mono text-[11px] text-stocklana-muted">
+                        post_reference_price · owner posted
+                      </span>
+                      <span className="mt-0.5 block font-mono text-[11px] text-blue-300">
+                        {referencePrice.status === "ready"
+                          ? `${formatReferenceUsd(referencePrice.price.referencePrice)} · ${referencePrice.price.maximumDeviationBps} bps · mint ${shortAddress(referencePrice.price.mint.toBase58())}`
+                          : referencePrice.status === "loading"
+                            ? "Reading Devnet…"
+                            : referencePrice.status === "empty"
+                              ? "Owner has not posted this account"
+                              : referencePrice.message}
+                      </span>
+                    </span>
+                    <span className="font-mono text-[11px] text-stocklana-accent">
+                      {shortAddress(referencePrice.address.toBase58())}
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={explorerTxUrl(DEVNET_PRICE_REJECTION_TX.signature)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between gap-3 rounded-lg border border-blue-300/40 bg-[#0A121C] px-3 py-2 transition hover:border-stocklana-accent/60"
+                  >
+                    <span>
+                      <span className="block text-sm font-semibold text-white">{DEVNET_PRICE_REJECTION_TX.label}</span>
+                      <span className="mt-0.5 block font-mono text-[11px] text-stocklana-muted">
+                        {DEVNET_PRICE_REJECTION_TX.instruction} · {DEVNET_PRICE_REJECTION_TX.error}
+                      </span>
+                    </span>
+                    <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-blue-300">Transaction</span>
+                  </a>
+                </li>
+                <li>
+                  <a
                     href={explorerAddressUrl(DEFAULT_PROGRAM_ID, "devnet")}
                     target="_blank"
                     rel="noreferrer"
@@ -436,7 +483,7 @@ export function Dashboard() {
                 </li>
               </ul>
               <p className="text-xs leading-5 text-stocklana-muted">
-                No transaction is submitted from this column.
+                No transaction is submitted from this column. The Devnet reference price is the account the swap instruction reads. This column reads the AAPLx mint, Pyth feed 922, and the Jupiter quote.
               </p>
             </div>
           </div>

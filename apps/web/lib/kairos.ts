@@ -3,6 +3,8 @@ import { PublicKey } from "@solana/web3.js";
 export const DEFAULT_RPC_URL = "https://api.devnet.solana.com";
 export const DEFAULT_PROGRAM_ID = "6owAcXj4FxJom96cEX9CSFjGrg6zp4U8atTjrpCUMiW5";
 export const NODE_SEED = Buffer.from("node");
+export const REFERENCE_PRICE_SEED = Buffer.from("reference-price");
+export const REFERENCE_PRICE_DISCRIMINATOR = Buffer.from([54, 163, 158, 12, 249, 124, 163, 19]);
 export const BPS_DENOMINATOR = 10_000;
 
 export function programId(): PublicKey {
@@ -54,6 +56,16 @@ export const DEVNET_CUSTODY_TXS = [
   },
 ] as const;
 
+/** Devnet assert_executable_price rejected before any token movement. */
+export const DEVNET_PRICE_REJECTION_TX = {
+  id: "reject-price",
+  label: "Rejected price",
+  instruction: "assert_executable_price",
+  error: "PriceDeviationExceeded",
+  signature:
+    "4hgsvfZgmL6pYogYS8b1Srzd5RFnnWbP3N8qkPYPerpRBa5u1Zc8WoxhWsmCzf36U7Zpn9fo31AzHog5cSGeubtX",
+} as const;
+
 /** Devnet metabolize_yield signed by an operator who is not registered on the node. */
 export const DEVNET_REJECTION_TX = {
   id: "reject-operator",
@@ -72,6 +84,59 @@ export function configuredMint(): PublicKey | null {
 
 export function findNodePda(owner: PublicKey, program: PublicKey): PublicKey {
   return PublicKey.findProgramAddressSync([NODE_SEED, owner.toBuffer()], program)[0];
+}
+
+export function findReferencePricePda(node: PublicKey, program: PublicKey): PublicKey {
+  return PublicKey.findProgramAddressSync(
+    [REFERENCE_PRICE_SEED, node.toBuffer()],
+    program,
+  )[0];
+}
+
+export type ReferencePriceAccount = {
+  node: PublicKey;
+  mint: PublicKey;
+  referencePrice: bigint;
+  multiplierNano: bigint;
+  maximumDeviationBps: number;
+  bump: number;
+};
+
+export function decodeReferencePrice(data: Uint8Array): ReferencePriceAccount {
+  const minimum = 8 + 32 + 32 + 8 + 8 + 2 + 1;
+  if (data.length < minimum) {
+    throw new Error("Reference price account too small");
+  }
+  const buf = Buffer.from(data);
+  if (!buf.subarray(0, 8).equals(REFERENCE_PRICE_DISCRIMINATOR)) {
+    throw new Error("Reference price discriminator mismatch");
+  }
+  let offset = 8;
+  const node = new PublicKey(buf.subarray(offset, offset + 32));
+  offset += 32;
+  const mint = new PublicKey(buf.subarray(offset, offset + 32));
+  offset += 32;
+  const referencePrice = buf.readBigUInt64LE(offset);
+  offset += 8;
+  const multiplierNano = buf.readBigUInt64LE(offset);
+  offset += 8;
+  const maximumDeviationBps = buf.readUInt16LE(offset);
+  offset += 2;
+  const bump = buf[offset] ?? 0;
+  return { node, mint, referencePrice, multiplierNano, maximumDeviationBps, bump };
+}
+
+/**
+ * USD for the on-chain reference price.
+ * The swap formula stores one dollar as `1_000_000` for a whole token.
+ */
+export function formatReferenceUsd(price: bigint): string {
+  const scale = 1_000_000n;
+  const sign = price < 0n ? "-" : "";
+  const absolute = price < 0n ? -price : price;
+  const whole = absolute / scale;
+  const fraction = (absolute % scale).toString().padStart(6, "0").replace(/0+$/, "");
+  return `${sign}$${whole.toString()}${fraction ? `.${fraction}` : ""}`;
 }
 
 export type NodeAccount = {

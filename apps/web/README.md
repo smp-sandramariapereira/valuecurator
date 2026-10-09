@@ -194,6 +194,7 @@ These addresses and transactions are the custody proof. They use the Devnet demo
 | 15/85 processing | [transaction](https://explorer.solana.com/tx/5iYZdNguAxH5u1niikvtBW7oPLj9qodor5coKmDyZWoJaXKsqfwroaJdyy7r23zRTFQYinXH7wACMUdgYXQ9chJq?cluster=devnet) |
 | Emergency recovery | [transaction](https://explorer.solana.com/tx/FVUB863oWXv2i9ymxsro6yEjbmP2XVirBBLZEAYm8xU2qRuuSoJkpfBjUWUu5q18D4GhEKmAtTSCWbNJQ4FjrtE?cluster=devnet) |
 | Rejected operator | [`metabolize_yield` · `UnauthorizedOperator`](https://explorer.solana.com/tx/2sFHnWWSCMqNykUGmsmuyZaiM3Rjt82dFtZxHQx4d81gzmhxATLmp48DQvKfSuPTBngHPi3PaAWSgFYrBwAcA1dn?cluster=devnet) |
+| Rejected price | [`assert_executable_price` · `PriceDeviationExceeded`](https://explorer.solana.com/tx/4hgsvfZgmL6pYogYS8b1Srzd5RFnnWbP3N8qkPYPerpRBa5u1Zc8WoxhWsmCzf36U7Zpn9fo31AzHog5cSGeubtX?cluster=devnet) |
 
 ## On-chain interface
 
@@ -202,6 +203,7 @@ These addresses and transactions are the custody proof. They use the Devnet demo
 | `initialize_node` | Creates the owner-derived node PDA and stores operator, treasury, fee and strategy mint |
 | `metabolize_yield` | Splits Token-2022 inflow between infrastructure treasury and recoverable vault |
 | `post_reference_price` | Owner posts the Devnet reference price, multiplier and maximum deviation. The operator cannot write this account |
+| `assert_executable_price` | Operator proposes `amount_in` and `minimum_amount_out`. The program rejects the proposal when the implied price leaves the owner-posted Devnet limit. No tokens move and Jupiter is not required |
 | `execute_strategy_swap` | Reads that Devnet price and rejects the swap before Jupiter when the worst price implied by `minimum_amount_out` deviates too far. The Stocklana demonstration does not submit this instruction for AAPLx |
 | `emergency_withdraw` | Allows only the owner to recover tokens from the vault |
 | `update_operator` | Revokes and replaces the operational key |
