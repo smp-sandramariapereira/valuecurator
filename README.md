@@ -19,6 +19,8 @@ The rejected Devnet transaction is [`2sFHnWWS…A1dn`](https://explorer.solana.c
 
 `https://www.valuecurator.xyz` is the public product URL. It does not yet serve this October demo UI. Publish that build before judges review the site.
 
+The local subscription screen shows 1 USDC per node per month. That amount is illustrative. It is not a final price, and it does not buy the asset.
+
 ## Repository structure
 
 ```

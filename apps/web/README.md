@@ -60,6 +60,8 @@ ValueCurator is guarded authorization infrastructure for tokenized stocks and ot
 
 The product turns that mandate into deterministic rules: Pyth reference data and a Jupiter executable quote must pass age, confidence, deviation and risk limits before authorization. AI may advise; it never holds keys. The Stocklana demonstration proves that gate—approval or block with an auditable receipt—not a submitted AAPLx trade.
 
+The local subscription screen (`/subscribe`) shows **1 USDC per node per month**. That amount is illustrative. It is not a final price, and it does not buy the asset.
+
 ## The problem
 
 Financial agents can operate continuously, but a compromised operator, stale price, incorrect asset, excessive slippage or malformed AI recommendation can move capital outside the owner's intent. Standard wallet permissions cannot express rules such as:
