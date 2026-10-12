@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
+import { HomeButton } from "@/components/home-button";
 import { WalletProviders } from "@/components/wallet-providers";
 import "./globals.css";
 
@@ -35,7 +36,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${jetbrainsMono.variable} min-h-screen bg-stocklana-bg font-sans text-white antialiased`}
       >
-        <WalletProviders>{children}</WalletProviders>
+        <WalletProviders>
+          <div className="px-4 pt-4 sm:px-6 lg:px-8">
+            <HomeButton />
+          </div>
+          {children}
+        </WalletProviders>
       </body>
     </html>
   );

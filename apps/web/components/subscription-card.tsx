@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
 import { WalletConnectButton } from "@/components/wallet-connect-button";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
@@ -54,9 +53,6 @@ export function SubscriptionCard() {
   return (
     <div className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-4 py-8 sm:px-6">
       <header className="space-y-3">
-        <Link href="/" className="font-mono text-xs uppercase tracking-[0.18em] text-stocklana-accent">
-          ValueCurator
-        </Link>
         <h1 className="text-3xl font-semibold tracking-[-0.04em]">One month of the lock</h1>
         <p className="max-w-2xl text-sm leading-6 text-stocklana-muted">
           You are the owner. This screen simulates one month of the lock for one node, so you can see the operator key proposing buys only inside the limits you record. It does not buy the asset, it does not enter the program, it does not move the node vaults, and it does not transfer USDC.

@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletConnectButton, useWalletUiReady } from "@/components/wallet-connect-button";
-import { ArrowLeft, ArrowRight, Check, ChevronDown, ChevronUp, Lightbulb, LockKeyhole, Mic, ShieldCheck, Sparkles, Wallet } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, ChevronUp, Lightbulb, LockKeyhole, Mic, ShieldCheck, Sparkles, Wallet } from "lucide-react";
 import Link from "next/link";
 import { STATES } from "@valuecurator/discovery-contracts";
 
@@ -122,9 +122,6 @@ export function DiscoveryInterview() {
       <div className="mx-auto max-w-7xl">
         <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <Link href="/" className="rounded-xl border border-stocklana-border bg-stocklana-card/80 p-2.5 text-stocklana-muted transition hover:border-discovery-accent/60 hover:text-white" aria-label="Back to ValueCurator">
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
             <div>
               <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-discovery-accent">ValueCurator / Discovery</div>
               <h1 className="mt-1 text-xl font-semibold tracking-tight">Research Interview</h1>

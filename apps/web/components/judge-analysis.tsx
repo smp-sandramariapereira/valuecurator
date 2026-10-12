@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 
 const API = process.env.NEXT_PUBLIC_DISCOVERY_API_URL ?? "http://localhost:3001";
 
@@ -65,9 +64,6 @@ export function JudgeAnalysis() {
       <div className="mx-auto max-w-6xl">
         <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <Link href="/" className="rounded-xl border border-stocklana-border bg-stocklana-card/80 p-2.5 text-stocklana-muted transition hover:text-white" aria-label="Back to ValueCurator">
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
             <div>
               <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-discovery-accent">ValueCurator / Judges</div>
               <h1 className="mt-1 text-xl font-semibold tracking-tight">B2B and B2A research analysis</h1>
