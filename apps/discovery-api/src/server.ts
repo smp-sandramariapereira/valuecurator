@@ -61,10 +61,12 @@ function authorize(request: { headers: { authorization?: string } }, sessionId: 
   return Boolean(token && verifySessionToken(token, sessionId));
 }
 
+const persistence = sessionStore === "pglite" ? "pglite" : usePostgres ? "postgres" : "memory";
+
 app.get("/health", async () => ({
   ok: true,
   service: "valuecurator-discovery-agent",
-  persistence: usePostgres ? "postgres" : "memory",
+  persistence,
 }));
 
 app.post("/auth/challenge", async (request, reply) => {
@@ -116,7 +118,8 @@ app.post("/interviews/:id/answers", async (request, reply) => {
 });
 
 const port = Number(process.env.PORT ?? 3001);
-await app.listen({ port, host: "0.0.0.0" });
+const host = process.env.HOST ?? "127.0.0.1";
+await app.listen({ port, host });
 
 const shutdown = async () => {
   await app.close();

@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: "/discovery/:path*",
+        destination: "http://127.0.0.1:3001/:path*",
+      },
+    ];
+  },
   transpilePackages: [
     "@valuecurator/discovery-contracts",
     "@solana/wallet-adapter-base",
