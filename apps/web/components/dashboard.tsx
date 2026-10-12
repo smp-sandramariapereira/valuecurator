@@ -264,14 +264,14 @@ export function Dashboard() {
                 You keep the owner key. The other key proposes the buy.
               </p>
               <p className="max-w-2xl text-sm leading-6 text-stocklana-muted sm:text-[15px]">
-                You record price age, confidence, and deviation. If a proposal leaves those limits, the buy does not go out. The other key does not sign, or the program rejects it. One USDC is one month of that lock on one node. It is not the purchase of the asset.
+                You record price age, confidence, and deviation. If a proposal leaves those limits, the buy does not go out. The other key does not sign, or the program rejects it. One USDC is one month of that lock on one node. The subscription screen only simulates that amount. It is not the purchase of the asset.
               </p>
             </div>
 
             <dl className="mt-5 grid max-w-2xl gap-3 sm:grid-cols-2">
               <div>
                 <dt className="text-xs uppercase tracking-wider text-stocklana-muted">Your signature</dt>
-                <dd className="mt-1 text-sm leading-6 text-white">Sets the limits, or pays 1 USDC for one node for one month.</dd>
+                <dd className="mt-1 text-sm leading-6 text-white">Sets the limits. The subscription screen simulates 1 USDC for one month and does not transfer it.</dd>
               </div>
               <div>
                 <dt className="text-xs uppercase tracking-wider text-stocklana-muted">The other key</dt>
@@ -318,7 +318,7 @@ export function Dashboard() {
               },
               {
                 title: "The proof",
-                body: "The reviewer demo below keeps the Devnet program and the mainnet price read apart. The subscription is a separate USDC transfer.",
+                body: "The reviewer demo below keeps the Devnet program and the mainnet price read apart. The subscription screen simulates 1 Devnet USDC and does not submit the transfer.",
               },
             ].map((item, index) => (
               <div

@@ -5,9 +5,9 @@ import {
 } from "@solana/spl-token";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
 
-/** Mainnet USDC. The 1 USDC test is this mint, not the Devnet faucet mint. */
+/** Circle USDC on Devnet. This mint does not exist on mainnet-beta. */
 export const SUBSCRIPTION_USDC_MINT = new PublicKey(
-  "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+  "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
 );
 
 /** Public receiving address. The key file stays outside the repository. */
@@ -18,7 +18,7 @@ export const SUBSCRIPTION_RECIPIENT = new PublicKey(
 /** 1 USDC, six decimals. */
 export const SUBSCRIPTION_AMOUNT = 1_000_000;
 
-export const SUBSCRIPTION_RPC = "https://api.mainnet-beta.solana.com";
+export const SUBSCRIPTION_RPC = "https://api.devnet.solana.com";
 
 export function subscriptionDestination(owner: PublicKey): PublicKey {
   return getAssociatedTokenAddressSync(SUBSCRIPTION_USDC_MINT, owner);
