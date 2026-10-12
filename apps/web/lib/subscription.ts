@@ -24,6 +24,15 @@ export function subscriptionDestination(owner: PublicKey): PublicKey {
   return getAssociatedTokenAddressSync(SUBSCRIPTION_USDC_MINT, owner);
 }
 
+/** Devnet USDC held by the connected wallet. Zero when that token account does not exist. */
+export async function readDevnetUsdcBalance(connection: Connection, owner: PublicKey): Promise<bigint> {
+  const source = getAssociatedTokenAddressSync(SUBSCRIPTION_USDC_MINT, owner);
+  const account = await connection.getAccountInfo(source, "confirmed");
+  if (!account) return 0n;
+  const balance = await connection.getTokenAccountBalance(source, "confirmed");
+  return BigInt(balance.value.amount);
+}
+
 export async function buildSubscriptionTransfer(
   connection: Connection,
   payer: PublicKey,
