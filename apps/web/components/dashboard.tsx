@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent }
 import { Activity, Wallet } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import { WalletConnectButton } from "@/components/wallet-connect-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -48,14 +48,6 @@ import {
   parseDashboardView,
   type DashboardView,
 } from "@/lib/dashboard-navigation";
-
-const WalletMultiButton = dynamic(
-  async () => {
-    const mod = await import("@solana/wallet-adapter-react-ui");
-    return mod.WalletMultiButton;
-  },
-  { ssr: false, loading: () => <Button variant="outline">Wallet…</Button> },
-);
 
 function mandateLimit(value: number): string {
   return `${value} bps`;
@@ -291,7 +283,7 @@ export function Dashboard() {
               {rpcHost}
             </Badge>
             <div className="w-full [&_.wallet-adapter-dropdown]:block [&_.wallet-adapter-dropdown]:w-full [&_.wallet-adapter-button]:flex [&_.wallet-adapter-button]:h-11 [&_.wallet-adapter-button]:w-full [&_.wallet-adapter-button]:justify-center">
-              <WalletMultiButton />
+              <WalletConnectButton />
             </div>
             <Button asChild variant="outline" className="h-11 w-full font-mono text-xs uppercase tracking-wider">
               <Link href="/interview">Interview</Link>

@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import dynamic from "next/dynamic";
 import Link from "next/link";
+import { WalletConnectButton } from "@/components/wallet-connect-button";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
 import { Button } from "@/components/ui/button";
@@ -15,14 +15,6 @@ import {
   SUBSCRIPTION_USDC_MINT,
   buildSubscriptionTransfer,
 } from "@/lib/subscription";
-
-const WalletMultiButton = dynamic(
-  async () => {
-    const mod = await import("@solana/wallet-adapter-react-ui");
-    return mod.WalletMultiButton;
-  },
-  { ssr: false, loading: () => <Button variant="outline">Wallet…</Button> },
-);
 
 type Phase = "idle" | "preparing" | "ready";
 
@@ -119,7 +111,7 @@ export function SubscriptionCard() {
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <div className="min-w-0 sm:w-56 [&_.wallet-adapter-button]:h-11 [&_.wallet-adapter-button]:w-full">
-              <WalletMultiButton />
+              <WalletConnectButton />
             </div>
             <Button type="button" variant="outline" disabled={!canSimulate} onClick={() => void simulate()}>
               {phase === "preparing" ? "Simulating…" : "Simulate on Devnet"}

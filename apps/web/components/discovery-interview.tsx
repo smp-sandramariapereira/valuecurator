@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { WalletConnectButton, useWalletUiReady } from "@/components/wallet-connect-button";
 import { ArrowLeft, ArrowRight, Check, ChevronDown, ChevronUp, Lightbulb, LockKeyhole, Mic, ShieldCheck, Sparkles, Wallet } from "lucide-react";
 import Link from "next/link";
 import { STATES } from "@valuecurator/discovery-contracts";
@@ -51,6 +51,7 @@ type InterviewView = {
 
 export function DiscoveryInterview() {
   const { publicKey, connected, signMessage } = useWallet();
+  const walletUiReady = useWalletUiReady();
   const [token, setToken] = useState<string>();
   const [sessionId, setSessionId] = useState<string>();
   const [view, setView] = useState<InterviewView>();
@@ -131,7 +132,7 @@ export function DiscoveryInterview() {
           </div>
           <div className="flex items-center gap-3">
             {token && <span className="hidden items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/5 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-emerald-300 sm:flex"><ShieldCheck className="h-3.5 w-3.5"/> Authenticated</span>}
-            <WalletMultiButton />
+            <WalletConnectButton />
             <Link href="/interview/analysis" className="font-mono text-[10px] uppercase tracking-wider text-discovery-accent hover:text-white">Judge analysis</Link>
           </div>
         </header>
@@ -156,7 +157,7 @@ export function DiscoveryInterview() {
             </div>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              {!connected ? <WalletMultiButton /> : (
+              {!walletUiReady || !connected ? <WalletConnectButton /> : (
                 <button onClick={authenticate} disabled={busy} className="discovery-button inline-flex h-11 items-center gap-2 rounded-xl px-5 font-mono text-xs font-bold uppercase tracking-wider disabled:opacity-50">
                   <Wallet className="h-4 w-4" /> {busy ? "Signing..." : "Sign research session"}
                 </button>
