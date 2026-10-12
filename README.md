@@ -17,7 +17,7 @@ Program on Devnet. AAPLx evidence is a mainnet read. No AAPLx transaction is sub
 
 The rejected Devnet transaction is [`2sFHnWWS…A1dn`](https://explorer.solana.com/tx/2sFHnWWSCMqNykUGmsmuyZaiM3Rjt82dFtZxHQx4d81gzmhxATLmp48DQvKfSuPTBngHPi3PaAWSgFYrBwAcA1dn?cluster=devnet). The local dashboard lists it next to the three custody signatures. Signatures, the mandate walkthrough, and the owner/operator split are documented in [`apps/web/README.md`](apps/web/README.md).
 
-`https://www.valuecurator.xyz` is the public product URL. It does not yet serve this October demo UI. Publish that build before judges review the site.
+`https://www.valuecurator.xyz` is the public product URL and serves this dashboard.
 
 The local subscription screen shows 1 USDC per node per month. That amount is illustrative. It is not a final price, and it does not buy the asset.
 

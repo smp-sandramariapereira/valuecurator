@@ -39,14 +39,14 @@ export function OnChainFeed({
           }
         >
           <span className={connected ? "live-dot mr-1.5" : "mr-1.5 h-2 w-2 rounded-full bg-stocklana-border"} />
-          {connected ? "RPC Devnet" : "RPC idle"}
+          {connected ? "RPC Devnet" : "Disconnected"}
         </Badge>
       </CardHeader>
       <CardContent>
         <p className="mb-3 text-xs text-stocklana-muted">{historyMessage} Event values use raw units: the event does not identify the mint.</p>
         {events.length === 0 ? (
           <p className="rounded-md border border-dashed border-stocklana-border bg-stocklana-bg/60 px-4 py-8 text-center font-mono text-xs text-stocklana-muted">
-            Waiting for logs from this node · metabolize_yield
+            Disconnected
           </p>
         ) : (
           <ol className="max-h-[28rem] space-y-1 overflow-y-auto pr-1 font-mono text-xs">

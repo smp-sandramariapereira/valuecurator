@@ -70,7 +70,7 @@ export function CapitalGrid({
                     <p className="text-[10px] uppercase tracking-wider text-stocklana-muted">Current balance</p>
                     <p className={`mt-1 font-mono text-sm tabular-nums ${destination.tone}`}>
                       {destination.balance === null
-                        ? "Unavailable"
+                        ? "Disconnected"
                         : formatTokenAmount(destination.balance, decimals)}
                     </p>
                   </div>

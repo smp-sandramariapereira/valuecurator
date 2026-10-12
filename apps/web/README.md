@@ -17,7 +17,7 @@ ValueCurator turns an investor mandate into deterministic execution rules. Befor
 
 **Public product URL:** [https://www.valuecurator.xyz](https://www.valuecurator.xyz) · English UI · approval-only.
 
-The October Colosseum dashboard in this repository separates the two clusters on Overview: Devnet executes custody, mainnet is a read. **Start demo** opens Mandate. The public site does not yet serve that UI. Publish this build before judges use the URL.
+The October Colosseum dashboard separates the two clusters on Overview: Devnet executes custody, mainnet is a read. **Mandate** and **Configure mandate** open the limit bars. [https://www.valuecurator.xyz](https://www.valuecurator.xyz) serves this dashboard.
 
 ## Stocklana demo status
 
@@ -40,10 +40,10 @@ The October Colosseum dashboard in this repository separates the two clusters on
 
 ### Judge walkthrough (≈3 minutes)
 
-Run the local dashboard (`pnpm dev:web` from the monorepo root) until this UI is published.
+Open [https://www.valuecurator.xyz](https://www.valuecurator.xyz), or run the local dashboard with `pnpm dev:web` from the monorepo root.
 
 1. **Overview** — Devnet column executes the program. Mainnet column is a read of the AAPLx mint, Pyth feed `922`, and a Jupiter quote. No transaction leaves that column.
-2. **Start demo** opens **Mandate** on the verified asset. **Configure mandate** opens the limit bars. The overview row shows the same draft.
+2. **Mandate** opens the verified asset. **Configure mandate** opens the limit bars. The overview row shows the same draft.
 3. **Gate** — **Block · stale price** or **Block · divergence** → **BLOCKED** with that policy reason. A deviation bar set below the quoted gap also blocks **Safe**. No transaction is submitted.
 4. **Audit** — Devnet custody events, including the rejected operator, stay separate from the AAPLx approval receipt.
 
@@ -321,7 +321,7 @@ CI runs equivalent web, agent, Rust and Anchor checks.
 - The program has not completed an independent security audit.
 - `execute_strategy_swap` still accepts operator-supplied Jupiter instruction data. Before that call it now rejects a `minimum_amount_out` whose implied price deviates from the owner-posted Devnet reference. It does not read the mainnet AAPLx Pyth feed.
 - Browser history is local evidence, not an on-chain index.
-- The public URL [https://www.valuecurator.xyz](https://www.valuecurator.xyz) is live. The October cluster board, rejected-operator link, and mandate bars are in this repository and still need a publish.
+- The public URL [https://www.valuecurator.xyz](https://www.valuecurator.xyz) serves this dashboard, including the Devnet and mainnet board.
 - Previously committed deploy material remains in Git history; follow [SECURITY.md](./SECURITY.md) before any production use.
 - Nothing in this repository guarantees investment returns or constitutes financial advice.
 

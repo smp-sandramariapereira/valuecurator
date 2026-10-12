@@ -34,3 +34,5 @@ apps/web/agent/data/
 apps/web/agent/.env
 apps/web/public/execution-proposal.json
 apps/web/public/execution-approval.json
+apps/web/e2e/test-results/
+apps/web/e2e/playwright-report/

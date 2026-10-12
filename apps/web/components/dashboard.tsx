@@ -24,6 +24,11 @@ import {
   DEFAULT_PROGRAM_ID,
   DEVNET_CUSTODY_TXS,
   DEVNET_NODE_ADDRESS,
+  PUBLISHED_CUSTODY_NODE,
+  PUBLISHED_METABOLIC_EVENT,
+  PUBLISHED_MINT_DECIMALS,
+  PUBLISHED_TREASURY_BALANCE,
+  PUBLISHED_VAULT_BALANCE,
   DEVNET_PRICE_REJECTION_TX,
   DEVNET_REJECTION_TX,
   MAINNET_AAPLX_MINT,
@@ -135,7 +140,7 @@ const dashboardViews: readonly { id: DashboardView; step: string; label: string;
 ];
 
 export function Dashboard() {
-  const { state, events, mint, refresh, connected, publicKey, readOnly, historyMessage } = useKairosNode();
+  const { state, events, refresh, connected, publicKey, readOnly, historyMessage } = useKairosNode();
   const referencePrice = useDevnetReferencePrice();
   const [activeSignature, setActiveSignature] = useState<string | null>(null);
   const [playId, setPlayId] = useState(0);
@@ -279,26 +284,14 @@ export function Dashboard() {
               <Badge className="border-stocklana-purple/30 text-stocklana-purple">Operator key</Badge>
               <Badge className="border-stocklana-accent/30 text-stocklana-accent">Three limits</Badge>
             </div>
-            <Link href="/interview/analysis" className="mt-4 inline-flex text-sm font-medium text-stocklana-accent underline-offset-4 hover:underline">
-              B2B / B2A research analysis
-            </Link>
           </div>
           <div className="flex w-full flex-col gap-3 lg:w-72 lg:shrink-0">
             <Badge className="w-fit border-stocklana-accent/30 text-stocklana-accent lg:self-end">
               <span className={connected ? "live-dot mr-2" : "live-dot live-dot-purple mr-2"} />
               {rpcHost}
             </Badge>
-            <div className="grid grid-cols-2 gap-2">
-              <Button
-                type="button"
-                className="h-11 w-full font-mono text-xs uppercase tracking-wider"
-                onClick={() => openMandate(0)}
-              >
-                Start demo
-              </Button>
-              <div className="min-w-0 [&_.wallet-adapter-button]:h-11 [&_.wallet-adapter-button]:w-full">
-                <WalletMultiButton />
-              </div>
+            <div className="w-full [&_.wallet-adapter-dropdown]:block [&_.wallet-adapter-dropdown]:w-full [&_.wallet-adapter-button]:flex [&_.wallet-adapter-button]:h-11 [&_.wallet-adapter-button]:w-full [&_.wallet-adapter-button]:justify-center">
+              <WalletMultiButton />
             </div>
             <Button asChild variant="outline" className="h-11 w-full font-mono text-xs uppercase tracking-wider">
               <Link href="/interview">Interview</Link>
@@ -682,9 +675,7 @@ export function Dashboard() {
                   label="Treasury (infrastructure)"
                   value={
                     state.treasuryBalance === null
-                      ? mint
-                        ? "Balance unavailable"
-                        : "define NEXT_PUBLIC_MINT"
+                      ? "Disconnected"
                       : formatTokenAmount(state.treasuryBalance, state.decimals)
                   }
                   hint={state.treasuryAta ? state.treasuryAta.toBase58() : "Token-2022"}
@@ -758,7 +749,21 @@ export function Dashboard() {
                   decimals={state.decimals}
                 />
               </>
-            ) : null}
+            ) : (
+              <>
+                <MetabolicPath
+                  event={PUBLISHED_METABOLIC_EVENT}
+                  playId={playId}
+                  onReplay={() => replay(PUBLISHED_METABOLIC_EVENT.signature)}
+                />
+                <CapitalGrid
+                  node={PUBLISHED_CUSTODY_NODE}
+                  treasuryBalance={PUBLISHED_TREASURY_BALANCE}
+                  vaultBalance={PUBLISHED_VAULT_BALANCE}
+                  decimals={PUBLISHED_MINT_DECIMALS}
+                />
+              </>
+            )}
 
             <section className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
               <OnChainFeed
@@ -781,7 +786,7 @@ export function Dashboard() {
                     That instruction splits the demo Token-2022 mint. It is not an AAPLx swap, and it is not the signed approval receipt.
                   </p>
                   <p>
-                    Balances come from the node account or the treasury token account, or they stay empty.
+                    Balances come from the node account or the treasury token account, or they show Disconnected.
                     Simulated reports stay labeled and are not presented as Solana transactions.
                   </p>
                 </CardContent>

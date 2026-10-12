@@ -188,6 +188,30 @@ export type MetabolicEventRow = {
   slot?: number;
 };
 
+/** Confirmed Devnet metabolize_yield used when the page has no wallet. */
+export const PUBLISHED_METABOLIC_EVENT: MetabolicEventRow = {
+  signature: DEVNET_CUSTODY_TXS[1].signature,
+  node: DEVNET_NODE_ADDRESS,
+  vaulted: 85_000_000n,
+  infrastructureFunded: 15_000_000n,
+  timestamp: 1_789_696_804,
+};
+
+/** Fee and holdings of the published Devnet node, read 12 Oct 2026. */
+export const PUBLISHED_CUSTODY_NODE: NodeAccount = {
+  owner: PublicKey.default,
+  operator: PublicKey.default,
+  infrastructureFeeBps: 1500,
+  totalMetabolized: 100_000_000n,
+  treasuryPubkey: PublicKey.default,
+  strategyAuthority: PublicKey.default,
+  bump: 0,
+};
+
+export const PUBLISHED_VAULT_BALANCE = 0n;
+export const PUBLISHED_TREASURY_BALANCE = 15_000_000n;
+export const PUBLISHED_MINT_DECIMALS = 6;
+
 export function splitPreview(total: bigint, feeBps: number): {
   infrastructure: bigint;
   vaulted: bigint;
