@@ -28,26 +28,34 @@ export function SubscriptionCard() {
   const [phase, setPhase] = useState<Phase>("idle");
   const [error, setError] = useState<string | null>(null);
   const [walletBalance, setWalletBalance] = useState<bigint | null>(null);
+  const [balanceReady, setBalanceReady] = useState(false);
   const [signature, setSignature] = useState<string | null>(null);
 
   const payerIsRecipient = publicKey?.equals(SUBSCRIPTION_RECIPIENT) ?? false;
-  const hasEnough = walletBalance !== null && walletBalance >= BigInt(SUBSCRIPTION_AMOUNT);
-  const canSimulate = connected && publicKey !== null && !payerIsRecipient && phase !== "preparing" && phase !== "sending";
+  const hasEnough = balanceReady && walletBalance !== null && walletBalance >= BigInt(SUBSCRIPTION_AMOUNT);
+  const canSimulate = connected && publicKey !== null && !payerIsRecipient && hasEnough && phase !== "preparing" && phase !== "sending";
   const canConfirm = phase === "ready" && publicKey !== null && !payerIsRecipient && hasEnough;
 
   useEffect(() => {
     if (!publicKey) {
       setWalletBalance(null);
+      setBalanceReady(false);
       return;
     }
     let cancelled = false;
-    setWalletBalance(null);
+    setBalanceReady(false);
     void readDevnetUsdcBalance(connection, publicKey)
       .then((amount) => {
-        if (!cancelled) setWalletBalance(amount);
+        if (!cancelled) {
+          setWalletBalance(amount);
+          setBalanceReady(true);
+        }
       })
       .catch(() => {
-        if (!cancelled) setWalletBalance(null);
+        if (!cancelled) {
+          setWalletBalance(null);
+          setBalanceReady(false);
+        }
       });
     return () => {
       cancelled = true;
@@ -59,11 +67,21 @@ export function SubscriptionCard() {
     setError(null);
     setPhase("preparing");
     try {
+      const amount = await readDevnetUsdcBalance(connection, publicKey);
+      setWalletBalance(amount);
+      setBalanceReady(true);
+      if (amount < BigInt(SUBSCRIPTION_AMOUNT)) {
+        setError("This Devnet wallet holds " + formatTokenAmount(amount, 6) + " USDC. The transfer needs 1 USDC in this wallet before it can be simulated.");
+        setPhase("idle");
+        return;
+      }
       const transaction = await buildSubscriptionTransfer(connection, publicKey);
       const simulation = await connection.simulateTransaction(transaction);
       if (simulation.value.err) {
         const logs = simulation.value.logs?.slice(-4).join(" ") ?? "";
-        setError(logs || "Devnet simulation rejected the transfer.");
+        setError(logs.includes("InvalidAccountData")
+          ? "The Devnet wallet has no USDC account for this mint, so the token program rejected the transfer."
+          : logs || "Devnet simulation rejected the transfer.");
         setPhase("idle");
         return;
       }
@@ -167,7 +185,12 @@ export function SubscriptionCard() {
           </div>
           {connected && publicKey ? (
             <p className="text-sm text-white">
-              Devnet wallet balance {walletBalance === null ? "…" : `${formatTokenAmount(walletBalance, 6)} USDC`}
+              Devnet wallet balance {balanceReady && walletBalance !== null ? `${formatTokenAmount(walletBalance, 6)} USDC` : "…"}
+            </p>
+          ) : null}
+          {connected && publicKey && balanceReady && !hasEnough ? (
+            <p className="text-sm text-amber-200">
+              This wallet does not hold 1 Devnet USDC, so the simulation and the second confirmation stay closed.
             </p>
           ) : null}
           {phase === "ready" && publicKey ? (
