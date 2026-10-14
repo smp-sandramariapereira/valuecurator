@@ -35,7 +35,7 @@ export function CapitalGrid({
       rule: `${treasuryPct}% of each metabolize_yield`,
       balance: treasuryBalance,
       icon: Landmark,
-      tone: "text-stocklana-purple",
+      tone: "text-stocklana-blue",
     },
   ] as const;
 
@@ -83,11 +83,11 @@ export function CapitalGrid({
         <div>
           <div className="flex h-3 w-full overflow-hidden rounded-full bg-stocklana-bg" aria-label={`Distribution: ${vaultPct}% vault e ${treasuryPct}% treasury`}>
             <div className="bg-stocklana-accent" style={{ width: `${vaultPct}%` }} />
-            <div className="bg-stocklana-purple" style={{ width: `${treasuryPct}%` }} />
+            <div className="bg-stocklana-blue" style={{ width: `${treasuryPct}%` }} />
           </div>
           <div className="mt-2 flex flex-wrap justify-between gap-2 font-mono text-[11px]">
             <span className="text-stocklana-accent">{vaultPct}% recoverable vault</span>
-            <span className="text-stocklana-purple">{treasuryPct}% treasury</span>
+            <span className="text-stocklana-blue">{treasuryPct}% treasury</span>
           </div>
           <p className="mt-2 text-xs text-stocklana-muted">
             The bar represents the distribution policy, not the ratio between current balances.

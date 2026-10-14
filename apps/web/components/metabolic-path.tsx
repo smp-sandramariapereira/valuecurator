@@ -64,8 +64,8 @@ export function MetabolicPath({
               inflow
             </text>
 
-            <rect x="220" y="80" width="168" height="60" rx="6" className="fill-[#111D2B] stroke-[#E0B96A]" />
-            <text x="304" y="106" textAnchor="middle" className="fill-[#E0B96A]" fontSize="12" fontFamily="ui-monospace, monospace">
+            <rect x="220" y="80" width="168" height="60" rx="6" className="fill-[#111D2B] stroke-[#6BAED6]" />
+            <text x="304" y="106" textAnchor="middle" className="fill-[#6BAED6]" fontSize="12" fontFamily="ui-monospace, monospace">
               metabolize_yield
             </text>
             <text x="304" y="124" textAnchor="middle" className="fill-[#A8B3C2]" fontSize="10" fontFamily="ui-monospace, monospace">
@@ -80,11 +80,11 @@ export function MetabolicPath({
               {event ? "confirmed" : "—"}
             </text>
 
-            <rect x="548" y="140" width="196" height="56" rx="6" className="fill-[#111D2B] stroke-[#E0B96A]" />
-            <text x="646" y="164" textAnchor="middle" className="fill-[#F0D6A2]" fontSize="12" fontFamily="ui-monospace, monospace">
+            <rect x="548" y="140" width="196" height="56" rx="6" className="fill-[#111D2B] stroke-[#6BAED6]" />
+            <text x="646" y="164" textAnchor="middle" className="fill-[#6BAED6]" fontSize="12" fontFamily="ui-monospace, monospace">
               Treasury · event
             </text>
-            <text x="646" y="182" textAnchor="middle" className="fill-[#E0B96A]" fontSize="11" fontFamily="ui-monospace, monospace">
+            <text x="646" y="182" textAnchor="middle" className="fill-[#6BAED6]" fontSize="11" fontFamily="ui-monospace, monospace">
               {event ? "confirmed" : "—"}
             </text>
 
@@ -96,7 +96,7 @@ export function MetabolicPath({
             />
             <path
               d="M388 110 C460 110 480 168 548 168"
-              className="fill-none stroke-[#E0B96A]"
+              className="fill-none stroke-[#6BAED6]"
               strokeWidth="2"
             />
 
@@ -120,7 +120,7 @@ export function MetabolicPath({
                     path="M388,110 C460,110 480,52 548,52"
                   />
                 </circle>
-                <circle r="6" fill="#E0B96A" opacity="0">
+                <circle r="6" fill="#6BAED6" opacity="0">
                   <animate
                     attributeName="opacity"
                     begin="0.85s"
@@ -140,7 +140,7 @@ export function MetabolicPath({
               <>
                 <circle cx="388" cy="110" r="6" fill="#7DA2F8" />
                 <circle cx="548" cy="52" r="6" fill="#7DA2F8" />
-                <circle cx="548" cy="168" r="6" fill="#E0B96A" />
+                <circle cx="548" cy="168" r="6" fill="#6BAED6" />
               </>
             ) : (
               <text x="380" y="204" textAnchor="middle" className="fill-[#A8B3C2]" fontSize="12" fontFamily="ui-monospace, monospace">

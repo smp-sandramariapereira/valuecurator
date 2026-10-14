@@ -250,21 +250,22 @@ export function Dashboard() {
                 className="proofgate-brand-mark h-12 w-12 sm:h-14 sm:w-14"
               />
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-stocklana-purple sm:text-[11px]">
-                  Stocklana 2026 · Tokenized assets · Built on Solana
+                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-stocklana-blue sm:text-[11px]">
+                  Deep tech · Artificial intelligence · Solana · RWA
                 </p>
                 <h1 className="mt-0.5 text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
                   Value<span className="text-stocklana-accent">Curator</span>
                 </h1>
+                <p className="mt-1 text-sm text-stocklana-muted">AI-powered financial infrastructure</p>
               </div>
             </div>
 
             <div className="proofgate-pitch mt-6 space-y-3">
               <p className="max-w-2xl text-xl font-semibold leading-snug tracking-[-0.02em] text-white sm:text-2xl">
-                You keep the owner key. The other key proposes the buy.
+                Where scientific intelligence meets the future of finance.
               </p>
               <p className="max-w-2xl text-sm leading-6 text-stocklana-muted sm:text-[15px]">
-                You record price age, confidence, and deviation. If a proposal leaves those limits, the buy does not go out. The other key does not sign, or the program rejects it. One USDC is one month of that lock on one node. The subscription screen reads that amount from the Devnet wallet and takes it only after a second confirmation. It is not the purchase of the asset.
+                ValueCurator combines artificial intelligence, quantitative research and blockchain technology to build verifiable financial infrastructure for tokenized assets. You keep the owner key. The other key proposes the buy only inside the limits you record. One USDC is one month of that lock on one node, taken from the Devnet wallet only after a second confirmation. It is not the purchase of the asset.
               </p>
             </div>
 
@@ -280,9 +281,9 @@ export function Dashboard() {
             </dl>
 
             <div className="mt-5 flex flex-wrap gap-2">
-              <Badge className="border-stocklana-blue/30 text-blue-300">Owner key</Badge>
-              <Badge className="border-stocklana-purple/30 text-stocklana-purple">Operator key</Badge>
-              <Badge className="border-stocklana-accent/30 text-stocklana-accent">Three limits</Badge>
+              <Badge className="border-stocklana-accent/40 text-stocklana-accent">Owner key</Badge>
+              <Badge className="border-stocklana-blue/40 text-stocklana-blue">Operator key</Badge>
+              <Badge className="border-white/20 text-white">Three limits</Badge>
             </div>
           </div>
           <div className="flex w-full flex-col gap-3 lg:w-72 lg:shrink-0">
@@ -303,22 +304,22 @@ export function Dashboard() {
         </div>
 
         <section className="mt-6 overflow-hidden rounded-xl border border-stocklana-border bg-[#0E1824]">
-          <p className="border-b border-stocklana-border bg-[#0A121C] px-4 py-3 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-stocklana-purple sm:px-5">
-            Why ValueCurator
+          <p className="border-b border-stocklana-border bg-[#0A121C] px-4 py-3 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-stocklana-accent sm:px-5">
+            Built on research. Engineered for trust.
           </p>
           <div className="grid gap-0 sm:grid-cols-3">
             {[
               {
-                title: "The problem",
-                body: "Another key can buy on a stale price, a wide feed interval, or a quote far from the reference you accept.",
+                title: "Artificial intelligence and quantitative research",
+                body: "The discovery interview records a signed research session. Asset-analysis models remain a research direction. They are not a live trading system.",
               },
               {
-                title: "The protection",
-                body: "You write the three limits. The operator key signs only inside them. Deviation is also rejected inside the program.",
+                title: "Verifiable authorization",
+                body: "You write price age, confidence and deviation. The operator key signs only inside those limits. A quote far from the reference you accept is also rejected inside the program.",
               },
               {
-                title: "The proof",
-                body: "The reviewer demo below keeps the Devnet program and the mainnet price read apart. The subscription screen takes 1 Devnet USDC only after a second confirmation.",
+                title: "Blockchain and tokenized assets",
+                body: "The Solana program runs on Devnet with Token-2022. This panel reads Pyth and a Jupiter quote for AAPLx. That read is not a mainnet purchase.",
               },
             ].map((item, index) => (
               <div
@@ -335,7 +336,7 @@ export function Dashboard() {
           </div>
           <div className="border-t border-stocklana-border px-4 py-4 sm:px-5">
             <p className="text-sm leading-6 text-white">
-              Program on Devnet. AAPLx evidence is a mainnet read. No AAPLx transaction is submitted. No mainnet deployment.
+              Program on <span className="text-blue-300">Devnet</span>. AAPLx evidence is a <span className="text-stocklana-purple">mainnet</span> read. No AAPLx transaction is submitted. No mainnet deployment.
             </p>
           </div>
           <div className="grid border-t border-stocklana-border md:grid-cols-2">
@@ -455,7 +456,7 @@ export function Dashboard() {
                     href={explorerAddressUrl(MAINNET_AAPLX_MINT, "mainnet-beta")}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-between gap-3 rounded-lg border border-stocklana-border bg-[#0A121C] px-3 py-2 transition hover:border-stocklana-accent/60"
+                    className="flex items-center justify-between gap-3 rounded-lg border border-stocklana-purple/45 bg-[#0A121C] px-3 py-2 transition hover:border-stocklana-purple"
                   >
                     <span>
                       <span className="block text-sm font-semibold text-white">AAPLx mint</span>
@@ -469,7 +470,7 @@ export function Dashboard() {
                     href="https://www.pyth.network/price-feeds"
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-between gap-3 rounded-lg border border-stocklana-border bg-[#0A121C] px-3 py-2 transition hover:border-stocklana-accent/60"
+                    className="flex items-center justify-between gap-3 rounded-lg border border-stocklana-purple/45 bg-[#0A121C] px-3 py-2 transition hover:border-stocklana-purple"
                   >
                     <span>
                       <span className="block text-sm font-semibold text-white">Pyth price</span>
@@ -478,7 +479,7 @@ export function Dashboard() {
                     <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-stocklana-purple">Read</span>
                   </a>
                 </li>
-                <li className="flex items-center justify-between gap-3 rounded-lg border border-stocklana-border bg-[#0A121C] px-3 py-2">
+                <li className="flex items-center justify-between gap-3 rounded-lg border border-stocklana-purple/45 bg-[#0A121C] px-3 py-2">
                   <span>
                     <span className="block text-sm font-semibold text-white">Jupiter quote</span>
                     <span className="mt-0.5 block font-mono text-[11px] text-stocklana-muted">USDC to AAPLx</span>
@@ -621,7 +622,7 @@ export function Dashboard() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Wallet className="h-4 w-4 text-stocklana-purple" /> Connect wallet
+                    <Wallet className="h-4 w-4 text-stocklana-accent" /> Connect wallet
                   </CardTitle>
                   <CardDescription>
                     Phantom or Solflare. The connection selects the owner; public queries require no signature.
@@ -679,7 +680,7 @@ export function Dashboard() {
                       : formatTokenAmount(state.treasuryBalance, state.decimals)
                   }
                   hint={state.treasuryAta ? state.treasuryAta.toBase58() : "Token-2022"}
-                  tone="purple"
+                  tone="blue"
                   live={state.treasuryBalance !== null}
                 />
                 <MetabolicCard
@@ -782,7 +783,7 @@ export function Dashboard() {
                 <CardContent className="space-y-3 text-sm leading-6 text-stocklana-muted">
                   <p>
                     The custody signatures come from{" "}
-                    <code className="font-mono text-stocklana-purple">metabolize_yield</code> on Devnet.
+                    <code className="font-mono text-blue-300">metabolize_yield</code> on Devnet.
                     That instruction splits the demo Token-2022 mint. It is not an AAPLx swap, and it is not the signed approval receipt.
                   </p>
                   <p>
@@ -799,10 +800,10 @@ export function Dashboard() {
 
       <footer className="flex flex-col gap-2 border-t border-stocklana-border py-5 text-xs text-stocklana-muted sm:flex-row sm:items-center sm:justify-between">
         <p>
-          <span className="font-semibold text-white">ValueCurator</span> · {productVersion} · Public product identity
+          <span className="font-semibold text-white">ValueCurator</span> · {productVersion} · AI-powered financial infrastructure
         </p>
         <p className="font-mono text-[10px] uppercase tracking-[0.12em]">
-          KAIROS Engine technical core · Devnet custody / Mainnet evidence
+          KAIROS Engine technical core · <span className="text-blue-300">Devnet</span> custody / <span className="text-stocklana-purple">Mainnet</span> evidence
         </p>
       </footer>
     </div>

@@ -177,7 +177,7 @@ export function ExecutionProposalCard() {
       <CardHeader>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <CardTitle className="flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4 text-stocklana-purple" /> Execution proposal
+            <ShieldCheck className="h-4 w-4 text-stocklana-accent" /> Execution proposal
           </CardTitle>
           <Badge className="border-amber-500/60 text-amber-300">APPROVAL ONLY</Badge>
         </div>

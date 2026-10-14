@@ -12,6 +12,12 @@ async function saveScreenshot(page: Page, name: string) {
   });
 }
 
+test("home is the working application", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: "ValueCurator", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "About" })).toBeVisible();
+});
+
 test("overview shows the Devnet and mainnet board", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "ValueCurator", exact: true })).toBeVisible();

@@ -59,12 +59,12 @@ export function OnChainFeed({
                     onClick={() => onSelect(event.signature)}
                     className={
                       active
-                        ? "w-full rounded-md border border-stocklana-purple/50 bg-stocklana-purple/10 p-3 text-left"
+                        ? "w-full rounded-md border border-stocklana-blue/50 bg-stocklana-blue/10 p-3 text-left"
                         : "w-full rounded-md border border-transparent p-3 text-left hover:bg-slate-800/40"
                     }
                   >
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-stocklana-purple">metabolize_yield</span>
+                      <span className="text-blue-300">metabolize_yield</span>
                       <span className="text-stocklana-muted">·</span>
                       <span className="text-stocklana-accent">Confirmed split</span>
                       <span className="ml-auto text-stocklana-muted">{formatTime(event.timestamp)}</span>
@@ -73,7 +73,7 @@ export function OnChainFeed({
                     <p className="mt-2 text-stocklana-accent">
                       vault {formatTokenAmount(event.vaulted, null)}
                     </p>
-                    <p className="text-stocklana-purple">
+                    <p className="text-stocklana-blue">
                       infra {formatTokenAmount(event.infrastructureFunded, null)}
                     </p>
                   </button>

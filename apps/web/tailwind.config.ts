@@ -26,6 +26,11 @@ const config: Config = {
           surface: "#171C31",
           border: "#4A3D68",
         },
+        institutional: {
+          emerald: "#2FBF8A",
+          cyan: "#8FD0C8",
+          ink: "#062018",
+        },
       },
       fontFamily: {
         sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],

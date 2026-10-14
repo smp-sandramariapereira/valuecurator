@@ -133,7 +133,10 @@ export function MarketEvidenceCard() {
             </div>
             {evidence.executableSource ? (
               <div className="grid gap-2 font-mono text-xs text-stocklana-muted sm:grid-cols-3">
-                <p>source {evidence.executableSource} · {evidence.marketNetwork}</p>
+                <p>
+                  source {evidence.executableSource} ·{" "}
+                  <span className={evidence.marketNetwork === "mainnet-beta" ? "text-stocklana-purple" : undefined}>{evidence.marketNetwork}</span>
+                </p>
                 <p>impact {evidence.priceImpactBps ?? "—"} bps · {evidence.routeHops ?? "—"} hops</p>
                 <p>multiplier {evidence.multiplierNano ? multiplier(evidence.multiplierNano) : "—"}</p>
               </div>
@@ -167,7 +170,7 @@ export function MarketEvidenceCard() {
             <div className="flex flex-wrap gap-2">
               {evidence.mint && isSolanaAddress(evidence.mint) ? (
                 <Button asChild type="button" size="sm" variant="outline">
-                  <a href={`https://explorer.solana.com/address/${evidence.mint}?cluster=mainnet-beta`} target="_blank" rel="noreferrer">
+                  <a href={`https://explorer.solana.com/address/${evidence.mint}?cluster=mainnet-beta`} target="_blank" rel="noreferrer" className="text-stocklana-purple">
                     <ExternalLink className="h-3.5 w-3.5" /> Open mint on Mainnet
                   </a>
                 </Button>
@@ -186,7 +189,7 @@ export function MarketEvidenceCard() {
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <h3 className="flex items-center gap-2 text-sm font-semibold text-white">
-                      <Calculator className="h-4 w-4 text-stocklana-purple" /> Auditable calculations
+                      <Calculator className="h-4 w-4 text-stocklana-accent" /> Auditable calculations
                     </h3>
                     <p className="mt-1 font-mono text-[11px] text-stocklana-muted">
                       {evidence.calculationPolicyVersion}
@@ -216,7 +219,7 @@ export function MarketEvidenceCard() {
                       {evidence.calculations.map((calculation) => (
                         <tr key={calculation.id} className="border-t border-stocklana-border align-top">
                           <td className="px-3 py-3 font-medium text-white">{calculation.label}</td>
-                          <td className="px-3 py-3 font-mono text-stocklana-purple">{calculation.formula}</td>
+                          <td className="px-3 py-3 font-mono text-stocklana-accent">{calculation.formula}</td>
                           <td className="px-3 py-3 font-mono text-stocklana-muted">
                             {Object.entries(calculation.operands).map(([key, value]) => (
                               <span key={key} className="block">{key}={value ?? "—"}</span>

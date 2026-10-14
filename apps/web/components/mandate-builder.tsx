@@ -320,7 +320,7 @@ export function MandateBuilder({
             ].map(([label, value]) => (
               <div key={label} className="rounded-xl border border-stocklana-border bg-stocklana-bg/30 p-3">
                 <p className="text-xs text-stocklana-muted">{label}</p>
-                <p className="mt-1 break-all font-mono text-xs text-white">{value}</p>
+                <p className={`mt-1 break-all font-mono text-xs ${label === "Evidence network" ? "text-stocklana-purple" : "text-white"}`}>{value}</p>
               </div>
             ))}
             <div className="flex flex-wrap gap-2 md:col-span-2">

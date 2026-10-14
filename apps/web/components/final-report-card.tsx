@@ -69,7 +69,7 @@ export function FinalReportCard() {
       <CardHeader>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <CardTitle className="flex items-center gap-2">
-            <FileCheck2 className="h-4 w-4 text-stocklana-purple" /> Final report
+            <FileCheck2 className="h-4 w-4 text-stocklana-accent" /> Final report
           </CardTitle>
           {report ? <Badge className={stateTone}>{report.operationStatus}</Badge> : null}
         </div>
