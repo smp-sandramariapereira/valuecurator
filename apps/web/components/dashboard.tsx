@@ -18,6 +18,7 @@ import { MarketRefreshProvider, useMarketRefresh } from "@/components/market-ref
 import { DecisionHistoryCard } from "@/components/decision-history-card";
 import { FinalReportCard } from "@/components/final-report-card";
 import { MandateBuilder, createInitialMandateDraft } from "@/components/mandate-builder";
+import { version as productVersion } from "../package.json";
 import { useDevnetReferencePrice } from "@/components/use-devnet-reference-price";
 import { useKairosNode } from "@/components/use-kairos-node";
 import {
@@ -798,7 +799,7 @@ export function Dashboard() {
 
       <footer className="flex flex-col gap-2 border-t border-stocklana-border py-5 text-xs text-stocklana-muted sm:flex-row sm:items-center sm:justify-between">
         <p>
-          <span className="font-semibold text-white">ValueCurator</span> · Public product identity
+          <span className="font-semibold text-white">ValueCurator</span> · {productVersion} · Public product identity
         </p>
         <p className="font-mono text-[10px] uppercase tracking-[0.12em]">
           KAIROS Engine technical core · Devnet custody / Mainnet evidence
