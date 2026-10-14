@@ -83,15 +83,22 @@ function viewPanelClass(): string {
   return "scroll-mt-6 space-y-5 outline-none rounded-2xl border border-stocklana-accent/30 bg-[#1A3148] p-4 sm:space-y-6 sm:p-6";
 }
 
-function GateIntro() {
+function GateIntro({ onResetDefaults }: { onResetDefaults: () => void }) {
   const { evidence, policyLimits } = useMarketRefresh();
   return (
     <Card className="border-stocklana-accent/30 bg-stocklana-accent/5">
       <CardHeader>
-        <CardTitle>Two demo paths</CardTitle>
-        <CardDescription>
-          This reviewer preview shows why a buy would stop. Block stops on a stale price or on excess divergence. Safe leaves the proposal unsigned. No transaction is submitted from this preview.
-        </CardDescription>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <CardTitle>Two demo paths</CardTitle>
+            <CardDescription>
+              This reviewer preview shows why a buy would stop. Block stops on a stale price or on excess divergence. Safe leaves the proposal unsigned. No transaction is submitted from this preview.
+            </CardDescription>
+          </div>
+          <Button type="button" variant="outline" onClick={onResetDefaults}>
+            Reset defaults
+          </Button>
+        </div>
       </CardHeader>
       <CardContent className="grid gap-3 border-t border-stocklana-accent/20 pt-4 sm:grid-cols-2 lg:grid-cols-4">
         <div>
@@ -704,7 +711,7 @@ export function Dashboard() {
           <div id="dashboard-panel-gate" aria-labelledby="dashboard-tab-gate" tabIndex={-1} className={viewPanelClass()} role="tabpanel">
             <ViewStageHeader step={activeViewMeta.step} label={activeViewMeta.label} description={activeViewMeta.description} />
             <div className="demo-zebra space-y-6">
-              <GateIntro />
+              <GateIntro onResetDefaults={() => setMandateDraft(createInitialMandateDraft())} />
               <MarketEvidenceCard />
               <ExecutionProposalCard />
             </div>

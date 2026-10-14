@@ -335,8 +335,15 @@ export function MandateBuilder({
       {step === 1 ? (
         <Card id="mandate-panel-1" aria-labelledby="mandate-tab-1" tabIndex={-1} role="tabpanel" className="scroll-mt-6 outline-none">
           <CardHeader>
-            <CardTitle>Human-readable risk limits</CardTitle>
-            <CardDescription>Values are converted to six-decimal micros, milliseconds and basis points in the canonical JSON.</CardDescription>
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <CardTitle>Human-readable risk limits</CardTitle>
+                <CardDescription>Values are converted to six-decimal micros, milliseconds and basis points in the canonical JSON.</CardDescription>
+              </div>
+              <Button type="button" variant="outline" onClick={() => onDraftChange(createInitialMandateDraft())}>
+                Reset defaults
+              </Button>
+            </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
