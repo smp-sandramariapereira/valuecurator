@@ -34,18 +34,6 @@ export const TEAM = [
     focus: "Computer engineering and bioinformatics",
     bio: "Computer engineer. PhD candidate in Neuroscience, with a focus on bioinformatics.",
   },
-  {
-    name: "A.",
-    role: "Associate — Software Development",
-    focus: "Software development",
-    bio: "Computer science undergraduate. She previously pursued undergraduate studies in data science and artificial intelligence. Those studies were discontinued.",
-  },
-  {
-    name: "H.",
-    role: "Associate — Mathematics",
-    focus: "Mathematics",
-    bio: "Bachelor's degree in Mathematics.",
-  },
 ] as const;
 
 export const FLOW = [

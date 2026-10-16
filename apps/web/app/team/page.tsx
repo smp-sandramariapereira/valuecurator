@@ -4,7 +4,7 @@ import { TEAM } from "@/lib/institutional";
 
 export const metadata: Metadata = {
   title: "Team · ValueCurator",
-  description: "The founders and associates building ValueCurator.",
+  description: "The founders building ValueCurator.",
 };
 
 export default function TeamPage() {
@@ -13,7 +13,7 @@ export default function TeamPage() {
       <SectionTitle
         eyebrow="Team"
         title="Founded on science. Engineered for real-world impact."
-        body="The combined work covers artificial intelligence, computer engineering, bioinformatics, software development, mathematics and scientific research."
+        body="The combined work covers artificial intelligence, computer engineering, bioinformatics and scientific research."
       />
       <div className="grid gap-4 sm:grid-cols-2">
         {TEAM.map((person) => (

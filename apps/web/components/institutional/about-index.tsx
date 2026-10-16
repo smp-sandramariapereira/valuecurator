@@ -7,7 +7,7 @@ const summaries: Record<string, string> = {
   "/technology": "KAIROS Engine, the Discovery API, market evidence and the Devnet program.",
   "/solutions": "Sectors and offerings, each labeled by what the repository contains today.",
   "/journey": "KAIROS Engine, StockLana, the World Fair and the current RWA direction.",
-  "/team": "Sandra and João, with associates A. and H.",
+  "/team": "Sandra and João.",
   "/roadmap": "Implemented, in development and planned. No delivery dates.",
   "/partners": "How to write to the team. Superteam Brasil is an invitation, not an official partnership.",
 };
