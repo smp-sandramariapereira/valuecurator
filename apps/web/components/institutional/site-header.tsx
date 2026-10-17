@@ -6,7 +6,7 @@ import { HomeButton } from "@/components/home-button";
 import { NAV_LINKS } from "@/lib/institutional";
 import { version } from "../../package.json";
 
-const INFO_PREFIXES = ["/about", "/technology", "/solutions", "/journey", "/team", "/roadmap", "/partners"];
+const INFO_PREFIXES = ["/about", "/technology", "/solutions", "/journey", "/team", "/roadmap", "/partners", "/pitchdeck"];
 
 export function SiteHeader() {
   const pathname = usePathname();

@@ -23,7 +23,7 @@ The local subscription screen shows 1 USDC per node per month. That amount is il
 
 ## Product line
 
-`0.0.1` is the hackathon line. The public site still serves that line until this tree is published. `0.1.0` is the first post-hackathon line: the oracle evidence interface in the agent. The Devnet program is unchanged.
+`0.0.1` is the hackathon line. The public site serves `0.1.0`, the first post-hackathon line: the oracle evidence interface in the agent. The Devnet program is unchanged.
 
 The `0.1.0` versions of `@valuecurator/discovery-api` and `@kairos/metabolic-agent` are package versions. They are not the post-hackathon product line. This mark does not upgrade the Devnet program.
 

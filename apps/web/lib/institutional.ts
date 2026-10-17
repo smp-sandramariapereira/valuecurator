@@ -11,6 +11,7 @@ export const NAV_LINKS = [
   { href: "/team", label: "Team" },
   { href: "/roadmap", label: "Roadmap" },
   { href: "/partners", label: "Partners" },
+  { href: "/pitchdeck", label: "Pitch" },
 ] as const;
 
 export type Maturity = "implemented" | "development" | "planned";
