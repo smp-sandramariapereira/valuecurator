@@ -92,6 +92,9 @@ importers:
       '@valuecurator/discovery-contracts':
         specifier: workspace:*
         version: link:../../packages/discovery-contracts
+      '@valuecurator/oracle-contracts':
+        specifier: workspace:*
+        version: link:../../packages/oracle-contracts
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -153,6 +156,9 @@ importers:
       '@solana/web3.js':
         specifier: ^1.98.4
         version: 1.99.0(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)
+      '@valuecurator/oracle-contracts':
+        specifier: workspace:*
+        version: link:../../../packages/oracle-contracts
     devDependencies:
       '@types/node':
         specifier: ^22.13.10
@@ -170,6 +176,22 @@ importers:
         specifier: ^3.23.8
         version: 3.25.76
     devDependencies:
+      typescript:
+        specifier: ^5.6.2
+        version: 5.9.3
+
+  packages/oracle-contracts:
+    dependencies:
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^22.13.10
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.3
+        version: 4.23.15
       typescript:
         specifier: ^5.6.2
         version: 5.9.3

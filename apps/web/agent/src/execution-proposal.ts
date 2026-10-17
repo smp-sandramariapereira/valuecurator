@@ -3,11 +3,30 @@ import { mkdirSync, renameSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import type { LivePythEvidenceReport } from "./pyth-evidence.js";
 
-type ProposalEvidenceReport = Omit<LivePythEvidenceReport, "source" | "simulated"> & {
-  source: "pyth-pro" | "fixture";
+type ProposalEvidenceReport = Omit<LivePythEvidenceReport, "source" | "simulated" | "schemaVersion" | "confidenceMicros"> & {
+  schemaVersion: 1 | 2;
+  source: "pyth-pro" | "pyth-hermes" | "chainlink" | "switchboard" | "redstone" | "fixture";
   simulated: boolean;
+  confidenceMicros: string | null;
+  admissibility?: "ADMISSIBLE" | "INVALID" | "INADMISSIBLE";
+  providerId?: string;
+  license?: "authorized" | "missing" | "restricted";
   simulationScenario?: "safe" | "stale" | "divergent";
 };
+
+function admissionBlock(evidence: ProposalEvidenceReport): string | null {
+  if (evidence.simulated || evidence.source === "fixture") {
+    return "only live Pyth Pro evidence can create an approval proposal";
+  }
+  if (evidence.schemaVersion === 2) {
+    if (evidence.admissibility !== "ADMISSIBLE") return "oracle evidence is not admissible";
+    if (evidence.confidenceMicros == null) return "oracle confidence is absent";
+    if (evidence.license !== "authorized") return "oracle license is not authorized";
+    return null;
+  }
+  if (evidence.schemaVersion === 1 && evidence.source === "pyth-pro") return null;
+  return "only live Pyth Pro evidence can create an approval proposal";
+}
 
 export type ExecutionProposal = {
   schemaVersion: 1;
@@ -27,6 +46,7 @@ export type ExecutionProposal = {
   inputAmount: string;
   minimumOutputAmount: string;
   referenceFeedId: string;
+  providerId: string | null;
   mandate: {
     maximumPriceAgeMs: number;
     maximumConfidenceBps: number;
@@ -67,10 +87,9 @@ export function createExecutionProposal(options: {
   const reasons = [...evidence.reasons];
   const validUntilMs = evidence.publishTimeMs + evidence.maximumPriceAgeMs;
 
-  if (evidence.schemaVersion !== 1) reasons.push("unsupported evidence schema");
-  if (evidence.source !== "pyth-pro" || evidence.simulated) {
-    reasons.push("only live Pyth Pro evidence can create an approval proposal");
-  }
+  if (evidence.schemaVersion !== 1 && evidence.schemaVersion !== 2) reasons.push("unsupported evidence schema");
+  const admission = admissionBlock(evidence);
+  if (admission) reasons.push(admission);
   if (evidence.transactionSubmitted) reasons.push("evidence already reports a submitted transaction");
   if (evidence.decision !== "APPROVED") reasons.push("market evidence is not approved");
   if (nowMs > validUntilMs) reasons.push("market evidence expired before proposal creation");
@@ -103,6 +122,7 @@ export function createExecutionProposal(options: {
     inputAmount,
     minimumOutputAmount,
     referenceFeedId: evidence.referenceFeedId,
+    providerId: evidence.providerId ?? (evidence.source === "fixture" ? null : evidence.source),
     mandate: {
       maximumPriceAgeMs: evidence.maximumPriceAgeMs,
       maximumConfidenceBps: evidence.maximumConfidenceBps,

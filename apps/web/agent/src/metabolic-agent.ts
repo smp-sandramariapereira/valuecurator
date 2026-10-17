@@ -162,6 +162,7 @@ async function flushVaultThroughStrategy(
     symbol: config.xstockSymbol,
     expectedMint: outputMint,
     pythFeedId: config.pythFeedId,
+    providerId: config.oracleProviderId,
     usdInputAmount: amount,
     assetOutputAmount: swap.expectedAmountOut,
     usdDecimals: inputMintInfo.decimals,

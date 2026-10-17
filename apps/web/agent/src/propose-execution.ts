@@ -5,7 +5,6 @@ import {
   verifyExecutionProposal,
   writeProposalAtomically,
 } from "./execution-proposal.js";
-import type { LivePythEvidenceReport } from "./pyth-evidence.js";
 
 function loadLocalEnv(): void {
   const path = resolve(process.cwd(), ".env");
@@ -32,7 +31,7 @@ loadLocalEnv();
 
 const evidencePath = resolve(argument("--evidence") ?? "../public/market-evidence.json");
 const outputPath = argument("--output") ?? "../public/execution-proposal.json";
-const evidence = JSON.parse(readFileSync(evidencePath, "utf8")) as LivePythEvidenceReport;
+const evidence = JSON.parse(readFileSync(evidencePath, "utf8")) as Parameters<typeof createExecutionProposal>[0]["evidence"];
 const proposal = createExecutionProposal({
   evidence,
   ...(process.env.KAIROS_NODE_OWNER?.trim()

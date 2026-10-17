@@ -17,7 +17,8 @@ export type AgentConfig = {
   mint: PublicKey; pollMs: number; sweepExisting: boolean; jupiterApiUrl: string;
   jupiterApiKey: string | undefined; strategySlippageBps: number; strategyMaxAccounts: number;
   pythHermesUrl: string; pythApiKey: string; xstocksApiUrl: string;
-  xstockSymbol: string; pythFeedId: string; marketMaxPriceAgeMs: number;
+  xstockSymbol: string; pythFeedId: string; oracleProviderId: "pyth-pro" | "pyth-hermes";
+  marketMaxPriceAgeMs: number;
   marketMaxConfidenceBps: number; marketMaxDeviationBps: number;
   aiMode: AIMode; aiEndpoint: string | undefined; aiApiKey: string | undefined;
   aiMinimumConfidence: number; aiTimeoutMs: number; telemetryPath: string;
@@ -86,7 +87,11 @@ export function loadConfig(): AgentConfig {
   const maxDailyInput = positiveBigInt("KAIROS_MAX_DAILY_INPUT", "5000000");
   if (maxDailyInput < maxSwapAmount) throw new Error("KAIROS_MAX_DAILY_INPUT must be >= KAIROS_MAX_SWAP_AMOUNT");
   const pythFeedId = required("KAIROS_PYTH_FEED_ID");
-  const pythDefaultUrl = /^\\d+$/.test(pythFeedId) ? DEFAULT_PYTH_PRO_URL : DEFAULT_PYTH_HERMES_URL;
+  const configuredProvider = process.env.KAIROS_ORACLE_PROVIDER?.trim() || "pyth-pro";
+  if (configuredProvider !== "pyth-pro" && configuredProvider !== "pyth-hermes") {
+    throw new Error("KAIROS_ORACLE_PROVIDER must be pyth-pro or pyth-hermes");
+  }
+  const pythDefaultUrl = configuredProvider === "pyth-pro" ? DEFAULT_PYTH_PRO_URL : DEFAULT_PYTH_HERMES_URL;
   const pythApiUrl = process.env.KAIROS_PYTH_API_URL?.trim() ||
     process.env.KAIROS_PYTH_HERMES_URL?.trim() || pythDefaultUrl;
 
@@ -102,10 +107,13 @@ export function loadConfig(): AgentConfig {
     strategySlippageBps: slippageBps, strategyMaxAccounts: maxAccounts,
     // Retain the field name for compatibility; it now accepts either Hermes or Pyth Pro REST.
     pythHermesUrl: pythApiUrl,
-    pythApiKey: required("KAIROS_PYTH_API_KEY"),
+    pythApiKey: configuredProvider === "pyth-pro"
+      ? required("KAIROS_PYTH_API_KEY")
+      : (process.env.KAIROS_PYTH_API_KEY?.trim() || ""),
     xstocksApiUrl: process.env.KAIROS_XSTOCKS_API_URL?.trim() || DEFAULT_XSTOCKS_API_URL,
     xstockSymbol: required("KAIROS_XSTOCK_SYMBOL"),
     pythFeedId,
+    oracleProviderId: configuredProvider,
     marketMaxPriceAgeMs: boundedInt("KAIROS_MARKET_MAX_PRICE_AGE_MS", "30000", 1_000, 300_000),
     marketMaxConfidenceBps: boundedInt("KAIROS_MARKET_MAX_CONFIDENCE_BPS", "100", 0, 10_000),
     marketMaxDeviationBps: boundedInt("KAIROS_MARKET_MAX_DEVIATION_BPS", "200", 0, 10_000),

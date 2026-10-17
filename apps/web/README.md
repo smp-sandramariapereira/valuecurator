@@ -17,6 +17,8 @@ ValueCurator turns an investor mandate into deterministic execution rules. Befor
 
 **Public product URL:** [https://www.valuecurator.xyz](https://www.valuecurator.xyz) · English UI · approval-only.
 
+**Product line:** `0.0.1` is the hackathon line. `0.1.0` adds the oracle evidence interface in the agent. The displayed version is `0.1.0` in this tree. The Devnet program is unchanged.
+
 The October Colosseum dashboard separates the two clusters on Overview: Devnet executes custody, mainnet is a read. **Mandate** and **Configure mandate** open the limit bars. [https://www.valuecurator.xyz](https://www.valuecurator.xyz) serves this dashboard.
 
 ## Stocklana demo status

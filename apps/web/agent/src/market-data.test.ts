@@ -37,6 +37,7 @@ function build() {
     symbol: "AAPLx",
     expectedMint: mint,
     pythFeedId: feedId,
+    providerId: "pyth-hermes",
     usdInputAmount: 230_000_000n,
     assetOutputAmount: 1_000_000_000n,
     usdDecimals: 6,

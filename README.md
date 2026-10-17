@@ -21,6 +21,12 @@ The rejected Devnet transaction is [`2sFHnWWS…A1dn`](https://explorer.solana.c
 
 The local subscription screen shows 1 USDC per node per month. That amount is illustrative. It is not a final price, and it does not buy the asset.
 
+## Product line
+
+`0.0.1` is the hackathon line. The public site still serves that line until this tree is published. `0.1.0` is the first post-hackathon line: the oracle evidence interface in the agent. The Devnet program is unchanged.
+
+The `0.1.0` versions of `@valuecurator/discovery-api` and `@kairos/metabolic-agent` are package versions. They are not the post-hackathon product line. This mark does not upgrade the Devnet program.
+
 ## Repository structure
 
 ```

@@ -13,6 +13,8 @@ import { MetabolicCard } from "@/components/metabolic-card";
 import { MetabolicPath } from "@/components/metabolic-path";
 import { OnChainFeed } from "@/components/on-chain-feed";
 import { MarketEvidenceCard } from "@/components/market-evidence-card";
+import { OracleSelector } from "@/components/oracle-selector/oracle-selector";
+import { PlanComparison } from "@/components/subscription-plans/plan-comparison";
 import { ExecutionProposalCard } from "@/components/execution-proposal-card";
 import { MarketRefreshProvider, useMarketRefresh } from "@/components/market-refresh-provider";
 import { DecisionHistoryCard } from "@/components/decision-history-card";
@@ -715,6 +717,8 @@ export function Dashboard() {
             <div className="demo-zebra space-y-6">
               <GateIntro onResetDefaults={() => setMandateDraft(createInitialMandateDraft())} />
               <MarketEvidenceCard />
+              <OracleSelector />
+              <PlanComparison />
               <ExecutionProposalCard />
             </div>
           </div>

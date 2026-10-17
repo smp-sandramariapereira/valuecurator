@@ -6,7 +6,7 @@
   "scripts": {
     "start": "tsx src/metabolic-agent.ts",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test src/*.test.ts",
+    "test": "node --import tsx --test src/*.test.ts src/oracle/*.test.ts src/oracle/adapters/*.test.ts src/subscriptions/*.test.ts ../components/oracle-selector/oracle-selector.test.ts",
     "evaluate:shadow": "tsx src/evaluate-shadow.ts",
     "evaluate:market": "tsx src/evaluate-market.ts",
     "check:pyth": "tsx src/check-pyth.ts",
@@ -19,6 +19,7 @@
     "node": ">=20.18"
   },
   "dependencies": {
+    "@valuecurator/oracle-contracts": "workspace:*",
     "@coral-xyz/anchor": "^0.32.1",
     "@solana/spl-token": "^0.4.13",
     "@solana/web3.js": "^1.98.4"

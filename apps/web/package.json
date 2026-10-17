@@ -1,6 +1,10 @@
 {
   "name": "@valuecurator/web",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "productLine": {
+    "hackathon": "0.0.1",
+    "postHackathon": "0.1.0"
+  },
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
@@ -25,6 +29,7 @@
     "@solana/wallet-adapter-solflare": "^0.6.34",
     "@solana/web3.js": "^1.99.0",
     "@valuecurator/discovery-contracts": "workspace:*",
+    "@valuecurator/oracle-contracts": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.46.0",

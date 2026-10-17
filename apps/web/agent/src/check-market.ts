@@ -57,6 +57,11 @@ function usd(micros: string): string {
 
 loadLocalEnv();
 
+const oracleProvider = process.env.KAIROS_ORACLE_PROVIDER?.trim() || "pyth-pro";
+if (oracleProvider !== "pyth-pro") {
+  throw new Error("check-market writes schema-1 Pyth Pro evidence; set KAIROS_ORACLE_PROVIDER=pyth-pro");
+}
+
 const result = await refreshMarketEvidence({
   feedId: required("KAIROS_PYTH_FEED_ID"),
   pythApiKey: required("KAIROS_PYTH_API_KEY"),

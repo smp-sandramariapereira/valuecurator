@@ -9,6 +9,7 @@ export async function buildGuardedMarketObservation(options: {
   symbol: string;
   expectedMint: PublicKey;
   pythFeedId: string;
+  providerId: "pyth-pro" | "pyth-hermes";
   usdInputAmount: bigint;
   assetOutputAmount: bigint;
   usdDecimals: number;
@@ -18,8 +19,10 @@ export async function buildGuardedMarketObservation(options: {
   pythApiKey?: string;
   signal?: AbortSignal;
 }): Promise<MarketObservation> {
-  const numericPythProFeed = /^\\d+$/.test(options.pythFeedId.trim());
-  const referencePrice = numericPythProFeed
+  if (options.providerId !== "pyth-pro" && options.providerId !== "pyth-hermes") {
+    throw new Error("oracle provider must be configured explicitly");
+  }
+  const referencePrice = options.providerId === "pyth-pro"
     ? fetchPythProPrice({
         ...(options.pythApiUrl ? { apiUrl: options.pythApiUrl } : {}),
         feedId: options.pythFeedId,
