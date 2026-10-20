@@ -1,0 +1,197 @@
+{
+  "suite": "ValueCurator Programmatic Computational Finance E2E Protocol Suite",
+  "executedAt": "2026-10-20T14:22:43Z",
+  "targetUrl": "https://www.valuecurator.xyz",
+  "devnetProgramId": "6owAcXj4FxJom96cEX9CSFjGrg6zp4U8atTjrpCUMiW5",
+  "totalSteps": 12,
+  "passedSteps": 12,
+  "failedSteps": 0,
+  "passRatePct": 100.0,
+  "durationSeconds": 26.38,
+  "steps": [
+    {
+      "step": 1,
+      "code": "EXP-01",
+      "actor": "Owner Wallet & Cliente Testador",
+      "title": "Conexão da Carteira Phantom na Solana Devnet & Inicialização do Painel",
+      "screenshot": "screenshots/exp_step_01_wallet_phantom.png",
+      "clickTarget": "Botão 'Select Wallet' (Canto Superior Direito)",
+      "assertion": "Renderização do cabeçalho ValueCurator, badge RPC Devnet e seletor de carteira Phantom/Solflare",
+      "status": "PASSED",
+      "telemetry": {
+        "rpc": "api.devnet.solana.com",
+        "programId": "6owAcXj4FxJom96cEX9CSFjGrg6zp4U8atTjrpCUMiW5"
+      }
+    },
+    {
+      "step": 2,
+      "code": "EXP-02",
+      "actor": "Owner Wallet (Governança)",
+      "title": "Verificação On-Chain na Devnet (Programa, Node PDA e ReferencePrice PDA)",
+      "screenshot": "screenshots/exp_step_02_devnet_solscan_links.png",
+      "clickTarget": "Card 'Reference price · post_reference_price' na coluna Devnet",
+      "assertion": "Presença dos links auditáveis para Program (6owAcX...MiW5), Node (LwuCrF...CALS) e ReferencePrice PDA na Devnet",
+      "status": "PASSED",
+      "telemetry": {
+        "nodePda": "LwuCrFTwdkkH24Ni3Kc4UuL56pzvvnyag1gNQzjCALS",
+        "demoMintToken2022": "3c9wq8dP5fXU34Fc6tEx53YQnbYMnqwd1S8DkCp6YpBm"
+      }
+    },
+    {
+      "step": 3,
+      "code": "EXP-03",
+      "actor": "Owner Wallet (Governança)",
+      "title": "Abertura do Construtor de Mandatos e Verificação da Allowlist de Ativos",
+      "screenshot": "screenshots/exp_step_03_open_mandate_tab.png",
+      "clickTarget": "Aba '02 Mandate' na barra de navegação inferior/flutuante",
+      "assertion": "Carregamento do painel 'Verified asset allowlist' com Mint fixado, Pyth Feed 922 e links para Solscan",
+      "status": "PASSED",
+      "telemetry": {
+        "verifiedAsset": "AAPLx / R-NFT-ONS-001",
+        "pythFeed": "922"
+      }
+    },
+    {
+      "step": 4,
+      "code": "EXP-04",
+      "actor": "Owner Wallet & Cliente Testador",
+      "title": "Configuração dos Limites Determinísticos de Risco (Mandate Risk Limits)",
+      "screenshot": "screenshots/exp_step_04_mandate_risk_limits.png",
+      "clickTarget": "Botão de etapa 'Risk limits' no Mandate Builder",
+      "assertion": "Exibição dos controles numéricos e sliders para Maximum per trade (100 USDC), Daily (500 USDC), Age (30s) e Deviation (200 bps)",
+      "status": "PASSED",
+      "telemetry": {
+        "maxTradeUsdc": 100,
+        "maxDailyUsdc": 500,
+        "maxAgeSec": 30,
+        "maxDeviationBps": 200
+      }
+    },
+    {
+      "step": 5,
+      "code": "EXP-05",
+      "actor": "Cliente Testador",
+      "title": "Teste de Estresse Preliminar do Mandato (Current Market vs. Adverse Scenario)",
+      "screenshot": "screenshots/exp_step_05_mandate_simulation.png",
+      "clickTarget": "Botão de etapa 'Simulation' no Mandate Builder",
+      "assertion": "Comparação lado a lado entre evidência válida (APPROVED) e evidência obsoleta simulada (BLOCKED)",
+      "status": "PASSED",
+      "telemetry": {
+        "currentMarketDecision": "APPROVED",
+        "adverseDecision": "BLOCKED"
+      }
+    },
+    {
+      "step": 6,
+      "code": "EXP-06",
+      "actor": "Owner Wallet (Governança)",
+      "title": "Revisão Canônica, Cálculo do Hash SHA-256 e Validação Server-Side do Mandato",
+      "screenshot": "screenshots/exp_step_06_mandate_canonical_review.png",
+      "clickTarget": "Botão 'Validate on server' na etapa 'Review & export'",
+      "assertion": "Geração do JSON canônico imutável com hash SHA-256 e confirmação 'Server validated'",
+      "status": "PASSED",
+      "telemetry": {
+        "schema": "kairos-mandate-v1",
+        "serverValidated": true
+      }
+    },
+    {
+      "step": 7,
+      "code": "EXP-07",
+      "actor": "Cliente Testador & Agente IA",
+      "title": "Acesso ao Portão Determinístico (03 Gate) & Catálogo Multi-Oráculo",
+      "screenshot": "screenshots/exp_step_07_open_gate_tab.png",
+      "clickTarget": "Aba '03 Gate' na barra de navegação",
+      "assertion": "Exibição do card Market evidence, seletor de provedores de oráculo (Pyth Pro / Pyth Hermes) e tabela de cálculos",
+      "status": "PASSED",
+      "telemetry": {
+        "oracleProviders": [
+          "pyth-pro",
+          "pyth-hermes"
+        ],
+        "policyVersion": "kairos-market-policy-v1"
+      }
+    },
+    {
+      "step": 8,
+      "code": "EXP-08",
+      "actor": "Cliente Testador",
+      "title": "Cenário Experimental 1 (Nominal): Aprovação Determinística de Swap sob Evidência Íntegra",
+      "screenshot": "screenshots/exp_step_08_gate_safe_approved.png",
+      "clickTarget": "Botão 'Safe · APPROVED' em Demo scenarios",
+      "assertion": "Todos os 4 invariantes (Price age, Feed confidence, Price deviation, Trade impact) marcados como PASS e decisão APPROVED",
+      "status": "PASSED",
+      "telemetry": {
+        "decision": "APPROVED",
+        "priceAgePass": true,
+        "confidencePass": true,
+        "deviationPass": true,
+        "impactPass": true
+      }
+    },
+    {
+      "step": 9,
+      "code": "EXP-09",
+      "actor": "Cliente Testador (Teste Adversarial)",
+      "title": "Cenário Experimental 2 (Adversarial): Bloqueio Fail-Closed por Oráculo Obsoleto (Stale Price)",
+      "screenshot": "screenshots/exp_step_09_gate_stale_blocked.png",
+      "clickTarget": "Botão 'Block · stale price' em Demo scenarios",
+      "assertion": "Detecção imediata de idade do preço acima do limite de 30s (nowMs - publishTimeMs > maximumPriceAgeMs) e status BLOCKED",
+      "status": "PASSED",
+      "telemetry": {
+        "decision": "BLOCKED",
+        "reason": "market observation is stale"
+      }
+    },
+    {
+      "step": 10,
+      "code": "EXP-10",
+      "actor": "Cliente Testador (Teste Adversarial)",
+      "title": "Cenário Experimental 3 (Adversarial): Bloqueio de Swap por Divergência entre Preço Executável e Oráculo Pyth",
+      "screenshot": "screenshots/exp_step_10_gate_divergence_blocked.png",
+      "clickTarget": "Botão 'Block · divergence' em Demo scenarios",
+      "assertion": "Rejeição determinística quando |executablePrice - referencePrice| / referencePrice > 200 bps (espelhando PriceDeviationExceeded no Rust)",
+      "status": "PASSED",
+      "telemetry": {
+        "decision": "BLOCKED",
+        "reason": "executable price deviation is too high",
+        "onChainMirrorError": "PriceDeviationExceeded"
+      }
+    },
+    {
+      "step": 11,
+      "code": "EXP-11",
+      "actor": "Auditor / Cliente Testador",
+      "title": "Inspeção da Trilha Matemática de Cálculos (Operandos Inteiros) e Exportação JSON",
+      "screenshot": "screenshots/exp_step_11_gate_show_json.png",
+      "clickTarget": "Botão 'Show JSON' / 'Download JSON' na seção Auditable calculations",
+      "assertion": "Exibição das 4 fórmulas canônicas com operandos em micros/bps e JSON bruto verificável por SHA-256",
+      "status": "PASSED",
+      "telemetry": {
+        "formulasVerified": [
+          "price_age",
+          "confidence_ratio",
+          "price_deviation",
+          "price_impact"
+        ]
+      }
+    },
+    {
+      "step": 12,
+      "code": "EXP-12",
+      "actor": "Owner Wallet & Cliente Testador",
+      "title": "Auditoria Final On-Chain: Eventos Metabólicos 15/85, Rejeições Confirmadas e Inspeção no Solscan",
+      "screenshot": "screenshots/exp_step_12_audit_devnet_signatures.png",
+      "clickTarget": "Aba '04 Audit' e cartões 'Final report' / 'On-chain feed'",
+      "assertion": "Verificação do relatório consolidado Before/After, grade de capital 15/85 (Treasury vs. Vault) e links diretos para as transações na Solana Devnet",
+      "status": "PASSED",
+      "telemetry": {
+        "initTx": "5KfFCT55w2sen5mgHm99V2V9aRJ6EM7UX9HsZQ7CTKq6ycyDNmvmPhqn8PzcAnADSEDT36fhJ4FXgyJDthtrMhX5",
+        "metabolizeTx": "5iYZdNguAxH5u1niikvtBW7oPLj9qodor5coKmDyZWoJaXKsqfwroaJdyy7r23zRTFQYinXH7wACMUdgYXQ9chJq",
+        "emergencyWithdrawTx": "FVUB863oWXv2i9ymxsro6yEjbmP2XVirBBLZEAYm8xU2qRuuSoJkpfBjUWUu5q18D4GhEKmAtTSCWbNJQ4FjrtE",
+        "unauthorizedOperatorRejectedTx": "2sFHnWWSCMqNykUGmsmuyZaiM3Rjt82dFtZxHQx4d81gzmhxATLmp48DQvKfSuPTBngHPi3PaAWSgFYrBwAcA1dn",
+        "priceDeviationRejectedTx": "4hgsvfZgmL6pYogYS8b1Srzd5RFnnWbP3N8qkPYPerpRBa5u1Zc8WoxhWsmCzf36U7Zpn9fo31AzHog5cSGeubtX"
+      }
+    }
+  ]
+}

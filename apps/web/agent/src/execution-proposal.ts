@@ -28,6 +28,8 @@ function admissionBlock(evidence: ProposalEvidenceReport): string | null {
   return "only live Pyth Pro evidence can create an approval proposal";
 }
 
+export type ExecutionMode = "APPROVAL_ONLY" | "DEVNET_E2E";
+
 export type ExecutionProposal = {
   schemaVersion: 1;
   proposalId: string;
@@ -35,10 +37,10 @@ export type ExecutionProposal = {
   createdAt: string;
   validUntil: string;
   status: "READY_FOR_APPROVAL" | "BLOCKED";
-  executionMode: "APPROVAL_ONLY";
-  executionEnabled: false;
+  executionMode: ExecutionMode;
+  executionEnabled: boolean;
   programNetwork: "devnet";
-  marketNetwork: "mainnet-beta";
+  marketNetwork: "mainnet-beta" | "devnet";
   requiredApprover: string | null;
   symbol: string;
   mint: string;
@@ -55,6 +57,7 @@ export type ExecutionProposal = {
   reasons: readonly string[];
   executionBlockers: readonly string[];
 };
+
 
 function canonicalize(value: unknown): string {
   if (value === undefined) return "null";
@@ -80,20 +83,26 @@ function nonEmpty(value: string | null | undefined, label: string, reasons: stri
 export function createExecutionProposal(options: {
   evidence: ProposalEvidenceReport;
   requiredApprover?: string | null;
+  executionMode?: ExecutionMode;
   nowMs?: number;
 }): ExecutionProposal {
   const { evidence } = options;
+  const executionMode = options.executionMode ?? "APPROVAL_ONLY";
   const nowMs = options.nowMs ?? Date.now();
   const reasons = [...evidence.reasons];
   const validUntilMs = evidence.publishTimeMs + evidence.maximumPriceAgeMs;
 
   if (evidence.schemaVersion !== 1 && evidence.schemaVersion !== 2) reasons.push("unsupported evidence schema");
-  const admission = admissionBlock(evidence);
+  const admission = executionMode === "DEVNET_E2E" && (evidence.source === "pyth-hermes" || evidence.source === "pyth-pro") && !evidence.simulated
+    ? null
+    : admissionBlock(evidence);
   if (admission) reasons.push(admission);
   if (evidence.transactionSubmitted) reasons.push("evidence already reports a submitted transaction");
   if (evidence.decision !== "APPROVED") reasons.push("market evidence is not approved");
   if (nowMs > validUntilMs) reasons.push("market evidence expired before proposal creation");
-  if (evidence.marketNetwork !== "mainnet-beta") reasons.push("market network is unavailable or unsupported");
+  if (evidence.marketNetwork !== "mainnet-beta" && !(executionMode === "DEVNET_E2E" && evidence.marketNetwork === "devnet")) {
+    reasons.push("market network is unavailable or unsupported");
+  }
 
   const mint = nonEmpty(evidence.mint, "output mint", reasons);
   const inputMint = nonEmpty(evidence.quoteInputMint, "input mint", reasons);
@@ -105,16 +114,19 @@ export function createExecutionProposal(options: {
   );
   const uniqueReasons = [...new Set(reasons)];
   const evidenceDigest = digest(evidence);
+  const marketNetwork = (evidence.marketNetwork === "devnet" && executionMode === "DEVNET_E2E")
+    ? "devnet" as const
+    : "mainnet-beta" as const;
   const body = {
     schemaVersion: 1 as const,
     evidenceDigest,
     createdAt: new Date(nowMs).toISOString(),
     validUntil: new Date(validUntilMs).toISOString(),
     status: uniqueReasons.length === 0 ? "READY_FOR_APPROVAL" as const : "BLOCKED" as const,
-    executionMode: "APPROVAL_ONLY" as const,
-    executionEnabled: false as const,
+    executionMode,
+    executionEnabled: executionMode === "DEVNET_E2E" && uniqueReasons.length === 0,
     programNetwork: "devnet" as const,
-    marketNetwork: "mainnet-beta" as const,
+    marketNetwork,
     requiredApprover: options.requiredApprover?.trim() || null,
     symbol: evidence.symbol,
     mint,
@@ -129,14 +141,17 @@ export function createExecutionProposal(options: {
       maximumDeviationBps: evidence.maximumDeviationBps,
     },
     reasons: uniqueReasons,
-    executionBlockers: [
-      "KAIROS program is deployed on devnet while the AAPLx market evidence is mainnet-beta",
-      "approval signature is an auditable attestation and cannot submit a transaction",
-    ],
+    executionBlockers: executionMode === "DEVNET_E2E"
+      ? []
+      : [
+          "KAIROS program is deployed on devnet while the AAPLx market evidence is mainnet-beta",
+          "approval signature is an auditable attestation and cannot submit a transaction",
+        ],
   };
 
   return { ...body, proposalId: digest(body) };
 }
+
 
 export function verifyExecutionProposal(proposal: ExecutionProposal, nowMs = Date.now()): {
   valid: boolean;

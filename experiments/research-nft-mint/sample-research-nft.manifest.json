@@ -1,0 +1,31 @@
+{
+  "manifest_version": "1.0.0",
+  "eidos_id": "eidos-ons-2026-0001-a8f9",
+  "construct_symbol": "R-NFT-ONS-001",
+  "maturity_stage": "VALIDATED",
+  "identity": {
+    "name": "Research Object: Oráculo Neuro-Simbólico & ProofGate Control-Plane",
+    "definition": "Artefato Semiótico Executável (ESA) governado pelo ValueCurator para autorização determinística de agentes de IA e tokenização soberana na Solana.",
+    "signature_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "genealogy": {
+    "parent_cids": [
+      "bafkreigh2akiscaildcqabsyg3dfr6chu3fgpregiymsck7e7aqa4s52zy"
+    ],
+    "source_commits": [
+      "https://github.com/smp-sandramariapereira/valuecurator/commit/6c9504f",
+      "https://github.com/compilatorum/vc/commit/2eced05"
+    ]
+  },
+  "rights_profile": {
+    "license_spdx": "CC-BY-NC-4.0",
+    "attribution_required": true,
+    "ai_agent_access": "MACHINE_PAYABLE",
+    "royalty_bps": 250
+  },
+  "execution_target": {
+    "engine": "kairos_engine",
+    "program_id": "6owAcXj4FxJom96cEX9CSFjGrg6zp4U8atTjrpCUMiW5",
+    "bytecode_cid": "bafkreidv7q2x5w8n4z6p3m1k9j8h7g6f5d4s3a2q1w2e3r4t5y6u7i8o9p"
+  }
+}

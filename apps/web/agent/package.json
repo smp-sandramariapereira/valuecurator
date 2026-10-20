@@ -13,7 +13,8 @@
     "check:market": "tsx src/check-market.ts",
     "propose:execution": "tsx src/propose-execution.ts",
     "approve:proposal": "tsx src/approve-proposal.ts",
-    "verify:approval": "tsx src/verify-approval.ts"
+    "verify:approval": "tsx src/verify-approval.ts",
+    "execute:devnet": "tsx src/execute-devnet.ts"
   },
   "engines": {
     "node": ">=20.18"

@@ -14,8 +14,11 @@ export type ApprovalReceipt = {
   signer: string;
   signatureHex: string;
   signedAt: string;
-  executionMode: "APPROVAL_ONLY";
-  transactionSubmitted: false;
+  executionMode: "APPROVAL_ONLY" | "DEVNET_E2E";
+  transactionSubmitted: boolean;
+  transactionSignature?: string | null;
+  confirmedSlot?: number | null;
+  explorerUrl?: string | null;
 };
 
 export function verifyApprovalReceipt(options: {
@@ -28,9 +31,11 @@ export function verifyApprovalReceipt(options: {
     return { valid: false, reason: proposalCheck.reason ?? "proposal was not valid when signed" };
   }
   if (receipt.schemaVersion !== 1 || receipt.kind !== "KAIROS_PROPOSAL_APPROVAL" ||
-      receipt.executionMode !== "APPROVAL_ONLY" || receipt.transactionSubmitted !== false) {
+      (receipt.executionMode !== "APPROVAL_ONLY" && receipt.executionMode !== "DEVNET_E2E") ||
+      (receipt.executionMode === "APPROVAL_ONLY" && receipt.transactionSubmitted !== false)) {
     return { valid: false, reason: "unsupported approval receipt" };
   }
+
   if (receipt.proposalId !== proposal.proposalId || receipt.evidenceDigest !== proposal.evidenceDigest) {
     return { valid: false, reason: "receipt is not bound to this proposal and evidence" };
   }

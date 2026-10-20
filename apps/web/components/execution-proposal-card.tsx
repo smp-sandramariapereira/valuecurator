@@ -63,9 +63,11 @@ export function ExecutionProposalCard() {
   const [error, setError] = useState<string | null>(null);
   const [receipt, setReceipt] = useState<ApprovalReceipt | null>(null);
   const [nowMs, setNowMs] = useState<number | null>(null);
+  const [executionMode, setExecutionMode] = useState<"APPROVAL_ONLY" | "DEVNET_E2E">("APPROVAL_ONLY");
   const storedReceipt = useMemo(() => proposal
     ? history.find((entry) => entry.proposal.proposalId === proposal.proposalId)?.receipt ?? null
     : null, [history, proposal]);
+
 
   useEffect(() => {
     let cancelled = false;
@@ -179,12 +181,25 @@ export function ExecutionProposalCard() {
           <CardTitle className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-stocklana-accent" /> Execution proposal
           </CardTitle>
-          <Badge className="border-amber-500/60 text-amber-300">APPROVAL ONLY</Badge>
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={() => setExecutionMode((m) => m === "APPROVAL_ONLY" ? "DEVNET_E2E" : "APPROVAL_ONLY")}
+            >
+              {executionMode === "DEVNET_E2E" ? "Mode: DEVNET E2E" : "Switch to Devnet E2E"}
+            </Button>
+            <Badge className={executionMode === "DEVNET_E2E" ? "border-emerald-500/60 text-emerald-300" : "border-amber-500/60 text-amber-300"}>
+              {executionMode === "DEVNET_E2E" ? "DEVNET E2E (TOKEN-2022 + SWAP)" : "APPROVAL ONLY"}
+            </Badge>
+          </div>
         </div>
         <CardDescription>
-          Binds evidence to the mandate and collects explicit approval. This phase does not construct or submit transactions.
+          Binds evidence to the mandate and collects explicit approval. Toggle Devnet E2E mode to inspect the Token-2022 minting and deterministic swap pipeline on Solana Devnet.
         </CardDescription>
       </CardHeader>
+
       <CardContent className="space-y-4">
         {!proposal ? (
           <div className="space-y-3 text-sm leading-6 text-stocklana-muted">

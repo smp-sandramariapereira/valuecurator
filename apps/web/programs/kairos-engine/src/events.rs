@@ -46,3 +46,18 @@ pub struct StrategySwapEvent {
     pub minimum_amount_out: u64,
     pub timestamp: i64,
 }
+
+#[event]
+pub struct ResearchAssetMintedEvent {
+    pub node: Pubkey,
+    pub owner: Pubkey,
+    pub operator: Pubkey,
+    pub artifact_mint: Pubkey,
+    pub recipient_ata: Pubkey,
+    pub eidos_id: String,
+    pub manifest_sha256: [u8; 32],
+    pub amount: u64,
+    pub royalty_bps: u16,
+    pub timestamp: i64,
+}
+

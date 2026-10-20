@@ -93,6 +93,40 @@ pub mod kairos_engine {
         )
     }
 
+    /// Execute a deterministic Devnet strategy swap (Token-2022 collateral to
+    /// Node-governed RWA / Research Asset mint) enforcing ReferencePrice invariants
+    /// without requiring external Jupiter v6 liquidity pools on Devnet.
+    pub fn execute_devnet_strategy_swap<'a>(
+        ctx: Context<'a, ExecuteDevnetStrategySwap<'a>>,
+        amount_in: u64,
+        minimum_amount_out: u64,
+    ) -> Result<()> {
+        instructions::execute_devnet_strategy_swap::handle_execute_devnet_strategy_swap(
+            ctx,
+            amount_in,
+            minimum_amount_out,
+        )
+    }
+
+    /// Mint a Token-2022 Research NFT or endogenous artifact signed by the Node PDA
+    /// (`MintAuthority = Node PDA`) after ProofGate policy verification.
+    pub fn mint_research_asset(
+        ctx: Context<MintResearchAsset>,
+        eidos_id: String,
+        manifest_sha256: [u8; 32],
+        amount: u64,
+        royalty_bps: u16,
+    ) -> Result<()> {
+        instructions::mint_research_asset::handle_mint_research_asset(
+            ctx,
+            eidos_id,
+            manifest_sha256,
+            amount,
+            royalty_bps,
+        )
+    }
+
+
     /// Owner-only escape hatch for recovering vaulted funds.
     pub fn emergency_withdraw<'a>(
         ctx: Context<'a, EmergencyWithdraw<'a>>,

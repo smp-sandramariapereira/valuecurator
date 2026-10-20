@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-10-19T15:21:21.408Z",
+  "cluster": "devnet",
+  "mode": "DRY_RUN_FAUCET_RATE_LIMITED",
+  "manifestDigestSha256": "117feb59f9ff56cbe1587fffcb37de403718060b2fdbd9902beb02dd5e297bd6",
+  "constructSymbol": "R-NFT-ONS-001",
+  "eidosId": "eidos-ons-2026-0001-a8f9",
+  "programId": "6owAcXj4FxJom96cEX9CSFjGrg6zp4U8atTjrpCUMiW5",
+  "payerAddress": "48x8TRoxux4aauEECmcwuLfBF6u7UL7WsocUfD7paDUq",
+  "vaultNodePda": "4eB8jpCUYYeqLkG4PgtqiDC5vvtcN2bMoZYsDqyBe1BS",
+  "vaultNodeBump": 253,
+  "mintAddress": "2ixqfctkJhBbwPeJAFFNE1xaHozv9y2kcrZckHdi21Mc",
+  "recipientAta": "AGuq8NaAY6SZhnGew7UkYyz1pdb7kjkWmHqP6zjA8FdJ",
+  "mintLenBytes": 234,
+  "rentExemptionLamports": 1838960,
+  "instructionsPrepared": [
+    "SystemProgram.createAccount (Token-2022 Mint Space: 234 bytes)",
+    "Token2022.createInitializeMetadataPointerInstruction (Authority: Vault PDA)",
+    "Token2022.createInitializeMintInstruction (Decimals: 0, MintAuthority: Vault PDA)",
+    "AssociatedTokenProgram.createAssociatedTokenAccountInstruction (Token-2022 ATA)",
+    "AnchorCPI.mint_research_asset -> Token2022.MintTo (1 unit signed by Vault PDA seeds)"
+  ],
+  "txSignature": null,
+  "solscanUrl": null,
+  "explorerAddressUrl": "https://explorer.solana.com/address/6owAcXj4FxJom96cEX9CSFjGrg6zp4U8atTjrpCUMiW5?cluster=devnet",
+  "notes": [
+    "Validado contra o RPC oficial da Solana Devnet (https://api.devnet.solana.com).",
+    "Corrigida a ordem de inicialização da extensão MetadataPointer antes do InitializeMint (requisito estrito do SPL Token-2022).",
+    "Separada a inicialização do Mint (client-side) da instrução MintTo (que exige invoke_signed pelo PDA do contrato Anchor kairos_engine)."
+  ]
+}

@@ -48,4 +48,6 @@ pub enum KairosError {
     InvalidMultiplier,
     #[msg("Reference price mint does not match the strategy mint")]
     InvalidReferenceMint,
+    #[msg("Eidos ID must be between 1 and 64 bytes")]
+    InvalidEidosId,
 }

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CompilatorumResearchNFTManifest",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "manifest_version",
+    "eidos_id",
+    "construct_symbol",
+    "maturity_stage",
+    "identity",
+    "genealogy",
+    "rights_profile",
+    "execution_target"
+  ],
+  "properties": {
+    "manifest_version": { "type": "string", "enum": ["1.0.0"] },
+    "eidos_id": { "type": "string", "description": "UUID único do artefato de pesquisa (Eidos Object)" },
+    "construct_symbol": { "type": "string", "example": "R-NFT-ONS-001" },
+    "maturity_stage": {
+      "type": "string",
+      "enum": ["IDEA", "GLYPH", "HYPOTHESIS", "CONSTRUCT", "PROTOTYPE", "VALIDATED", "OPERATIONAL", "ECOSYSTEM"],
+      "description": "Estágio na trilha de maturidade do artefato (M0 a M7)"
+    },
+    "identity": {
+      "type": "object",
+      "required": ["name", "definition", "signature_hash"],
+      "properties": {
+        "name": { "type": "string", "example": "Research Object: Oráculo Neuro-Simbólico" },
+        "definition": { "type": "string", "example": "Unidade verificável de investigação do ONS" },
+        "signature_hash": { "type": "string", "description": "SHA-256 do manuscrito, corpus ou código fonte" }
+      }
+    },
+    "genealogy": {
+      "type": "object",
+      "required": ["parent_cids", "source_commits"],
+      "properties": {
+        "parent_cids": { "type": "array", "items": { "type": "string" } },
+        "source_commits": {
+          "type": "array",
+          "items": { "type": "string" },
+          "example": ["https://github.com/compilatorum/vc/commit/2eced05"]
+        }
+      }
+    },
+    "rights_profile": {
+      "type": "object",
+      "required": ["license_spdx", "attribution_required", "ai_agent_access", "royalty_bps"],
+      "properties": {
+        "license_spdx": { "type": "string", "example": "CC-BY-NC-4.0" },
+        "attribution_required": { "type": "boolean", "default": true },
+        "ai_agent_access": { "type": "string", "enum": ["OPEN", "MACHINE_PAYABLE", "WHITELIST"] },
+        "royalty_bps": { "type": "integer", "minimum": 0, "maximum": 10000, "example": 250 }
+      }
+    },
+    "execution_target": {
+      "type": "object",
+      "required": ["engine", "program_id", "bytecode_cid"],
+      "properties": {
+        "engine": { "type": "string", "example": "kairos_engine" },
+        "program_id": { "type": "string", "example": "6owAcXj4FxJom96cEX9CSFjGrg6zp4U8atTjrpCUMiW5" },
+        "bytecode_cid": { "type": "string" }
+      }
+    }
+  }
+}
