@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pitch Deck — ValueCurator Devnet E2E &amp; Tokenização Soberana (SPL Token-2022)</title>
+
+  <!-- Google Fonts CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Highlight.js CDN (Syntax Highlighting) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!-- MathJax 3 Config & CDN -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        typeset: false
+      }
+    };
+  </script>
+  <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" crossorigin="anonymous"></script>
+
+  <!-- Mermaid 10 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --bg-page: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-subtle: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #e2e8f0;
+      --accent-primary: #2563eb;
+      --accent-secondary: #10b981;
+      --accent-purple: #7c3aed;
+      --quote-bg: #eff6ff;
+      --quote-border: #3b82f6;
+      --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+    }
+
+    html[data-theme="dark"] {
+      --bg-page: #020617;
+      --bg-card: #0f172a;
+      --bg-subtle: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+      --accent-primary: #3b82f6;
+      --accent-secondary: #10b981;
+      --accent-purple: #8b5cf6;
+      --quote-bg: #1e293b;
+      --quote-border: #38bdf8;
+      --shadow-card: 0 12px 32px -4px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text-main);
+      background: var(--bg-page);
+      margin: 0;
+      padding: 0;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    /* Top Interactive Pitch Deck Toolbar */
+    .deck-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 24px;
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #334155;
+      color: #f8fafc;
+    }
+
+    .toolbar-left, .toolbar-center, .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .brand-logo {
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toolbar-btn {
+      background: #1e293b;
+      color: #f8fafc;
+      border: 1px solid #475569;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .toolbar-btn:hover {
+      background: #334155;
+      border-color: #64748b;
+    }
+
+    .toolbar-btn.active {
+      background: #2563eb;
+      border-color: #3b82f6;
+      color: #ffffff;
+    }
+
+    .slide-select {
+      background: #1e293b;
+      color: #f8fafc;
+      border: 1px solid #475569;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      max-width: 340px;
+    }
+
+    .progress-bar-wrap {
+      width: 100%;
+      height: 4px;
+      background: #1e293b;
+      position: fixed;
+      top: 53px;
+      left: 0;
+      z-index: 999;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      width: 8%;
+      transition: width 0.25s ease;
+    }
+
+    /* Main Container */
+    .deck-container {
+      max-width: 1180px;
+      margin: 32px auto 64px auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    /* Presentation Single-Slide Mode */
+    body.presentation-mode .deck-container {
+      max-width: 1280px;
+      margin: 20px auto;
+    }
+
+    body.presentation-mode .deck-slide {
+      display: none;
+      min-height: calc(100vh - 110px);
+    }
+
+    body.presentation-mode .deck-slide.active-slide {
+      display: block;
+      animation: fadeSlide 0.22s ease-out;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Slide Card Styling */
+    .deck-slide {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .slide-badge-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 32px;
+      background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%);
+      border-bottom: 2px solid #2563eb;
+      color: #e2e8f0;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .slide-pill {
+      background: #2563eb;
+      color: #ffffff;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .slide-brand {
+      color: #94a3b8;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+    }
+
+    .slide-inner {
+      padding: 32px 40px 40px 40px;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      color: var(--text-main);
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      border-bottom: 3px solid var(--accent-primary);
+      padding-bottom: 0.4em;
+      margin-top: 0;
+    }
+
+    h2 {
+      font-size: 1.65rem;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.35em;
+      margin-top: 0;
+      color: var(--accent-primary);
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      margin-top: 1.4em;
+      margin-bottom: 0.5em;
+    }
+
+    p {
+      margin: 0.6em 0 1em 0;
+    }
+
+    blockquote {
+      margin: 1.2em 0;
+      padding: 16px 22px;
+      background: var(--quote-bg);
+      border-left: 5px solid var(--quote-border);
+      border-radius: 0 10px 10px 0;
+      color: var(--text-main);
+      font-size: 0.98rem;
+    }
+
+    blockquote p {
+      margin: 0.3em 0;
+    }
+
+    ul, ol {
+      padding-left: 1.5em;
+      margin: 0.6em 0 1em 0;
+    }
+
+    li {
+      margin-bottom: 0.45em;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.4em 0;
+      font-size: 0.92rem;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--bg-subtle);
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    tr:nth-child(even) td {
+      background: rgba(148, 163, 184, 0.05);
+    }
+
+    /* Code & Pre */
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 16px 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      border: 1px solid #334155;
+      margin: 1.2em 0;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.86em;
+      background: var(--bg-subtle);
+      color: var(--accent-primary);
+      padding: 2px 6px;
+      border-radius: 5px;
+      border: 1px solid var(--border-color);
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+    }
+
+    /* Images & Screenshots */
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 1.4em auto;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    /* MathJax */
+    .math-display {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1.4em 0;
+      padding: 14px;
+      background: var(--bg-subtle);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      overflow-x: auto;
+    }
+
+    mjx-container svg {
+      max-width: 100% !important;
+      height: auto !important;
+    }
+
+    /* Mermaid Containers */
+    .mermaid-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin: 1.6em 0;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      overflow-x: auto;
+    }
+
+    .mermaid {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .mermaid svg {
+      max-width: 100% !important;
+      height: auto !important;
+    }
+
+    a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media print {
+      .deck-toolbar, .progress-bar-wrap {
+        display: none !important;
+      }
+      body, body.presentation-mode {
+        background: #ffffff !important;
+      }
+      .deck-slide, body.presentation-mode .deck-slide {
+        display: block !important;
+        box-shadow: none !important;
+        page-break-after: always;
+        break-after: page;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Interactive Pitch Deck Navigation Bar -->
+  <header class="deck-toolbar">
+    <div class="toolbar-left">
+      <div class="brand-logo">
+        <span>⚡ ValueCurator × Compilatorum</span>
+      </div>
+      <select id="slide-select" class="slide-select" aria-label="Selecionar Slide">
+        <option value="0">00 — Capa Executiva &amp; Índice</option>
+<option value="1">Slide 01 — Capa &amp; Tese Central: De &quot;Apenas Aprovação&quot; para &quot;Execução e Emissão Ponta-a-Ponta&quot;</option>
+<option value="2">Slide 02 — O Problema: O Gargalo &quot;Split-Cluster&quot; e a Limitação de Ativo Único</option>
+<option value="3">Slide 03 — A Virada de Chave: Ativos Exógenos (De Terceiros) vs. Ativos Endógenos (Gerados por Você)</option>
+<option value="4">Slide 04 — A Solução Arquitetural Dual-Mode: APPROVALONLY \oplus DEVNETE2E</option>
+<option value="5">Slide 05 — A Fábrica Soberana (mintresearchasset + SPL Token-2022)</option>
+<option value="6">Slide 06 — A Matemática do Swap Protegido (executedevnetstrategyswap)</option>
+<option value="7">Slide 07 — O Sistema Circulatório: Treasury PDA &amp; metabolizeyield (Split 15/85)</option>
+<option value="8">Slide 08 — O Protocolo Experimental: Carteira Owner vs. Carteira Cliente Testador</option>
+<option value="9">Slide 09 — Prova Visual Parte 1: Mandato &amp; Governança Soberana (EXP-01 a EXP-06)</option>
+<option value="10">Slide 10 — Prova Visual Parte 2: Portão Determinístico, Swap &amp; Auditoria Solscan (EXP-07 a EXP-12)</option>
+<option value="11">Slide 11 — Raio-X de Engenharia: O Que Construímos na Branch feat/devnet-e2e-tokenization-protocol</option>
+<option value="12">Slide 12 — Modelo de Negócios B2X, Roadmap de Implantação &amp; The Ask</option>
+      </select>
+    </div>
+
+    <div class="toolbar-center">
+      <button id="btn-prev" class="toolbar-btn" title="Slide Anterior (Seta Esquerda)">◀ Anterior</button>
+      <span id="slide-counter" style="font-size: 0.84rem; font-weight: 700; min-width: 90px; text-align: center;">
+        Slide 00 / 12
+      </span>
+      <button id="btn-next" class="toolbar-btn" title="Próximo Slide (Seta Direita)">Próximo ▶</button>
+    </div>
+
+    <div class="toolbar-right">
+      <button id="btn-mode" class="toolbar-btn" title="Alternar entre Modo Apresentação (Slide-a-Slide) e Modo Scroll Contínuo">
+        🖥️ Modo Slide-a-Slide
+      </button>
+      <button id="btn-theme" class="toolbar-btn" title="Alternar Tema Claro/Escuro">
+        🌙 Dark Mode
+      </button>
+      <button id="btn-fullscreen" class="toolbar-btn" title="Tela Cheia (Tecla F)">
+        ⛶ Tela Cheia
+      </button>
+      <button id="btn-print" class="toolbar-btn" onclick="window.print()" title="Imprimir ou Salvar como PDF">
+        🖨️ PDF
+      </button>
+    </div>
+  </header>
+
+  <div class="progress-bar-wrap">
+    <div id="progress-bar-fill" class="progress-bar-fill"></div>
+  </div>
+
+  <!-- Slides Container -->
+  <main class="deck-container" id="deck-container">
+    
+    <section class="deck-slide" id="slide-00" data-slide-index="0" data-slide-title="00 — Capa Executiva &amp; Índice">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 00 / 12</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Solana Devnet E2E</span>
+      </div>
+      <div class="slide-inner">
+        <h1>🎴 Pitch Deck Oficial (Sub-Projeto): ValueCurator Devnet E2E — Protocolo de Finanças Computacionais Programáticas, Emissão Soberana Token-2022 &amp; Liquidação Determinística de Swaps</h1>
+<blockquote>
+<p><strong>Sub-Projeto</strong>: <strong>ValueCurator Devnet E2E Engine &amp; Sovereign Artifact Foundry (<code>feat/devnet-e2e-tokenization-protocol</code>)</strong><br />
+<strong>Produto Base</strong>: <strong>ValueCurator / KAIROS Engine (<code>6owAcXj4FxJom96cEX9CSFjGrg6zp4U8atTjrpCUMiW5</code>)</strong><br />
+<strong>Trilhas Alvo</strong>: <strong>ICM Lab Solana (Darwin Startups) · Colosseum Accelerator · Autonomous AI &amp; DeSci / RWA Infrastructure</strong><br />
+<strong>Equipe Fundadora</strong>: <strong>Sandra Pereira</strong> (Mestre em Informática, PUC Minas) &amp; <strong>João Nitzsche</strong> (Engenharia de Computação, ITA)<br />
+<strong>Formato</strong>: Pitch Deck Executivo em 12 Slides com <strong>Resumo ELI5</strong>, <strong>Equações LaTeX</strong>, <strong>Diagramas Mermaid Coloridos</strong>, <strong>Evidências Visuais Anotadas (Playwright 12/12)</strong> e <strong>Script de Fala (Pitcher Script)</strong> para cada slide.</p>
+</blockquote>
+<hr />
+<h2>🗺️ Índice Executivo dos 12 Slides do Pitch Deck</h2>
+<ul>
+<li>🎴 <strong>Slide 01 — Capa &amp; Tese Central</strong>: <em>De &quot;Apenas Aprovação&quot; para &quot;Execução e Emissão Ponta-a-Ponta na Blockchain&quot;</em></li>
+<li>🎴 <strong>Slide 02 — O Problema (O Gargalo &quot;Split-Cluster&quot;)</strong>: <em>Por que Agentes de IA Travam entre a Leitura na Mainnet e o Cofre na Devnet?</em></li>
+<li>🎴 <strong>Slide 03 — A Virada de Chave (Ativos Exógenos vs. Endógenos)</strong>: <em>Comprar Ações de Terceiros vs. Tokenizar Seus Próprios Artefatos de Pesquisa</em></li>
+<li>🎴 <strong>Slide 04 — A Solução Arquitetural Dual-Mode</strong>: <em>O Motor Unificado <code>APPROVAL_ONLY</code> + <code>DEVNET_E2E</code> no KAIROS Engine</em></li>
+<li>🎴 <strong>Slide 05 — A Fábrica Soberana (<code>mint_research_asset</code> + Token-2022)</strong>: <em>Transformando Pesquisa e IA em Ativos <code>MACHINE_PAYABLE</code> (<code>EidosManifest v1.0</code>)</em></li>
+<li>🎴 <strong>Slide 06 — A Matemática do Swap Protegido (<code>execute_devnet_strategy_swap</code>)</strong>: <em>Como Liquidar Swaps na Devnet Sem Depender do Jupiter e Sem Risco de Slippage</em></li>
+<li>🎴 <strong>Slide 07 — O Sistema Circulatório (<code>Treasury PDA</code> &amp; <code>metabolize_yield</code>)</strong>: <em>O Ciclo Autoregenerativo &quot;Work <span class="math-inline">$\to$</span> Asset <span class="math-inline">$\to$</span> Capital <span class="math-inline">$\to$</span> More Work&quot; (Split 15/85)</em></li>
+<li>🎴 <strong>Slide 08 — O Protocolo Experimental (Owner vs. Cliente Testador)</strong>: <em>Desenho de Bancada em Finanças Computacionais Programáticas com Phantom &amp; Solscan</em></li>
+<li>🎴 <strong>Slide 09 — Prova Visual Parte 1 (Mandato &amp; Governança Soberana)</strong>: <em>Validação Automatizada Playwright (<code>EXP-01</code> a <code>EXP-06</code>) com Cliques Anotados</em></li>
+<li>🎴 <strong>Slide 10 — Prova Visual Parte 2 (Portão Determinístico, Swap &amp; Auditoria)</strong>: <em>Cortes Fail-Closed e Auditoria On-Chain (<code>EXP-07</code> a <code>EXP-12</code> — 100% Pass Rate)</em></li>
+<li>🎴 <strong>Slide 11 — O Que Mudou no Código (Rust + Agente TS + Next.js)</strong>: <em>Raio-X de Engenharia da Branch <code>feat/devnet-e2e-tokenization-protocol</code></em></li>
+<li>🎴 <strong>Slide 12 — Modelo de Negócios B2X, Roadmap &amp; The Ask</strong>: <em>De Bancada Experimental a Infraestrutura Padrão para Agentes e Criadores na Solana</em></li>
+</ul>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-01" data-slide-index="1" data-slide-title="Slide 01 — Capa &amp; Tese Central: De &quot;Apenas Aprovação&quot; para &quot;Execução e Emissão Ponta-a-Ponta&quot;">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 01 / 12</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Solana Devnet E2E</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 01 — Capa &amp; Tese Central: De &quot;Apenas Aprovação&quot; para &quot;Execução e Emissão Ponta-a-Ponta&quot;</h2>
+<h3>🎯 Proposta de Valor em 1 Frase</h3>
+<blockquote>
+<p><strong>&quot;O sub-projeto <code>Devnet E2E &amp; Tokenization Protocol</code> transforma o ValueCurator de um portão estático de leitura para um motor financeiro programático completo: capaz de cunhar artefatos próprios no padrão SPL Token-2022 e liquidar swaps determinísticos 100% on-chain na Solana Devnet sob governança estrita de duas carteiras (Owner vs. Operador).&quot;</strong></p>
+</blockquote>
+<h3>🧸 ELI5 (<em>Explicando como se você tivesse 5 anos</em>)</h3>
+<ul>
+<li><strong>Antes</strong>: Nosso robô olhava o preço da figurinha na vitrine do Shopping (<strong>Mainnet</strong>), imprimia um vale de papel (<code>APPROVAL_ONLY</code>) e parava ali.</li>
+<li><strong>Agora (Neste Sub-Projeto)</strong>: Nós demos ao Cofre do Dono (<strong>Node PDA</strong>) duas super-habilidades reais no Parquinho (<strong>Solana Devnet</strong>):
+<ol>
+<li>🖨️ <strong>Uma Impressora Oficial de Tokens (<code>mint_research_asset</code>)</strong> para transformar pesquisas, códigos e modelos em tokens <strong>Token-2022</strong> visíveis na carteira <strong>Phantom</strong>!</li>
+<li>💱 <strong>Uma Câmara de Câmbio Protegida (<code>execute_devnet_strategy_swap</code>)</strong> para trocar moedas de verdade na blockchain só quando o preço obedece à regra matemática do dono!</li>
+</ol>
+</li>
+</ul>
+<h3>📊 Métricas de Impacto Imediato da Branch</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Indicador Técnico do Sub-Projeto</th>
+<th style="text-align:center">Status Verificado na Branch</th>
+<th style="text-align:left">Evidência Auditável</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Novas Instruções Rust (<code>kairos_engine</code>)</strong></td>
+<td style="text-align:center">✅ <strong>2 Novas Instruções sBPF</strong></td>
+<td style="text-align:left"><code>mint_research_asset</code> + <code>execute_devnet_strategy_swap</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Padrão de Tokenização Nativo</strong></td>
+<td style="text-align:center">✅ <strong>SPL Token-2022 (<code>234 bytes</code>)</strong></td>
+<td style="text-align:left"><code>ExtensionType.MetadataPointer</code> + <code>TransferHook</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Bateria E2E Playwright Anotada</strong></td>
+<td style="text-align:center">✅ <strong>12 / 12 Passos Aprovados (100%)</strong></td>
+<td style="text-align:left"><code>playwright_protocol_e2e_report.json</code> (<code>26,38s</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Custo de Execução em Bancada</strong></td>
+<td style="text-align:center">✅ <strong>$0,00 USD (100% On-Chain Devnet)</strong></td>
+<td style="text-align:left">Inspecionável via Phantom Wallet &amp; Solscan Devnet</td>
+</tr>
+</tbody>
+</table>
+<h3>🎙️ Script de Apresentação (Pitcher Script — 0:00 a 0:30)</h3>
+<blockquote>
+<p><em>&quot;Olá a todos. Na versão base do ValueCurator, nós provamos que a IA pode aconselhar sem nunca tocar nas chaves privadas, parando em um recibo de aprovação porque a liquidez de ações tokenizadas como AAPLx vive na Mainnet enquanto nosso cofre roda na Devnet. Mas como evoluímos isso para testar finanças computacionais programáticas de ponta a ponta e governar também os ativos intelectuais que nós mesmos criamos? Apresentamos o sub-projeto ValueCurator Devnet E2E: a extensão que adiciona emissão soberana de artefatos Token-2022 e liquidação determinística de swaps 100% na Solana Devnet.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-02" data-slide-index="2" data-slide-title="Slide 02 — O Problema: O Gargalo &quot;Split-Cluster&quot; e a Limitação de Ativo Único">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 02 / 12</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Solana Devnet E2E</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 02 — O Problema: O Gargalo &quot;Split-Cluster&quot; e a Limitação de Ativo Único</h2>
+<h3>🚨 Os 3 Obstáculos que Este Sub-Projeto Resolve</h3>
+<ol>
+<li>🛑 <strong>O Abismo entre Clusters (<code>Mainnet Read</code> vs. <code>Devnet Custody</code>)</strong>:
+<ul>
+<li>Na arquitetura original do Stocklana, o agente lia Pyth e Jupiter na Mainnet, mas o contrato <code>6owAcX...MiW5</code> residia na Devnet.</li>
+<li>Como o Jupiter v6 (<code>JUP6Lkb...</code>) não possui piscinas de liquidez para RWAs na Devnet, o fluxo travava em <code>transactionSubmitted: false</code> (<code>APPROVAL_ONLY</code>).</li>
+</ul>
+</li>
+<li>🔒 <strong>Acoplamento Rígido a um Único Ativo de Terceiros (<code>AAPLx</code>)</strong>:
+<ul>
+<li>O verificador de mercado exigia um ativo emitido por terceiros (Backed Finance) com KYC bancário na Suíça, impedindo que pesquisadores, DAOs e desenvolvedores usassem o mesmo cofre para <strong>governar e tokenizar seus próprios ativos</strong>.</li>
+</ul>
+</li>
+<li>🧩 <strong>Falta de um Protocolo Experimental Reprodutível para Avaliadores</strong>:
+<ul>
+<li>Investidores e bancas técnicas (como Darwin ICM Lab e Colosseum) precisam conseguir conectar duas carteiras na <strong>Phantom Wallet</strong> (<strong>Owner</strong> e <strong>Cliente Testador</strong>), clicar passo a passo na tela e ver o saldo mudar no <strong>Solscan Devnet</strong>.</li>
+</ul>
+</li>
+</ol>
+<div class="mermaid-container"><div class="mermaid">
+flowchart LR
+    classDef old fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#ffffff
+    classDef blocker fill:#7f1d1d,stroke:#f87171,stroke-width:2px,stroke-dasharray: 5 5,color:#ffffff
+    classDef new fill:#14532d,stroke:#4ade80,stroke-width:2px,color:#ffffff
+
+    subgraph ANTES ["⚠️ ARQUITETURA BASE (SPLIT-CLUSTER)"]
+        M1["🌐 Mainnet Read<br/>(Pyth + Jupiter AAPLx)"]:::old --> G1["📋 Recibo Off-Chain<br/>(APPROVAL_ONLY)"]:::old
+        G1 -.-> B1["🛑 TRAVA: Sem Pool Jupiter na Devnet<br/>transactionSubmitted: false"]:::blocker
+    end
+
+    subgraph AGORA ["🚀 SUB-PROJETO DEVNET E2E (BRANCH EXPERIMENTAL)"]
+        M2["🔮 Oráculo Pyth Live +<br/>📜 Manifesto SHA-256"]:::new --> G2["🛡️ Portão ProofGate<br/>Modo: DEVNET_E2E"]:::new
+        G2 --> S2["⚡ Execução On-Chain Devnet!<br/>• mint_research_asset (Token-2022)<br/>• execute_devnet_strategy_swap"]:::new
+    end
+</div></div>
+<h3>🎙️ Script de Apresentação (Pitcher Script — 0:30 a 1:00)</h3>
+<blockquote>
+<p><em>&quot;Por que criamos este sub-projeto? Porque identificamos três dores claras nos testes de bancada: primeiro, o Jupiter não roteia ações tokenizadas na Devnet, o que obrigava nossa demonstração a parar antes de enviar a transação de swap. Segundo, não queremos que o ValueCurator governe apenas ações da Apple; queremos governar qualquer ativo, inclusive tokenizar os nossos próprios artefatos de pesquisa e software. Terceiro, precisávamos de um protocolo experimental onde qualquer avaliador pudesse operar com duas carteiras Phantom e auditar tudo no Solscan.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-03" data-slide-index="3" data-slide-title="Slide 03 — A Virada de Chave: Ativos Exógenos (De Terceiros) vs. Ativos Endógenos (Gerados por Você)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 03 / 12</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Solana Devnet E2E</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 03 — A Virada de Chave: Ativos Exógenos (De Terceiros) vs. Ativos Endógenos (Gerados por Você)</h2>
+<h3>🧭 A Descoberta Arquitetural que Muda o Jogo</h3>
+<p>Quando perguntamos <em>&quot;Qual é a melhor forma de rodar ponta-a-ponta na Devnet?&quot;</em>, a resposta depende de <strong>quem emite o ativo</strong>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Dimensão Estratégica</th>
+<th style="text-align:left">📈 Ramo 1: Ativos Exógenos (De Terceiros)</th>
+<th style="text-align:left">🧬 Ramo 2: Ativos Endógenos (Gerados por Nós)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Exemplos de Ativos</strong></td>
+<td style="text-align:left">Ações (<code>AAPLx</code>, <code>TSLAx</code>), Ouro, Títulos Públicos, <code>SOL</code></td>
+<td style="text-align:left"><strong>Research NFTs (<code>R-NFT-ONS-001</code>)</strong>, Modelos de IA, <em>Glyphs</em>, Licenças <code>B2Agent</code>, Royalties de P&amp;D</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Quem é o Emissor (<code>Mint Authority</code>)?</strong></td>
+<td style="text-align:left">Instituição externa na Mainnet (ex: Backed Finance / Circle)</td>
+<td style="text-align:left"><strong>O Próprio <code>Node PDA</code> do ValueCurator (<code>[b&quot;node&quot;, owner]</code>)!</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Como resolver na Devnet?</strong></td>
+<td style="text-align:left"><strong>Swap Determinístico contra Reserva (<code>execute_devnet_strategy_swap</code>)</strong> validado por <code>enforce_reference_price</code></td>
+<td style="text-align:left"><strong>Cunhagem Direta SPL Token-2022 (<code>mint_research_asset</code>)</strong> assinada via CPI pelo <code>Node PDA</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Equivalência Devnet <span class="math-inline">$\leftrightarrow$</span> Mainnet</strong></td>
+<td style="text-align:left">Na Mainnet aponta para o Jupiter CPI; na Devnet usa a Reserva do Cofre</td>
+<td style="text-align:left"><strong>100% Idêntica na Devnet e na Mainnet!</strong> Não depende de corretora externa nem de piscinas de terceiros!</td>
+</tr>
+</tbody>
+</table>
+<h3>🧸 ELI5</h3>
+<ul>
+<li>Para ativos dos outros (como ações da Apple), nosso cofre funciona como um <strong>Comprador Prudente</strong> que confere o preço no oráculo antes de trocar moedas.</li>
+<li>Para ativos que <strong>você mesmo cria</strong> (suas pesquisas e softwares), nosso cofre funciona como a <strong>Casa da Moeda Oficial</strong>, que só imprime o token quando a qualidade e a autoria foram provadas!</li>
+</ul>
+<h3>🎙️ Script de Apresentação (Pitcher Script — 1:00 a 1:30)</h3>
+<blockquote>
+<p><em>&quot;A grande sacada deste sub-projeto foi separar ativos exógenos — criados por terceiros, como AAPLx — de ativos endógenos, que nós mesmos geramos como pesquisadores e construtores. Quando o ativo é nosso, não precisamos simular nada nem depender de liquidez externa: o próprio Node PDA do ValueCurator atua como a Mint Authority exclusiva no padrão SPL Token-2022, tanto na Devnet quanto na Mainnet!&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-04" data-slide-index="4" data-slide-title="Slide 04 — A Solução Arquitetural Dual-Mode: APPROVALONLY \oplus DEVNETE2E">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 04 / 12</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Solana Devnet E2E</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 04 — A Solução Arquitetural Dual-Mode: <code>APPROVAL_ONLY</code> <span class="math-inline">$\oplus$</span> <code>DEVNET_E2E</code></h2>
+<h3>🎛️ O Operador de Comutação Topológica</h3>
+<p>Definimos o espaço de operação do <strong>ValueCurator</strong> com suporte nativo aos dois modos sem quebrar nenhuma garantia de segurança existente:</p>
+<div class="math-display">$$
+\mathbf{\Phi}_{\text{mode}} \in \big\{ \mathtt{APPROVAL\_ONLY}, \; \mathtt{DEVNET\_E2E} \big\}
+$$</div>
+<div class="mermaid-container"><div class="mermaid">
+flowchart TD
+    classDef owner fill:#701a75,stroke:#f0abfc,stroke-width:2px,color:#ffffff
+    classDef gate fill:#0f172a,stroke:#38bdf8,stroke-width:3px,color:#38bdf8
+    classDef mode1 fill:#78350f,stroke:#fbbf24,stroke-width:2px,color:#ffffff
+    classDef mode2 fill:#14532d,stroke:#4ade80,stroke-width:2px,color:#ffffff
+
+    MAND["👑 Owner Define Mandato Constitucional<br/>(Limites de Idade, Confiança, Desvio e Volume)"]:::owner
+    PROP["🤖 Agente Coleta Evidência (Pyth / Manifesto)<br/>e Calcula Proposta Imutável SHA-256"]:::gate
+    SIGN["✍️ Owner Assina Autorização Ed25519<br/>na Carteira Phantom"]:::owner
+
+    MAND --> PROP --> SIGN --> SWITCH{"🎛️ Seletor de Modo<br/>(UI Toggle / CLI Flag)"}:::gate
+
+    SWITCH -->|"Modo Padrão: APPROVAL_ONLY<br/>(Mainnet Read / Stocklana)"| M_APP["📜 Recibo Criptográfico Off-Chain<br/>transactionSubmitted: false<br/>Prova pura de autorização sem gasto de gás"]:::mode1
+
+    SWITCH -->|"Novo Modo: DEVNET_E2E<br/>(Sub-Projeto Experimental)"| M_DEV["⚡ Liquidação On-Chain na Solana Devnet<br/>1. post_reference_price (Owner)<br/>2. mint_research_asset (Token-2022)<br/>3. execute_devnet_strategy_swap (Operator)<br/>4. metabolize_yield (Split 15/85)"]:::mode2
+</div></div>
+<h3>🎙️ Script de Apresentação (Pitcher Script — 1:30 a 2:00)</h3>
+<blockquote>
+<p><em>&quot;Para preservar 100% da integridade da versão de produção e ao mesmo tempo destravar a execução completa na Devnet, implementamos uma arquitetura Dual-Mode. Pelo seletor visual na aba Gate ou via flag na CLI do agente, o usuário alterna entre o modo clássico Approval-Only e o novo modo Devnet E2E, que leva o recibo Ed25519 assinado pelo Owner diretamente até a liquidação no bloco da Solana Devnet.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-05" data-slide-index="5" data-slide-title="Slide 05 — A Fábrica Soberana (mintresearchasset + SPL Token-2022)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 05 / 12</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Solana Devnet E2E</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 05 — A Fábrica Soberana (<code>mint_research_asset</code> + SPL Token-2022)</h2>
+<h3>📜 Do Manifesto Epistêmico (<code>EidosManifest v1.0</code>) ao Token-2022 na Phantom Wallet</h3>
+<p>Neste sub-projeto, introduzimos o protocolo formal para transformar qualquer unidade de propriedade intelectual ou pesquisa científica em um <strong>Executable Semantic Asset (ESA)</strong> governado pelo ValueCurator:</p>
+<ol>
+<li><strong>Schema Canônico (<code>ResearchNFTManifest.schema.json</code>)</strong>:
+<ul>
+<li>Identifica o ativo por <code>eidos_id</code> (<code>eidos-ons-2026-0001-a8f9</code>), símbolo (<code>R-NFT-ONS-001</code>), estágio de maturidade (<code>IDEA</code> <span class="math-inline">$\to$</span> <code>VALIDATED</code> <span class="math-inline">$\to$</span> <code>OPERATIONAL</code>), genealogia (<code>parent_cids</code>, <code>source_commits</code>) e perfil de direitos para agentes de IA (<code>ai_agent_access: &quot;MACHINE_PAYABLE&quot;</code>, <code>royalty_bps: 250</code>).</li>
+</ul>
+</li>
+<li><strong>Conta Mint Token-2022 de <code>234 bytes</code> (<code>mint-research-nft.ts</code>)</strong>:
+<ul>
+<li>Utiliza a extensão nativa <code>ExtensionType.MetadataPointer</code> da Solana.</li>
+<li>Inicializa <code>createInitializeMetadataPointerInstruction</code> <strong>antes</strong> de <code>createInitializeMintInstruction</code>, cravando <code>MintAuthority = Vault Node PDA</code> (<code>4eB8jpCUYYeqLkG4PgtqiDC5vvtcN2bMoZYsDqyBe1BS</code>).</li>
+</ul>
+</li>
+<li><strong>Emissão Governada via CPI (<code>mint_research_asset.rs</code>)</strong>:
+<ul>
+<li>Somente quando o <code>operator</code> autorizado apresenta um manifesto válido ao contrato Rust, o <code>Node PDA</code> assina com suas seeds criptográficas (<code>invoke_signed</code>) a chamada <code>token_2022::mint_to</code> e emite o evento auditável <code>ResearchAssetMintedEvent</code> no bloco!</li>
+</ul>
+</li>
+</ol>
+<h3>🎙️ Script de Apresentação (Pitcher Script — 2:00 a 2:30)</h3>
+<blockquote>
+<p><em>&quot;Vejam como funciona a nossa fábrica soberana de ativos: primeiro empacotamos o artefato de pesquisa em um manifesto JSON Schema que define seus direitos de acesso por máquinas — como 2,5% de royalties em modo Machine-Payable. Em seguida, criamos um Mint SPL Token-2022 com extensão MetadataPointer onde a única autoridade capaz de cunhar novas unidades é o próprio Node PDA do cofre. Quando a política aprova, a instrução Rust mint_research_asset assina via CPI e entrega o token direto na carteira Phantom do destinatário.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-06" data-slide-index="6" data-slide-title="Slide 06 — A Matemática do Swap Protegido (executedevnetstrategyswap)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 06 / 12</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Solana Devnet E2E</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 06 — A Matemática do Swap Protegido (<code>execute_devnet_strategy_swap</code>)</h2>
+<h3>📐 Como Garantimos Derrapagem Controlada e Zero Dependência de Pools Externas na Devnet</h3>
+<p>Antes de movimentar um único micro-centavo no swap, o módulo <code>math.rs</code> do contrato executa a verificação determinística em inteiros de <code>128 bits</code> (<code>u128</code>):</p>
+<div class="math-display">$$
+\hat{P}_{\text{exec}} = \left\lfloor \frac{A_{\text{in}} \times 10^{d_{\text{out}}} \times 10^6 \times 10^9}{M_{\text{out}} \times 10^{d_{\text{in}}} \times \mu_{\text{nano}}} \right\rfloor \quad \Longrightarrow \quad \Delta_{\text{bps}} = \left\lfloor \frac{\big| P_{\text{ref}} - \hat{P}_{\text{exec}} \big| \times 10.000}{P_{\text{ref}}} \right\rfloor \le \delta_{\max}
+$$</div>
+<div class="mermaid-container"><div class="mermaid">
+sequenceDiagram
+    autonumber
+    participant Op as 🧑‍🔬 Carteira Testador (Operador)
+    participant Kairos as 🦀 execute_devnet_strategy_swap
+    participant InVault as 🏦 Input Vault (dUSDC)
+    participant TreasRes as 🏛️ Treasury Reserve Vault
+    participant OutVault as 🪙 Output Vault (Token-2022)
+
+    Op->>Kairos: 1. Propõe Swap (amount_in = 100 USDC, minimum_amount_out)
+    Kairos->>Kairos: 2. Lê ReferencePrice PDA (postado pelo Owner)
+    Kairos->>Kairos: 3. Calcula implied_executable_price_micros() e enforce_reference_price()
+    alt Desvio > maximum_deviation_bps (ex: > 200 bps)
+        Kairos-->>Op: ❌ REVERTE COM PriceDeviationExceeded (Zero Tokens Movidos!)
+    else Desvio ≤ maximum_deviation_bps (Aprovado!)
+        Kairos->>InVault: 4. CPI transfer_checked: Debita exatos 100 dUSDC
+        InVault->>TreasRes: 5. Reserva colateral na Tesouraria
+        Kairos->>OutVault: 6. CPI token_2022::mint_to: Credita minimum_amount_out do Ativo
+        Kairos->>Kairos: 7. Recarrega saldos (reload) e verifica invariante pós-swap
+        Kairos-->>Op: ✅ Emite StrategySwapEvent confirmado na Solana Devnet!
+    end
+</div></div>
+<h3>🎙️ Script de Apresentação (Pitcher Script — 2:30 a 3:00)</h3>
+<blockquote>
+<p><em>&quot;E como resolvemos o swap na Devnet sem depender do Jupiter? Criamos a instrução execute_devnet_strategy_swap. Ela passa exatamente pelo mesmo guarda-costas matemático em Rust — a função enforce_reference_price — que calcula o pior preço implícito em aritmética de 128 bits e o compara com o preço de referência publicado pelo Owner. Se desviar mais que 2%, a transação reverte com PriceDeviationExceeded. Se passar, ela transfere o colateral para a reserva e cunha o ativo estratégico Token-2022 atomicamente na conta de saída.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-07" data-slide-index="7" data-slide-title="Slide 07 — O Sistema Circulatório: Treasury PDA &amp; metabolizeyield (Split 15/85)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 07 / 12</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Solana Devnet E2E</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 07 — O Sistema Circulatório: <code>Treasury PDA</code> &amp; <code>metabolize_yield</code> (Split 15/85)</h2>
+<h3>🩸 Por que a Tesouraria é o Coração Autoregenerativo do Ecossistema?</h3>
+<ol>
+<li><strong>A Regra de Ouro do <code>metabolize_yield</code></strong>:
+<ul>
+<li>A instrução <code>metabolize_yield</code> <strong>nunca toca no capital principal</strong> guardado no cofre; ela processa <strong>exclusivamente os rendimentos (yields) e royalties</strong> recebidos pela operação!</li>
+<li>O capital principal permanece <span class="math-inline">$100\%$</span> protegido e resgatável em <span class="math-inline">$\sim 400\text{ ms}$</span> exclusivamente pela carteira do <strong>Owner</strong> via <code>emergency_withdraw</code>.</li>
+</ul>
+</li>
+<li><strong>A Partilha Constitucional Automática (<code>15% / 85%</code>)</strong>:
+<ul>
+<li><strong>85% (<code>Reinvested Vault</code>)</strong>: Vai direto para o cofre soberano do criador/investidor (<code>Node PDA</code>), aumentando seu patrimônio líquido.</li>
+<li><strong>15% (<code>Treasury PDA — Research Stream</code>)</strong>: Alimenta o sistema circulatório do projeto — custeando infraestrutura de nós (oráculos, RPCs), reserva de amortecimento e financiamento de novos ciclos de pesquisa (<em>&quot;Work <span class="math-inline">$\to$</span> Asset <span class="math-inline">$\to$</span> Capital <span class="math-inline">$\to$</span> More Work&quot;</em>).</li>
+</ul>
+</li>
+</ol>
+<div class="mermaid-container"><div class="mermaid">
+flowchart LR
+    classDef yield fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#ffffff
+    classDef split fill:#0f172a,stroke:#38bdf8,stroke-width:3px,color:#38bdf8
+    classDef vault fill:#14532d,stroke:#4ade80,stroke-width:2px,color:#ffffff
+    classDef treas fill:#78350f,stroke:#fbbf24,stroke-width:2px,color:#ffffff
+
+    IN["💰 Rendimentos de Estratégia &<br/>Royalties B2Agent (250 bps)"]:::yield --> MET["⚙️ metabolize_yield<br/>(split_yield em math.rs)"]:::split
+    MET -->|"85% Líquido"| V["🔒 Node PDA Vault (Owner)<br/>Patrimônio Soberano Protegido<br/>(emergency_withdraw em 400ms)"]:::vault
+    MET -->|"15% Taxa Metabólica"| T["🏛️ Treasury PDA (Research Stream)<br/>• Financia Novos Research NFTs<br/>• Paga Infraestrutura RPC/Pyth<br/>• Grants & Governança DAO"]:::treas
+    T -.->|"Work → Asset → Capital → More Work"| IN
+</div></div>
+<h3>🎙️ Script de Apresentação (Pitcher Script — 3:00 a 3:30)</h3>
+<blockquote>
+<p><em>&quot;Quando outros agentes de IA pagam royalties para consumir nossos Research NFTs ou quando uma estratégia gera lucro, entra em ação a instrução metabolize_yield. Ela nunca toca no montante principal do usuário: ela opera apenas sobre os rendimentos, enviando 85% para o cofre soberano do dono e 15% para a Tesouraria, que financia novos ciclos de pesquisa e infraestrutura num loop econômico autoregenerativo.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-08" data-slide-index="8" data-slide-title="Slide 08 — O Protocolo Experimental: Carteira Owner vs. Carteira Cliente Testador">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 08 / 12</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Solana Devnet E2E</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 08 — O Protocolo Experimental: Carteira Owner vs. Carteira Cliente Testador</h2>
+<h3>🧑‍🔬 Desenho Experimental Reprodutível com Phantom Wallet &amp; Solscan</h3>
+<p>Para comprovar cientificamente a separação de poderes (<em>Sovereignty vs. Operational Agency</em>), estruturamos o protocolo experimental com <strong>dois atores operando na Phantom Wallet (Solana Devnet)</strong>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Ator Experimental</th>
+<th style="text-align:left">Chave / Papel On-Chain</th>
+<th style="text-align:left">Ações Permitidas no Experimento</th>
+<th style="text-align:left">O Que Acontece se Tentar Abusar?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>👑 Carteira 1: Owner (Governança)</strong></td>
+<td style="text-align:left"><code>node.owner</code> (<code>48x8TR...aDUq</code>)</td>
+<td style="text-align:left">• Inicializar o Nó (<code>initialize_node</code>)<br/>• Configurar o Mandato (<code>02 Mandate</code>)<br/>• Publicar Preço Base (<code>post_reference_price</code>)<br/>• Assinar Aprovação (<code>Sign approval</code> Ed25519)<br/>• Saque de Emergência (<code>emergency_withdraw</code>)</td>
+<td style="text-align:left">Não pode ser a mesma chave do <code>operator</code> (<code>InvalidOperator</code> no <code>initialize_node</code>!).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>🧑‍🔬 Carteira 2: Cliente Testador (Operador)</strong></td>
+<td style="text-align:left"><code>node.operator</code> (Hot Key Revogável)</td>
+<td style="text-align:left">• Rodar Simulações no Gate (<code>03 Gate</code>)<br/>• Disparar <code>metabolize_yield</code> (15/85)<br/>• Disparar <code>assert_executable_price</code> / <code>execute_devnet_strategy_swap</code><br/>• Disparar <code>mint_research_asset</code></td>
+<td style="text-align:left">• Se outra carteira tentar operar: bloqueio on-chain <strong><code>UnauthorizedOperator</code></strong>.<br/>• Se propor preço fora de <span class="math-inline">$2\%$</span>: bloqueio on-chain <strong><code>PriceDeviationExceeded</code></strong>.<br/>• Nunca consegue sacar do cofre!</td>
+</tr>
+</tbody>
+</table>
+<h3>🎙️ Script de Apresentação (Pitcher Script — 3:30 a 4:00)</h3>
+<blockquote>
+<p><em>&quot;Nosso protocolo experimental coloca duas carteiras Phantom frente a frente na Devnet: a carteira do Owner, que detém a soberania do capital e define os limites constitucionais, e a carteira do Cliente Testador, que atua como operador quente. Mesmo que a chave do operador seja comprometida ou controlada por uma IA alucinada, ela é matematicamente incapaz de sacar fundos ou executar um swap fora da banda de 2% definida pelo Owner.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-09" data-slide-index="9" data-slide-title="Slide 09 — Prova Visual Parte 1: Mandato &amp; Governança Soberana (EXP-01 a EXP-06)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 09 / 12</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Solana Devnet E2E</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 09 — Prova Visual Parte 1: Mandato &amp; Governança Soberana (<code>EXP-01</code> a <code>EXP-06</code>)</h2>
+<h3>📸 Evidências Automatizadas Playwright com Indicação Visual de Clique (<code>1280x900</code>)</h3>
+<p>Nossa suíte automatizada (<code>run_experimental_protocol_playwright.py</code>) executou e anotou visualmente cada clique da jornada do <strong>Owner</strong> e do <strong>Cliente Testador</strong>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Etapa</th>
+<th style="text-align:left">Printscreen Anotado &amp; Alvo de Clique</th>
+<th style="text-align:left">O Que Foi Provado na Execução</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong><code>EXP-01</code> &amp; <code>EXP-02</code></strong></td>
+<td style="text-align:left"><img src="screenshots/exp_step_01_wallet_phantom.png" alt="EXP-01" /></td>
+<td style="text-align:left"><strong>Conexão Phantom &amp; Estado Devnet</strong>: O painel identifica o cluster <code>api.devnet.solana.com</code>, expõe o seletor da Phantom Wallet e exibe os links diretos para o <code>ReferencePrice PDA</code> e <code>Node PDA</code> no Explorer.</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong><code>EXP-04</code></strong></td>
+<td style="text-align:left"><img src="screenshots/exp_step_04_mandate_risk_limits.png" alt="EXP-04" /></td>
+<td style="text-align:left"><strong>Parametrização Constitucional (<code>Risk limits</code>)</strong>: O Owner define limites legíveis por humanos (<code>100 USDC/trade</code>, <code>500 USDC/dia</code>, idade máxima <code>30s</code>, desvio máximo <code>200 bps</code>), convertidos automaticamente para inteiros <code>micros</code> e <code>bps</code>.</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong><code>EXP-06</code></strong></td>
+<td style="text-align:left"><img src="screenshots/exp_step_06_mandate_canonical_review.png" alt="EXP-06" /></td>
+<td style="text-align:left"><strong>Validação Server-Side &amp; Hash SHA-256 (<code>Review &amp; export</code>)</strong>: Ao clicar em <code>Validate on server</code>, o backend valida o contrato e gera o digest criptográfico imutável do mandato (<code>Server validated</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3>🎙️ Script de Apresentação (Pitcher Script — 4:00 a 4:30)</h3>
+<blockquote>
+<p><em>&quot;Nestas capturas reais geradas pela nossa suíte Playwright, vemos as primeiras seis etapas do protocolo: o Owner conecta sua Phantom Wallet na Devnet, inspeciona os PDAs no Explorer, entra no Mandate Builder, ajusta os sliders de risco para 30 segundos de idade máxima e 200 basis points de desvio, e sela o mandato no servidor gerando um hash SHA-256 imutável.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-10" data-slide-index="10" data-slide-title="Slide 10 — Prova Visual Parte 2: Portão Determinístico, Swap &amp; Auditoria Solscan (EXP-07 a EXP-12)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 10 / 12</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Solana Devnet E2E</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 10 — Prova Visual Parte 2: Portão Determinístico, Swap &amp; Auditoria Solscan (<code>EXP-07</code> a <code>EXP-12</code>)</h2>
+<h3>🛡️ Testando a Aprovação Nominal e os Cortes Fail-Closed em Tempo Real (<code>12/12 PASSED</code>)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Etapa</th>
+<th style="text-align:left">Printscreen Anotado &amp; Alvo de Clique</th>
+<th style="text-align:left">Resultado Experimental Verificado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong><code>EXP-08</code> (Nominal)</strong></td>
+<td style="text-align:left"><img src="screenshots/exp_step_08_gate_safe_approved.png" alt="EXP-08" /></td>
+<td style="text-align:left"><strong>Cenário 1 (<code>Safe · APPROVED</code>)</strong>: Quando a idade do Pyth (<span class="math-inline">$\le 30\text{s}$</span>), confiança (<span class="math-inline">$\le 100\text{ bps}$</span>) e desvio do swap (<span class="math-inline">$\le 200\text{ bps}$</span>) passam, todos os 4 invariantes exibem <code>PASS</code> e a proposta fica pronta para assinatura Ed25519 e liquidação <code>DEVNET_E2E</code>.</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong><code>EXP-09</code> &amp; <code>EXP-10</code> (Adversarial)</strong></td>
+<td style="text-align:left"><img src="screenshots/exp_step_10_gate_divergence_blocked.png" alt="EXP-10" /></td>
+<td style="text-align:left"><strong>Cenários 2 e 3 (<code>Block · stale</code> &amp; <code>Block · divergence</code>)</strong>: Quando o oráculo atrasa ou o preço do swap desvia mais de <span class="math-inline">$2\%$</span>, o portão corta a execução instantaneamente em modo <strong>Fail-Closed (<code>BLOCKED</code>)</strong>, espelhando a reversão on-chain <code>PriceDeviationExceeded</code>!</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong><code>EXP-12</code> (Auditoria Solscan)</strong></td>
+<td style="text-align:left"><img src="screenshots/exp_step_12_audit_devnet_signatures.png" alt="EXP-12" /></td>
+<td style="text-align:left"><strong>Auditoria Completa (<code>04 Audit</code>)</strong>: Exibe o relatório consolidado <code>Before / After</code>, a divisão metabólica <code>15% Treasury / 85% Vault</code> e as 5 assinaturas de transações confirmadas na Solana Devnet inspecionáveis em 1 clique!</td>
+</tr>
+</tbody>
+</table>
+<h3>🎙️ Script de Apresentação (Pitcher Script — 4:30 a 5:00)</h3>
+<blockquote>
+<p><em>&quot;Na segunda metade do protocolo, o Cliente Testador coloca o Portão à prova na aba Gate: no cenário seguro, os quatro cálculos inteiros passam e liberam a aprovação. Mas basta simular um oráculo atrasado ou uma derrapagem de preço acima de 2% no swap para o sistema travar em vermelho com status BLOCKED, sem construir transação e sem gastar cota diária. Por fim, na aba Audit, conferimos o split 15/85 e abrimos cada transação diretamente no Solscan Devnet.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-11" data-slide-index="11" data-slide-title="Slide 11 — Raio-X de Engenharia: O Que Construímos na Branch feat/devnet-e2e-tokenization-protocol">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 11 / 12</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Solana Devnet E2E</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 11 — Raio-X de Engenharia: O Que Construímos na Branch <code>feat/devnet-e2e-tokenization-protocol</code></h2>
+<h3>💻 Arquitetura Limpa, Retrocompatível e Pronta para Produção</h3>
+<div class="mermaid-container"><div class="mermaid">
+classDiagram
+    class KairosEngineRust {
+        +initialize_node()
+        +metabolize_yield()
+        +post_reference_price()
+        +assert_executable_price()
+        +execute_strategy_swap()
+        +execute_devnet_strategy_swap() 🆕
+        +mint_research_asset() 🆕
+        +emergency_withdraw()
+    }
+
+    class MetabolicAgentTS {
+        +ExecutionMode: APPROVAL_ONLY | DEVNET_E2E 🆕
+        +createExecutionProposal(executionMode) 🆕
+        +verifyApprovalReceipt() 🆕
+        +execute-devnet.ts (CLI Executor) 🆕
+    }
+
+    class NextJsDashboardUI {
+        +ExecutionProposalCard (Toggle DEVNET_E2E) 🆕
+        +MarketEvidenceCard (4 Integer Traces)
+        +MandateBuilder (Canonical SHA-256)
+        +AuditView (Solscan Devnet Feed)
+    }
+
+    class ResearchNFTLab {
+        +ResearchNFTManifest.schema.json 🆕
+        +sample-research-nft.manifest.json 🆕
+        +mint-research-nft.ts (Token-2022 234B) 🆕
+        +experiment-output.json 🆕
+    }
+
+    NextJsDashboardUI --> MetabolicAgentTS : Dispara Cenários & Assinatura Ed25519
+    MetabolicAgentTS --> KairosEngineRust : Invoca Instruções na Solana Devnet
+    ResearchNFTLab --> KairosEngineRust : Pré-Tokeniza Ativos SPL Token-2022
+</div></div>
+<ul>
+<li>🦀 <strong>Rust / Anchor (<code>apps/web/programs/kairos-engine</code>)</strong>: Adicionadas <code>mint_research_asset.rs</code> e <code>execute_devnet_strategy_swap.rs</code>, além do evento <code>ResearchAssetMintedEvent</code> e erro <code>InvalidEidosId</code>.</li>
+<li>🤖 <strong>Backend / Agente (<code>apps/web/agent</code>)</strong>: Atualizados <code>execution-proposal.ts</code> e <code>approval-receipt.ts</code> para suportar <code>DEVNET_E2E</code> (com <code>pyth-hermes</code> ou <code>pyth-pro</code>) e criado o script <code>execute-devnet.ts</code> (<code>pnpm --dir apps/web/agent execute:devnet</code>).</li>
+<li>🖥️ <strong>Frontend (<code>apps/web/components</code>) &amp; Testes (<code>run_experimental_protocol_playwright.py</code>)</strong>: Botão <code>Switch to Devnet E2E</code> no cartão de proposta e runner Playwright automatizado com desenho vetorial de setas e callouts.</li>
+</ul>
+<h3>🎙️ Script de Apresentação (Pitcher Script — 5:00 a 5:30)</h3>
+<blockquote>
+<p><em>&quot;Todo esse protocolo já está implementado e publicado na branch feat/devnet-e2e-tokenization-protocol do repositório valuecurator. Adicionamos duas novas instruções em Rust no programa Anchor, expandimos os contratos do agente TypeScript para operar em modo Devnet E2E com Pyth Hermes gratuito, colocamos o seletor de modo na interface Next.js e automatizamos os 12 passos em Playwright.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-12" data-slide-index="12" data-slide-title="Slide 12 — Modelo de Negócios B2X, Roadmap de Implantação &amp; The Ask">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 12 / 12</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Solana Devnet E2E</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 12 — Modelo de Negócios B2X, Roadmap de Implantação &amp; The Ask</h2>
+<h3>🚀 Como Este Sub-Projeto Destrava Novas Verticais de Receita para o ValueCurator</h3>
+<ol>
+<li><strong>Expansão do TAM (De &quot;Cofre de Ações&quot; para &quot;Governança Universal de Agentes e Criadores&quot;)</strong>:
+<ul>
+<li><strong>B2C / Investidores Soberanos</strong>: Assinatura de <strong>$1 USDC / nó / mês</strong> para blindar carteiras que operam RWAs e ativos DeFi via agentes.</li>
+<li><strong>B2A (Business-to-Agent) &amp; DeSci / Pesquisa</strong>: Taxa metabólica de <strong>15% (<code>infrastructure_fee_bps = 1500</code>)</strong> via <code>metabolize_yield</code> sobre royalties pagos por agentes de IA (<code>MACHINE_PAYABLE</code>) que consomem <strong>Research NFTs</strong> e modelos tokenizados pelo nosso protocolo!</li>
+<li><strong>B2D / Tesourarias de DAOs e Institutos</strong>: Governança determinística de fundos de P&amp;D com emissão auditável de artefatos no padrão <strong>SPL Token-2022</strong>.</li>
+</ul>
+</li>
+</ol>
+<h3>🗺️ Próximos Passos (Roadmap de 90 Dias)</h3>
+<ul>
+<li><strong>Mês 1 (Concluído nesta Branch)</strong>: Especificação formal, laboratório Token-2022 (<code>R-NFT-ONS-001</code>), instruções Rust <code>mint_research_asset</code> + <code>execute_devnet_strategy_swap</code> e bateria Playwright 12/12.</li>
+<li><strong>Mês 2 (Piloto com Usuários &amp; Darwin ICM Lab)</strong>: Rodadas de teste assistido com 10 pesquisadores e gestores usando Phantom Wallet na Devnet; coleta de métricas no <code>/interview</code>.</li>
+<li><strong>Mês 3 (Auditoria Formal &amp; Mainnet Gradual)</strong>: Auditoria independente do programa Anchor expandido e ativação de cofres de produção para artefatos autorais e RWAs.</li>
+</ul>
+<h3>🤝 The Ask (O Nosso Pedido à Banca)</h3>
+<ul>
+<li><strong>Parceria Estratégica &amp; Mentoria no ICM Lab Solana / Colosseum</strong>: Validação do nosso protocolo de governança multi-ativo junto a emissores institucionais de RWAs e comunidades de pesquisa em IA.</li>
+<li><strong>Acesso direto ao código e às provas</strong>:
+<ul>
+<li>🌐 <strong>App Público</strong>: <a href="https://www.valuecurator.xyz">https://www.valuecurator.xyz</a></li>
+<li>🌿 <strong>Branch do Sub-Projeto</strong>: <code>feat/devnet-e2e-tokenization-protocol</code> em <code>smp-sandramariapereira/valuecurator</code></li>
+<li>🔍 <strong>Programa na Solana Devnet</strong>: <a href="https://explorer.solana.com/address/6owAcXj4FxJom96cEX9CSFjGrg6zp4U8atTjrpCUMiW5?cluster=devnet"><code>6owAcXj4FxJom96cEX9CSFjGrg6zp4U8atTjrpCUMiW5</code></a></li>
+</ul>
+</li>
+</ul>
+<h3>🎙️ Script de Apresentação Final (Pitcher Script — 5:30 a 6:00)</h3>
+<blockquote>
+<p><em>&quot;Com este sub-projeto, o ValueCurator prova que a mesma infraestrutura determinística que protege um investidor ao comprar uma ação tokenizada na Solana também permite que cientistas, desenvolvedores e DAOs tokenizem seus próprios artefatos no padrão Token-2022 e governem agentes de IA do início ao fim. A IA aconselha, a evidência prova, a política autoriza e o dono governa o capital. Muito obrigado!&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+  </main>
+
+  <script>
+    // Render Mermaid Diagrams, MathJax Equations, and Code Highlighting via CDN
+    window.renderDiagramsAndMath = async function() {
+      try {
+        if (window.hljs) {
+          window.hljs.highlightAll();
+        }
+
+        if (window.mermaid) {
+          window.mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+            sequence: { useMaxWidth: true, showSequenceNumbers: true, actorMargin: 40 }
+          });
+
+          const mermaidNodes = document.querySelectorAll('.mermaid');
+          if (mermaidNodes.length > 0) {
+            await window.mermaid.run({ nodes: mermaidNodes });
+          }
+        }
+
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          await window.MathJax.typesetPromise();
+        }
+
+        return {
+          success: true,
+          mermaidSvgCount: document.querySelectorAll('.mermaid svg').length,
+          mathJaxCount: document.querySelectorAll('mjx-container').length
+        };
+      } catch (err) {
+        console.error('Erro ao renderizar diagramas/equações:', err);
+        return { success: false, error: err.toString() };
+      }
+    };
+
+    // Interactive Slide Deck Controller
+    (function() {
+      const slides = Array.from(document.querySelectorAll('.deck-slide'));
+      const totalSlides = slides.length;
+      const selectEl = document.getElementById('slide-select');
+      const counterEl = document.getElementById('slide-counter');
+      const progressEl = document.getElementById('progress-bar-fill');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnMode = document.getElementById('btn-mode');
+      const btnTheme = document.getElementById('btn-theme');
+      const btnFullscreen = document.getElementById('btn-fullscreen');
+
+      let currentSlide = 0;
+      let presentationMode = false;
+
+      function updateSlideUI(scrollIntoView = true) {
+        slides.forEach((s, idx) => {
+          s.classList.toggle('active-slide', idx === currentSlide);
+        });
+        selectEl.value = String(currentSlide);
+        counterEl.textContent = `Slide ${String(currentSlide).padStart(2, '0')} / ${String(totalSlides - 1).padStart(2, '0')}`;
+        const pct = ((currentSlide + 1) / totalSlides) * 100;
+        progressEl.style.width = `${pct}%`;
+
+        if (!presentationMode && scrollIntoView) {
+          slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if (presentationMode) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+
+      btnPrev.addEventListener('click', () => {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateSlideUI(true);
+      });
+
+      btnNext.addEventListener('click', () => {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateSlideUI(true);
+      });
+
+      selectEl.addEventListener('change', (e) => {
+        currentSlide = parseInt(e.target.value, 10) || 0;
+        updateSlideUI(true);
+      });
+
+      btnMode.addEventListener('click', () => {
+        presentationMode = !presentationMode;
+        document.body.classList.toggle('presentation-mode', presentationMode);
+        btnMode.classList.toggle('active', presentationMode);
+        btnMode.textContent = presentationMode ? '📜 Modo Scroll Contínuo' : '🖥️ Modo Slide-a-Slide';
+        updateSlideUI(false);
+      });
+
+      btnTheme.addEventListener('click', () => {
+        const htmlEl = document.documentElement;
+        const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+        htmlEl.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        btnTheme.textContent = isDark ? '🌙 Dark Mode' : '☀️ Light Mode';
+      });
+
+      btnFullscreen.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      });
+
+      // Keyboard Shortcuts (ArrowRight, ArrowLeft, F)
+      window.addEventListener('keydown', (e) => {
+        if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+          if (presentationMode) {
+            e.preventDefault();
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlideUI(true);
+          }
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          if (presentationMode) {
+            e.preventDefault();
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlideUI(true);
+          }
+        } else if (e.key === 'f' || e.key === 'F') {
+          btnFullscreen.click();
+        }
+      });
+
+      // Update active slide indicator on scroll when in continuous mode
+      window.addEventListener('scroll', () => {
+        if (presentationMode) return;
+        const scrollPos = window.scrollY + 180;
+        for (let i = slides.length - 1; i >= 0; i--) {
+          if (slides[i].offsetTop <= scrollPos) {
+            currentSlide = i;
+            selectEl.value = String(currentSlide);
+            counterEl.textContent = `Slide ${String(currentSlide).padStart(2, '0')} / ${String(totalSlides - 1).padStart(2, '0')}`;
+            progressEl.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            break;
+          }
+        }
+      }, { passive: true });
+
+      updateSlideUI(false);
+    })();
+
+    window.addEventListener('load', () => {
+      window.renderDiagramsAndMath();
+    });
+  </script>
+</body>
+</html>
