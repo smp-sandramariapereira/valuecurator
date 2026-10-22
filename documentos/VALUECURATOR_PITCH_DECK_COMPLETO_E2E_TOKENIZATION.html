@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pitch Deck Institucional Completo v2.0 — ValueCurator × Compilatorum (Devnet E2E &amp; SPL Token-2022)</title>
+
+  <!-- Google Fonts CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Highlight.js CDN (Syntax Highlighting) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!-- MathJax 3 Config & CDN -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        typeset: false
+      }
+    };
+  </script>
+  <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" crossorigin="anonymous"></script>
+
+  <!-- Mermaid 10 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --bg-page: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-subtle: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #e2e8f0;
+      --accent-primary: #2563eb;
+      --accent-secondary: #10b981;
+      --accent-purple: #7c3aed;
+      --quote-bg: #eff6ff;
+      --quote-border: #3b82f6;
+      --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+    }
+
+    html[data-theme="dark"] {
+      --bg-page: #020617;
+      --bg-card: #0f172a;
+      --bg-subtle: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+      --accent-primary: #3b82f6;
+      --accent-secondary: #10b981;
+      --accent-purple: #8b5cf6;
+      --quote-bg: #1e293b;
+      --quote-border: #38bdf8;
+      --shadow-card: 0 12px 32px -4px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text-main);
+      background: var(--bg-page);
+      margin: 0;
+      padding: 0;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    /* Top Interactive Pitch Deck Toolbar */
+    .deck-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 24px;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #334155;
+      color: #f8fafc;
+    }
+
+    .toolbar-left, .toolbar-center, .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .brand-logo {
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-tag {
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      color: #fff;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .toolbar-btn {
+      background: #1e293b;
+      color: #f8fafc;
+      border: 1px solid #475569;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .toolbar-btn:hover {
+      background: #334155;
+      border-color: #64748b;
+    }
+
+    .toolbar-btn.active {
+      background: #2563eb;
+      border-color: #3b82f6;
+      color: #ffffff;
+    }
+
+    .slide-select {
+      background: #1e293b;
+      color: #f8fafc;
+      border: 1px solid #475569;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      max-width: 360px;
+    }
+
+    .progress-bar-wrap {
+      width: 100%;
+      height: 4px;
+      background: #1e293b;
+      position: fixed;
+      top: 53px;
+      left: 0;
+      z-index: 999;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #10b981, #8b5cf6);
+      width: 6%;
+      transition: width 0.25s ease;
+    }
+
+    /* Main Container */
+    .deck-container {
+      max-width: 1200px;
+      margin: 32px auto 64px auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    /* Presentation Single-Slide Mode */
+    body.presentation-mode .deck-container {
+      max-width: 1300px;
+      margin: 20px auto;
+    }
+
+    body.presentation-mode .deck-slide {
+      display: none;
+      min-height: calc(100vh - 110px);
+    }
+
+    body.presentation-mode .deck-slide.active-slide {
+      display: block;
+      animation: fadeSlide 0.22s ease-out;
+    }
+
+    /* Speaker Notes Toggle Support */
+    body.hide-scripts blockquote:last-of-type {
+      display: none;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Slide Card Styling */
+    .deck-slide {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .slide-badge-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 32px;
+      background: linear-gradient(90deg, #0f172a 0%, #1e1b4b 55%, #064e3b 100%);
+      border-bottom: 2px solid #3b82f6;
+      color: #e2e8f0;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .slide-pill {
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      color: #ffffff;
+      padding: 3px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .slide-brand {
+      color: #cbd5e1;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+    }
+
+    .slide-inner {
+      padding: 32px 40px 40px 40px;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      color: var(--text-main);
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      font-size: 2.05rem;
+      border-bottom: 3px solid var(--accent-primary);
+      padding-bottom: 0.4em;
+      margin-top: 0;
+    }
+
+    h2 {
+      font-size: 1.62rem;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.35em;
+      margin-top: 0;
+      color: var(--accent-primary);
+    }
+
+    h3 {
+      font-size: 1.18rem;
+      margin-top: 1.35em;
+      margin-bottom: 0.5em;
+    }
+
+    p {
+      margin: 0.6em 0 1em 0;
+    }
+
+    blockquote {
+      margin: 1.2em 0;
+      padding: 16px 22px;
+      background: var(--quote-bg);
+      border-left: 5px solid var(--quote-border);
+      border-radius: 0 10px 10px 0;
+      color: var(--text-main);
+      font-size: 0.97rem;
+    }
+
+    blockquote p {
+      margin: 0.3em 0;
+    }
+
+    ul, ol {
+      padding-left: 1.5em;
+      margin: 0.6em 0 1em 0;
+    }
+
+    li {
+      margin-bottom: 0.45em;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.3em 0;
+      font-size: 0.91rem;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--bg-subtle);
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    tr:nth-child(even) td {
+      background: rgba(148, 163, 184, 0.05);
+    }
+
+    /* Code & Pre */
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 16px 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      border: 1px solid #334155;
+      margin: 1.2em 0;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.86em;
+      background: var(--bg-subtle);
+      color: var(--accent-primary);
+      padding: 2px 6px;
+      border-radius: 5px;
+      border: 1px solid var(--border-color);
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+    }
+
+    /* Images & Screenshots */
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0.8em auto;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    /* MathJax */
+    .math-display {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1.3em 0;
+      padding: 14px;
+      background: var(--bg-subtle);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      overflow-x: auto;
+    }
+
+    mjx-container svg {
+      max-width: 100% !important;
+      height: auto !important;
+    }
+
+    /* Mermaid Containers */
+    .mermaid-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin: 1.5em 0;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      overflow-x: auto;
+    }
+
+    .mermaid {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .mermaid svg {
+      max-width: 100% !important;
+      height: auto !important;
+    }
+
+    a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media print {
+      .deck-toolbar, .progress-bar-wrap {
+        display: none !important;
+      }
+      body, body.presentation-mode {
+        background: #ffffff !important;
+      }
+      .deck-slide, body.presentation-mode .deck-slide {
+        display: block !important;
+        box-shadow: none !important;
+        page-break-after: always;
+        break-after: page;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Interactive Pitch Deck Navigation Bar -->
+  <header class="deck-toolbar">
+    <div class="toolbar-left">
+      <div class="brand-logo">
+        <span>🏛️ ValueCurator × Compilatorum</span>
+        <span class="brand-tag">MASTER DECK v2.0</span>
+      </div>
+      <select id="slide-select" class="slide-select" aria-label="Selecionar Slide">
+        <option value="0">Slide 00 — Capa Executiva, Índice Master &amp; Filosofemas</option>
+<option value="1">Slide 01 — Capa Institucional &amp; Tese Soberana: Custódia de Segunda Ordem na Solana</option>
+<option value="2">Slide 02 — O Problema Duplo: A Armadilha da Chave Crua &amp; O Gargalo Split-Cluster</option>
+<option value="3">Slide 03 — A Gênese do &quot;ValueCurator&quot;: Meta-Curadoria de Ativos Exógenos e Endógenos</option>
+<option value="4">Slide 04 — Arquitetura Neuro-Simbólica &amp; Os 6 Invariantes Determinísticos (\bigwedge{k=1}^6 \mathcal{C}k)</option>
+<option value="5">Slide 05 — Novo Motor Dual-Mode: APPROVALONLY \oplus DEVNETE2E (Ponta-a-Ponta)</option>
+<option value="6">Slide 06 — Fábrica Soberana de Ativos Próprios (SPL Token-2022 + EidosManifest v1.0)</option>
+<option value="7">Slide 07 — Matemática do Swap Determinístico Protegido (executedevnetstrategyswap)</option>
+<option value="8">Slide 08 — Sistema Circulatório: Treasury PDA &amp; metabolizeyield (Split 85% / 15%)</option>
+<option value="9">Slide 09 — IA Quantamental &amp; Econofísica PIML em Graph Neural Networks (GNNs)</option>
+<option value="10">Slide 10 — Oportunidade de Mercado Multilateral B2X + DeSci ($4,8T+ TAM)</option>
+<option value="11">Slide 11 — Modelo de Negócios Tri-Engine &amp; Unit Economics</option>
+<option value="12">Slide 12 — Design do Protocolo Experimental: Carteira Owner vs. Carteira Cliente Testador</option>
+<option value="13">Slide 13 — Prova Visual E2E (Parte 1: EXP-01 a EXP-06 — Mandato &amp; Defesa Fail-Closed)</option>
+<option value="14">Slide 14 — Prova Visual E2E (Parte 2: EXP-07 a EXP-12 — Swap, Yield 85/15 &amp; Solscan)</option>
+<option value="15">Slide 15 — Panorama Competitivo &amp; Raio-X Full-Stack (feat/devnet-e2e-tokenization-protocol)</option>
+<option value="16">Slide 16 — Equipe Fundadora, Roadmap 2026 &amp; The Ask ($250K Colosseum Accelerator)</option>
+      </select>
+    </div>
+
+    <div class="toolbar-center">
+      <button id="btn-prev" class="toolbar-btn" title="Slide Anterior (Seta Esquerda)">◀ Anterior</button>
+      <span id="slide-counter" style="font-size: 0.84rem; font-weight: 700; min-width: 96px; text-align: center;">
+        Slide 00 / 16
+      </span>
+      <button id="btn-next" class="toolbar-btn" title="Próximo Slide (Seta Direita)">Próximo ▶</button>
+    </div>
+
+    <div class="toolbar-right">
+      <button id="btn-mode" class="toolbar-btn" title="Alternar entre Modo Apresentação (Slide-a-Slide) e Modo Scroll Contínuo">
+        🖥️ Modo Slide-a-Slide
+      </button>
+      <button id="btn-theme" class="toolbar-btn" title="Alternar Tema Claro/Escuro">
+        🌙 Dark Mode
+      </button>
+      <button id="btn-fullscreen" class="toolbar-btn" title="Tela Cheia (Tecla F)">
+        ⛶ Tela Cheia
+      </button>
+      <button id="btn-print" class="toolbar-btn" onclick="window.print()" title="Imprimir ou Salvar como PDF">
+        🖨️ PDF
+      </button>
+    </div>
+  </header>
+
+  <div class="progress-bar-wrap">
+    <div id="progress-bar-fill" class="progress-bar-fill"></div>
+  </div>
+
+  <!-- Slides Container -->
+  <main class="deck-container" id="deck-container">
+    
+    <section class="deck-slide" id="slide-00" data-slide-index="0" data-slide-title="Slide 00 — Capa Executiva, Índice Master &amp; Filosofemas">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 00 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h1>🏛️ ValueCurator × Compilatorum — Pitch Deck Institucional Completo (Edição Expandida v2.0)</h1>
+<blockquote>
+<p><strong>Governança Soberana de Capital, Armadura Neuro-Simbólica para Agentes de IA, Emissão Soberana SPL Token-2022 &amp; Liquidação Determinística E2E na Solana</strong><br />
+<strong>Track</strong>: Autonomous Software &amp; AI / Agent Control Plane / Sovereign DeFi &amp; DeSci Infrastructure<br />
+<strong>Founding Team</strong>: Sandra Pereira (<em>Core Solana Systems Engineering</em>) &amp; João Nitsche (<em>Epistemic Systems &amp; Quantamental Architecture</em>)<br />
+<strong>Repositórios</strong>: <a href="https://github.com/smp-sandramariapereira/valuecurator"><code>smp-sandramariapereira/valuecurator</code></a> (<code>branch: feat/devnet-e2e-tokenization-protocol</code>) • <a href="https://github.com/compilatorum/vc"><code>compilatorum/vc</code></a><br />
+<strong>On-Chain Program ID (Devnet)</strong>: <a href="https://explorer.solana.com/address/6owAcXQjGg6d5p1n2D5gK8mKkG9uH9sE1kL2mP3rMiW5?cluster=devnet"><code>6owAcXQjGg6d5p1n2D5gK8mKkG9uH9sE1kL2mP3rMiW5</code></a><br />
+<strong>Mint Experimental Token-2022 (<code>R-NFT-ONS-001</code>)</strong>: <a href="https://solscan.io/token/EAP343292JM934s6B3C736cT2U2tA357tC4J7gX3nN8x?cluster=devnet"><code>EAP343292JM934s6B3C736cT2U2tA357tC4J7gX3nN8x</code></a></p>
+</blockquote>
+<hr />
+<h2>🗺️ Índice Executivo Master (16 Slides + Formalismo Epistêmico)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Slide</th>
+<th style="text-align:left">Título Executivo</th>
+<th style="text-align:left">Módulo / Pilar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Slide 00</strong></td>
+<td style="text-align:left"><strong>Filosofemas Fundamentais &amp; Álgebra Fiduciária Expandida (<span class="math-inline">$\mathcal{VC}_{\text{v2}}$</span>)</strong></td>
+<td style="text-align:left">Fundamentos Epistêmicos</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 01</strong></td>
+<td style="text-align:left"><strong>Capa Institucional &amp; Tese Soberana: Custódia de Segunda Ordem na Solana</strong></td>
+<td style="text-align:left">Visão &amp; Posicionamento</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 02</strong></td>
+<td style="text-align:left"><strong>O Problema Duplo: A Armadilha da Chave Crua &amp; O Gargalo <em>Split-Cluster</em></strong></td>
+<td style="text-align:left">Diagnóstico de Risco</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 03</strong></td>
+<td style="text-align:left"><strong>A Gênese do &quot;ValueCurator&quot;: Meta-Curadoria de Ativos Exógenos e Endógenos</strong></td>
+<td style="text-align:left">Cibernética de 2ª Ordem</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 04</strong></td>
+<td style="text-align:left"><strong>Arquitetura Neuro-Simbólica &amp; Os 6 Invariantes Determinísticos (<span class="math-inline">$\bigwedge_{k=1}^6 \mathcal{C}_k$</span>)</strong></td>
+<td style="text-align:left">Portão <em>Fail-Closed</em></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 05</strong></td>
+<td style="text-align:left"><strong>Novo Motor Dual-Mode: <code>APPROVAL_ONLY</code> <span class="math-inline">$\oplus$</span> <code>DEVNET_E2E</code> (Ponta-a-Ponta)</strong></td>
+<td style="text-align:left">Nova Feature v2.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 06</strong></td>
+<td style="text-align:left"><strong>Fábrica Soberana de Ativos Próprios (<code>SPL Token-2022</code> + <code>EidosManifest v1.0</code>)</strong></td>
+<td style="text-align:left">Nova Feature v2.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 07</strong></td>
+<td style="text-align:left"><strong>Matemática do Swap Determinístico Protegido (<code>execute_devnet_strategy_swap</code>)</strong></td>
+<td style="text-align:left">Nova Feature v2.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 08</strong></td>
+<td style="text-align:left"><strong>Sistema Circulatório: <code>Treasury PDA</code> &amp; <code>metabolize_yield</code> (Split 85% / 15%)</strong></td>
+<td style="text-align:left">Economia Regenerativa</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 09</strong></td>
+<td style="text-align:left"><strong>IA Quantamental &amp; Econofísica PIML em Graph Neural Networks (GNNs)</strong></td>
+<td style="text-align:left">Deep Tech &amp; Oráculos</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 10</strong></td>
+<td style="text-align:left"><strong>Oportunidade de Mercado Multilateral B2X + DeSci ($4,8T+ TAM)</strong></td>
+<td style="text-align:left">Mercado &amp; Verticais</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 11</strong></td>
+<td style="text-align:left"><strong>Modelo de Negócios Tri-Engine &amp; Unit Economics (SaaS + Yield + Royalties IP)</strong></td>
+<td style="text-align:left">Monetização &amp; LTV/CAC</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 12</strong></td>
+<td style="text-align:left"><strong>Design do Protocolo Experimental: Carteira Owner vs. Carteira Cliente Testador</strong></td>
+<td style="text-align:left">Metodologia Científica</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 13</strong></td>
+<td style="text-align:left"><strong>Prova Visual E2E (Parte 1: <code>EXP-01</code> a <code>EXP-06</code> — Mandato &amp; Defesa <em>Fail-Closed</em>)</strong></td>
+<td style="text-align:left">Evidência Playwright</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 14</strong></td>
+<td style="text-align:left"><strong>Prova Visual E2E (Parte 2: <code>EXP-07</code> a <code>EXP-12</code> — Swap, Yield 85/15 &amp; Solscan)</strong></td>
+<td style="text-align:left">Evidência Playwright</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 15</strong></td>
+<td style="text-align:left"><strong>Panorama Competitivo &amp; Raio-X Full-Stack (<code>feat/devnet-e2e-tokenization-protocol</code>)</strong></td>
+<td style="text-align:left">Engenharia &amp; Moat</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Slide 16</strong></td>
+<td style="text-align:left"><strong>Equipe Fundadora, Roadmap 2026 &amp; <em>The Ask</em> ($250K Colosseum Accelerator)</strong></td>
+<td style="text-align:left">Investimento &amp; Fechamento</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>🧬 §0. Filosofemas Fundamentais &amp; Álgebra Fiduciária Expandida (<span class="math-inline">$\mathcal{VC}_{\text{v2}}$</span>)</h3>
+<ul>
+<li>🜁 <strong>1. Filosofema da Soberania sobre o Capital (<em>Sovereignty vs. Agency</em>)</strong>:
+<blockquote>
+<p><em>«Autonomia operacional não implica soberania sobre o capital. Modelos probabilísticos são extraordinários em encontrar padrões latentes em tensores de mercado, mas são ontologicamente incapazes de honrar deveres fiduciários. A inteligência propõe; a evidência matemática comprova; a política determinística autoriza; o proprietário governa a custódia.»</em></p>
+</blockquote>
+</li>
+<li>🜂 <strong>2. Filosofema da Ausência de Ruína (<em>Absence of Existential Ruin</em>)</strong>:
+<blockquote>
+<p><em>«No mercado financeiro, a probabilidade de falência de um operador probabilístico desprovido de invariantes aproxima-se de 1 no infinito: <span class="math-inline">$\lim_{t \to \infty} \mathbb{P}_{\text{ruin}}(t) = 1$</span>. O ValueCurator garante que nenhum cisne negro oracular ou alucinação neural drene o principal além do mandato constitucional.»</em></p>
+</blockquote>
+</li>
+<li>🜃 <strong>3. Filosofema da Meta-Curadoria (<em>Second-Order Cybernetics</em>)</strong>:
+<blockquote>
+<p><em>«O investidor humano soberano não compete em microssegundos contra autômatos estocásticos: ele governa as regras constitucionais do sistema que governa o seu capital.»</em></p>
+</blockquote>
+</li>
+<li>🜄 <strong>4. Filosofema do Ciclo Produtivo Epistêmico (<em>Work → Asset → Capital → More Work</em>)</strong>:
+<blockquote>
+<p><em>«O conhecimento científico e o código não devem permanecer como artefatos passivos fora do balanço. Através do manifesto criptográfico <code>EidosManifest v1.0</code> e da cunhagem soberana via <code>SPL Token-2022</code>, cada constructo intelectual torna-se um ativo governado que gera liquidez e retroalimenta a Tesouraria de Pesquisa.»</em></p>
+</blockquote>
+</li>
+</ul>
+<h4>🔣 Álgebra Fiduciária Expandida de Sete Componentes (<span class="math-inline">$\mathcal{VC}_{\text{v2}}$</span>)</h4>
+<div class="math-display">$$
+\mathcal{VC}_{\text{v2}} = \big\langle \mathcal{M}_{\text{mandate}}, \, \mathcal{E}_{\text{pyth}}(t), \, \mathcal{G}_{\text{gate}}, \, \Pi_{\text{auth}}, \, \mathcal{C}_{\text{pda}}, \, \mathcal{T}_{2022}, \, \Omega_{\text{settlement}} \big\rangle
+$$</div>
+<div class="math-display">$$
+\begin{cases}
+\mathcal{M}_{\text{mandate}} & = \big\{ \mathcal{A}_{\text{allow}}, \, \lambda_{\text{trade}}^{\max}, \, \lambda_{\text{daily}}^{\max}, \, \tau_{\text{age}}^{\max} \le 300\text{ s}, \, \sigma_{\text{conf}}^{\max} \le 1.000\text{ bps}, \, \Delta_{\text{dev}}^{\max} \le 2.000\text{ bps} \big\} \\
+\mathcal{G}_{\text{gate}}(\mathcal{M}, \mathcal{E}, \theta) & \vdash \mathbf{APPROVED}(\Pi_{\text{auth}}) \iff \bigwedge_{k=1}^6 \mathcal{C}_k \equiv \mathbf{true} \quad \text{senão } \mathbf{FAIL\_CLOSED} \\
+\Pi_{\text{auth}} & = \operatorname{Sign}_{\text{Ed25519}}^{sk_{\text{policy}}}\Big(\mathcal{H}_{\text{SHA-256}}\big(\theta_{\text{intent}} \parallel \mathcal{E}_{\text{pyth}}(t) \parallel \text{Mode} \parallel \text{Timestamp}\big)\Big) \\
+\mathcal{T}_{2022}(\text{CID}_{\text{Eidos}}) & = \operatorname{CPI}_{\text{Token2022}}^{\text{signer}=\mathcal{C}_{\text{pda}}}\big(\mathtt{mint\_research\_asset}(10^0, \text{ATA}_{\text{owner}})\big) \\
+\Omega_{\text{settlement}} & = \mathtt{execute\_devnet\_strategy\_swap}\big(\Delta x, \, y_{\text{out}} \ge y_{\min}\big) \circ \mathtt{metabolize\_yield}\big(0{,}85\,\Delta Y \oplus 0{,}15\,\Delta Y_{\text{Treasury}}\big)
+\end{cases}
+$$</div>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-01" data-slide-index="1" data-slide-title="Slide 01 — Capa Institucional &amp; Tese Soberana: Custódia de Segunda Ordem na Solana">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 01 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 01 — Capa Institucional &amp; Tese Soberana: Custódia de Segunda Ordem na Solana</h2>
+<h3>📌 Identificação Executiva</h3>
+<ul>
+<li><strong>Projeto</strong>: <strong>ValueCurator × Compilatorum</strong></li>
+<li><strong>Subtítulo</strong>: <em>Governança Soberana de Capital, Armadura Neuro-Simbólica para IA &amp; Fábrica de Ativos Programáticos (<code>SPL Token-2022</code>) na Solana</em></li>
+<li><strong>Tese Financeira em 35 Palavras</strong>:
+<blockquote>
+<p><strong>&quot;O ValueCurator transforma capital on-chain vulnerável e propriedade intelectual científica em cofres matematicamente governados: agentes de IA propõem estratégias, mas nenhum centavo ou token se move sem prova oracular Pyth em tempo real e validação determinística na Solana.&quot;</strong></p>
+</blockquote>
+</li>
+</ul>
+<h3>🧒 Explicação ELI5 (<em>Como se eu tivesse 5 anos</em>)</h3>
+<blockquote>
+<p>🧸 <strong>Imagine um carro autônomo superveloz (a IA) dirigindo o seu cofre de moedas e de invenções científicas:</strong>
+Em vez de deixar o robô dirigir sem freios perto de um penhasco, o <strong>ValueCurator</strong> constrói <strong>muros de proteção físicos na pista (o Smart Contract na Solana)</strong>. O robô sugere o caminho, o fiscal matemático confere o mapa ao vivo e, se for 100% seguro, o cofre executa a troca ou cria a figurinha oficial da sua invenção (<code>Token-2022</code>) diretamente na sua carteira!</p>
+</blockquote>
+<h3>📊 Destaques de Tração e Engenharia Verificável</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Dimensão</th>
+<th style="text-align:left">Status Auditável</th>
+<th style="text-align:left">Artefato / Prova On-Chain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Smart Contract Anchor (Rust)</strong></td>
+<td style="text-align:left">Implantado na Solana Devnet (+2 novas instruções v2.0)</td>
+<td style="text-align:left"><a href="https://explorer.solana.com/address/6owAcXQjGg6d5p1n2D5gK8mKkG9uH9sE1kL2mP3rMiW5?cluster=devnet"><code>6owAcX...MiW5</code></a></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Telemetria Oracular</strong></td>
+<td style="text-align:left">Leitura em tempo real na Solana Mainnet</td>
+<td style="text-align:left"><strong>Pyth Network Feed <code>922</code></strong> (<span class="math-inline">$\sigma_{\text{conf}} \le 1000\text{ bps}$</span>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Fábrica <code>SPL Token-2022</code></strong></td>
+<td style="text-align:left">Mintagem atômica via <code>Vault PDA</code> + <code>EidosManifest v1.0</code></td>
+<td style="text-align:left">Mint <a href="https://solscan.io/token/EAP343292JM934s6B3C736cT2U2tA357tC4J7gX3nN8x?cluster=devnet"><code>EAP343...3nN8x</code></a></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Modo de Execução Dual</strong></td>
+<td style="text-align:left"><code>APPROVAL_ONLY</code> <span class="math-inline">$\oplus$</span> <code>DEVNET_E2E</code> no Agente KAIROS e UI</td>
+<td style="text-align:left"><code>execute-devnet.ts</code> + <code>execution-proposal-card.tsx</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Suíte E2E Playwright</strong></td>
+<td style="text-align:left"><strong>100% de aprovação</strong> (24 testes base + 12 passos experimentais)</td>
+<td style="text-align:left">Capturas anotadas <code>EXP-01</code> a <code>EXP-12</code> + JSON Report</td>
+</tr>
+</tbody>
+</table>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 0:00 a 0:25</em>)</h3>
+<blockquote>
+<p><em>&quot;Investidores e avaliadores: estamos entrando na era dos agentes autônomos de IA operando mercados financeiros on-chain. Mas entregar chaves privadas cruas para modelos neurais probabilísticos é uma receita para falência catastrófica. Nós construímos o ValueCurator para estabelecer a governança soberana de segunda ordem na Solana — e, nesta versão 2.0, expandimos o protocolo para além de ativos de terceiros: agora o ValueCurator funciona de ponta-a-ponta na Devnet, cunhando nossos próprios artefatos científicos em SPL Token-2022 e liquidando swaps determinísticos com divisão automática de rendimentos.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-02" data-slide-index="2" data-slide-title="Slide 02 — O Problema Duplo: A Armadilha da Chave Crua &amp; O Gargalo Split-Cluster">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 02 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 02 — O Problema Duplo: A Armadilha da Chave Crua &amp; O Gargalo <em>Split-Cluster</em></h2>
+<h3>🚨 Problema 1: Agentes Probabilísticos com Chaves Privadas Cruas (<em>Existential Ruin</em>)</h3>
+<ul>
+<li>💥 <strong>Vetor de Alucinação</strong>: LLMs e redes neurais são reconhecedores estatísticos de padrões. Quando a liquidez seca ou um oráculo atrasa, bots sem freios determinísticos executam ordens irracionais e drenam cofres em milissegundos.</li>
+<li>💥 <strong>Ineficácia das Proteções Atuais</strong>:
+<ul>
+<li><em>Multi-sigs (Squads)</em>: Exigem aprovação humana manual para cada transação — inviáveis para execução algorítmica rápida.</li>
+<li><em>Prompts de Sistema</em>: LLMs ignoram instruções em linguagem natural sob ruído adversarial.</li>
+</ul>
+</li>
+</ul>
+<h3>🚨 Problema 2: A Assimetria <em>Split-Cluster</em> e a Limitação de Ativo Único</h3>
+<ul>
+<li>🧱 <strong>O Dilema Mainnet vs. Devnet</strong>: Na arquitetura original, o sistema lia preços reais na Mainnet (Pyth 922 + Jupiter), mas na Devnet as pools da Jupiter para ativos reais (<code>AAPLx</code>) não possuem liquidez contínua, parando no recibo <code>APPROVAL_ONLY</code>.</li>
+<li>🧱 <strong>Invisibilidade de Ativos Próprios</strong>: Pesquisadores, laboratórios de IA e DAOs produzem ativos valiosos (<em>Research NFTs, Glyphs, Pesos de Modelos, Constructos</em>), mas não tinham como emiti-los nativamente sob o mesmo mandato criptográfico do cofre.</li>
+</ul>
+<div class="mermaid-container"><div class="mermaid">
+flowchart TD
+    subgraph P1["❌ FALHA 1: PARADIGMA PROBABILÍSTICO VULNERÁVEL"]
+        LLM1["🤖 Agente de IA Probabilístico<br/>(LLM / Rede Neural)"] -->|Detém Chave Privada Crua| KEY["🔑 Private Key Exposta<br/>(Poder Total de Assinatura)"]
+        KEY -->|Alucinação / Flash Crash| RUIN["💥 Ruína Existencial<br/>(Cofre Drenado Irreversivelmente)"]
+    end
+
+    subgraph P2["⚠️ FALHA 2: GARGALO SPLIT-CLUSTER & ILÍQUIDEZ DE IP"]
+        MAIN["🌐 Mainnet: Pyth 922 + Jupiter<br/>(Telemetria Real)"] -->|Sem Pool Equivalente na Devnet| STOP["🛑 Parada em APPROVAL_ONLY<br/>(Sem Liquidação Física no Cofre)"]
+        IP["🧪 Artefatos Próprios (IP / IA)<br/>(Research NFTs, Glyphs)"] -->|Fora da Custódia On-Chain| DEAD["📄 IP Ilíquida em PDFs/Repos<br/>(Sem Royalties Programáticos)"]
+    end
+
+    subgraph SOL["✅ SOLUÇÃO VALUECURATOR v2.0 (DUAL-ENGINE SOBERANO)"]
+        GATE["🛡️ Portão Determinístico (6 Invariantes)<br/>+ Recibo Ed25519"] --> DUAL{"🔀 Seletor Dual-Mode"}
+        DUAL -->|Emissão Soberana| MINT["🪙 Fábrica SPL Token-2022<br/>(mint_research_asset via Vault PDA)"]
+        DUAL -->|Liquidação E2E| SWAP["🔄 Swap Determinístico Devnet<br/>(execute_devnet_strategy_swap)"]
+    end
+
+    style P1 fill:#450a0a,stroke:#f87171,stroke-width:2px,color:#fff
+    style P2 fill:#78350f,stroke:#fbbf24,stroke-width:2px,color:#fff
+    style SOL fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#fff
+</div></div>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 0:25 a 0:50</em>)</h3>
+<blockquote>
+<p><em>&quot;Nós resolvemos dois problemas fundamentais de uma só vez. Primeiro: impedimos que agentes de IA tenham acesso à chave privada do cofre, eliminando o risco de ruína existencial. Segundo: superamos o gargalo clássico entre telemetria de Mainnet e liquidação na Devnet, criando uma fábrica soberana em SPL Token-2022 e um motor de swap determinístico que permite testar estratégias financeiras de ponta-a-ponta e tokenizar nossa própria propriedade intelectual.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-03" data-slide-index="3" data-slide-title="Slide 03 — A Gênese do &quot;ValueCurator&quot;: Meta-Curadoria de Ativos Exógenos e Endógenos">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 03 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 03 — A Gênese do &quot;ValueCurator&quot;: Meta-Curadoria de Ativos Exógenos e Endógenos</h2>
+<h3>🧠 Cibernética de Segunda Ordem Aplicada ao Capital e à Ciência</h3>
+<ul>
+<li>🏛️ <strong>O Humano como Meta-Curador</strong>: Você não microgerencia ordens de milissegundos; <strong>você cura as regras constitucionais do sistema que cura o seu capital</strong>.</li>
+<li>🌐 <strong>Expansão de Escopo — Dois Universos de Ativos sob um Único Cofre (<code>Vault PDA</code>)</strong>:
+<ol>
+<li><strong>Ativos Exógenos (De Terceiros)</strong>: RWAs e ações tokenizadas (<code>AAPLx</code>, <code>NVDAx</code>), pareados com <code>USDC</code> sob supervisão do Pyth Feed <code>922</code>.</li>
+<li><strong>Ativos Endógenos (Gerados pelo Próprio Ecossistema)</strong>: <strong>Research NFTs (<code>R-NFT</code>)</strong>, <strong>Glifos Formais (<code>GLYPH</code>)</strong>, <strong>Constructos de IA</strong> e <strong>Unidades de Royalties</strong>, cunhados diretamente pelo <code>Vault PDA</code>.</li>
+</ol>
+</li>
+</ul>
+<div class="mermaid-container"><div class="mermaid">
+flowchart LR
+    OWNER["👑 Proprietário Soberano<br/>(Meta-Curador Humano)"] -->|Define Mandato Constitucional| PDA["🏦 Vault PDA Soberano<br/>Seed: ['node', owner_pubkey]"]
+
+    subgraph Exogenous["🌍 ATIVOS EXÓGENOS (TERCEIROS)"]
+        RWA["📈 RWAs & Equities Tokenizadas<br/>(AAPLx, SOL, USDC)"]
+        PYTH["📡 Oráculo Pyth Feed 922<br/>(Preço & Confiança Mainnet)"]
+    end
+
+    subgraph Endogenous["🧬 ATIVOS ENDÓGENOS (GERADOS POR VOCÊ)"]
+        RNFT["📜 Research NFTs (EidosManifest)<br/>Ex: R-NFT-ONS-001"]
+        GLYPH["🔣 Glifos & Constructos de IA<br/>Ex: GLYPH-KAIROS-002"]
+    end
+
+    PDA -->|Governa Alocação & Slippage| Exogenous
+    PDA -->|Atua como Mint Authority Exclusiva| Endogenous
+    Exogenous -->|Gera Rendimento Líquido| METAB["⚗️ metabolize_yield (85% / 15%)"]
+    Endogenous -->|Royalties MACHINE_PAYABLE| METAB
+    METAB -->|15% Financia Nova Pesquisa| Endogenous
+
+    style OWNER fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#fff
+    style PDA fill:#065f46,stroke:#34d399,stroke-width:2px,color:#fff
+    style Exogenous fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#fff
+    style Endogenous fill:#4c1d95,stroke:#c084fc,stroke-width:2px,color:#fff
+    style METAB fill:#b45309,stroke:#fbbf24,stroke-width:2px,color:#fff
+</div></div>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 0:50 a 1:15</em>)</h3>
+<blockquote>
+<p><em>&quot;Por que ValueCurator? Porque na era da IA autônoma o humano atua como Meta-Curador. E com nossa nova arquitetura, você não governa apenas ativos financeiros de terceiros como AAPLx ou USDC: o mesmo cofre PDA atua como autoridade soberana de emissão para os ativos intelectuais que você mesmo gera — fechando o ciclo 'Trabalho gera Ativo, Ativo gera Capital, Capital financia Mais Trabalho'.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-04" data-slide-index="4" data-slide-title="Slide 04 — Arquitetura Neuro-Simbólica &amp; Os 6 Invariantes Determinísticos (\bigwedge{k=1}^6 \mathcal{C}k)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 04 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 04 — Arquitetura Neuro-Simbólica &amp; Os 6 Invariantes Determinísticos (<span class="math-inline">$\bigwedge_{k=1}^6 \mathcal{C}_k$</span>)</h2>
+<h3>⚙️ A Tríade Arquitetural: Neural + Simbólico + Blockchain</h3>
+<ol>
+<li><strong>Camada Neural (Propõe)</strong>: Kernel KAIROS &amp; Oráculos Quantamentais descobrem oportunidades de alocação e propõem intenções de trade/mint (<code>TradeIntent</code>).</li>
+<li><strong>Portão Simbólico Determinístico (Comprova)</strong>: Avalia <strong>6 invariantes matemáticos rígidos</strong> antes de emitir o recibo criptográfico <code>Ed25519</code>. Se qualquer invariante falhar, o sistema trava em <strong><code>FAIL_CLOSED</code></strong>.</li>
+<li><strong>Camada Solana Anchor PDA (Governa e Liquida)</strong>: Isola a custódia do principal e executa apenas instruções autorizadas (<code>mint_research_asset</code>, <code>execute_devnet_strategy_swap</code>, <code>metabolize_yield</code>, <code>emergency_withdraw</code>).</li>
+</ol>
+<h3>🛡️ As 6 Condições Necessárias e Suficientes (<span class="math-inline">$\bigwedge_{k=1}^6 \mathcal{C}_k \equiv \mathbf{true}$</span>)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Invariante</th>
+<th style="text-align:left">Fórmula Matemática</th>
+<th style="text-align:left">Limite Constitucional</th>
+<th style="text-align:left">Ação em Caso de Violação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong><span class="math-inline">$\mathcal{C}_1$</span> — Whitelist de Ativos</strong></td>
+<td style="text-align:left"><span class="math-inline">$\text{Mint}_{\text{target}} \in \mathcal{A}_{\text{allow}}$</span></td>
+<td style="text-align:left">Ex: <code>AAPLx</code>, <code>USDC</code>, <code>R-NFT-ONS-001</code></td>
+<td style="text-align:left">⛔ <code>FAIL_CLOSED</code> (<code>AssetNotAllowed</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><span class="math-inline">$\mathcal{C}_2$</span> — Teto de Volume</strong></td>
+<td style="text-align:left"><span class="math-inline">$a_{\text{in}} \le \lambda_{\text{trade}}^{\max} \land \sum a_{\text{dia}} \le \lambda_{\text{daily}}^{\max}$</span></td>
+<td style="text-align:left">Ex: <span class="math-inline">$\le 250\text{ USDC}$</span> / trade</td>
+<td style="text-align:left">⛔ <code>FAIL_CLOSED</code> (<code>AllocationExceeded</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><span class="math-inline">$\mathcal{C}_3$</span> — Frescor Oracular</strong></td>
+<td style="text-align:left"><span class="math-inline">$\Delta t = t_{\text{now}} - t_{\text{pyth}} \le \tau_{\text{age}}^{\max}$</span></td>
+<td style="text-align:left"><span class="math-inline">$\le 300\text{ segundos}$</span></td>
+<td style="text-align:left">⛔ <code>FAIL_CLOSED</code> (<code>StaleOracleProof</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><span class="math-inline">$\mathcal{C}_4$</span> — Confiança de Preço</strong></td>
+<td style="text-align:left"><span class="math-inline">$\frac{\sigma_{\text{pyth}}}{p_{\text{pyth}}} \times 10^4 \le \sigma_{\text{conf}}^{\max}$</span></td>
+<td style="text-align:left"><span class="math-inline">$\le 1.000\text{ bps}$</span> (<span class="math-inline">$10\%$</span>)</td>
+<td style="text-align:left">⛔ <code>FAIL_CLOSED</code> (<code>ConfidenceTooWide</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><span class="math-inline">$\mathcal{C}_5$</span> — Desvio Cross-Venue</strong></td>
+<td style="text-align:left"><span class="math-inline">$\frac{|p_{\text{dex}} - p_{\text{pyth}}|}{p_{\text{pyth}}} \times 10^4 \le \Delta_{\text{dev}}^{\max}$</span></td>
+<td style="text-align:left"><span class="math-inline">$\le 2.000\text{ bps}$</span> (<span class="math-inline">$20\%$</span>)</td>
+<td style="text-align:left">⛔ <code>FAIL_CLOSED</code> (<code>OracleDexDivergence</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><span class="math-inline">$\mathcal{C}_6$</span> — Impacto / Slippage</strong></td>
+<td style="text-align:left"><span class="math-inline">$\text{Impact}_{\text{bps}} \le \mathcal{S}_{\text{slip}}^{\max}$</span></td>
+<td style="text-align:left"><span class="math-inline">$\le 1.000\text{ bps}$</span> (<span class="math-inline">$10\%$</span>)</td>
+<td style="text-align:left">⛔ <code>FAIL_CLOSED</code> (<code>SlippageExceeded</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 1:15 a 1:40</em>)</h3>
+<blockquote>
+<p><em>&quot;Nossa armadura neuro-simbólica submete toda proposta da IA a seis invariantes matemáticos determinísticos: whitelist de ativos, teto por operação, frescor do oráculo Pyth, intervalo de confiança, desvio entre DEX e oráculo, e slippage máximo. Se todas as seis condições forem verdadeiras, geramos um recibo criptográfico Ed25519 de uso único. Se qualquer uma falhar, o portão trava em Fail-Closed antes mesmo de tocar na blockchain.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-05" data-slide-index="5" data-slide-title="Slide 05 — Novo Motor Dual-Mode: APPROVALONLY \oplus DEVNETE2E (Ponta-a-Ponta)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 05 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 05 — Novo Motor Dual-Mode: <code>APPROVAL_ONLY</code> <span class="math-inline">$\oplus$</span> <code>DEVNET_E2E</code> (Ponta-a-Ponta)</h2>
+<h3>🔀 Alternância Transparente em 1 Clique (UI + Agente KAIROS + Smart Contract)</h3>
+<ul>
+<li>Implementamos no agente (<a href="file:///home/tester/valuecurator/apps/web/agent/src/execution-proposal.ts"><code>execution-proposal.ts</code></a>, <a href="file:///home/tester/valuecurator/apps/web/agent/src/approval-receipt.ts"><code>approval-receipt.ts</code></a>, <a href="file:///home/tester/valuecurator/apps/web/agent/src/execute-devnet.ts"><code>execute-devnet.ts</code></a>) e no frontend (<a href="file:///home/tester/valuecurator/apps/web/components/execution-proposal-card.tsx"><code>execution-proposal-card.tsx</code></a>) o seletor de modo de execução:
+<ul>
+<li>🛡️ <strong>Modo <code>APPROVAL_ONLY</code> (Mainnet Shadow / Zero Gas Exposure)</strong>: Valida os 6 invariantes sobre telemetria real da Mainnet e emite o recibo <code>Ed25519</code> auditável sem movimentar fundos.</li>
+<li>🚀 <strong>Modo <code>DEVNET_E2E</code> (Full On-Chain Settlement &amp; Token-2022 Minting)</strong>: Além de emitir o recibo <code>Ed25519</code>, despacha as transações reais na <strong>Solana Devnet</strong>, cunhando o ativo <code>SPL Token-2022</code> e liquidando o swap determinístico no <code>Vault PDA</code>.</li>
+</ul>
+</li>
+</ul>
+<div class="mermaid-container"><div class="mermaid">
+sequenceDiagram
+    autonumber
+    actor User as 👛 Carteira Phantom (Owner / Tester)
+    participant UI as 🖥️ Frontend Next.js (Dual-Mode Card)
+    participant Kairos as 🧠 Agente KAIROS + Policy Gate
+    participant Anchor as 🦀 Programa Anchor (6owAcX...MiW5)
+    participant T22 as 🪙 Programa SPL Token-2022 (Devnet)
+
+    User->>UI: 1. Seleciona modo "DEVNET_E2E (Token-2022 + Swap)"
+    UI->>Kairos: 2. Envia TradeIntent + Telemetria Pyth Feed 922
+    Kairos->>Kairos: 3. Verifica 6 Invariantes (C1..C6 == TRUE)
+    Kairos-->>UI: 4. Retorna ApprovalReceipt Ed25519 (executionMode: DEVNET_E2E)
+    User->>Anchor: 5. Assina TX1: mint_research_asset (se novo artefato IP)
+    Anchor->>T22: 6. CPI mint_to (Vault PDA assina como Mint Authority)
+    User->>Anchor: 7. Assina TX2: execute_devnet_strategy_swap (100 USDC -> 9.950 R-NFT-UNITS)
+    Anchor-->>UI: 8. Emite DevnetStrategySwapEvent + Signature verificável no Solscan
+</div></div>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 1:40 a 2:05</em>)</h3>
+<blockquote>
+<p><em>&quot;Na interface do ValueCurator, o operador agora escolhe entre dois modos com um único clique: o modo Approval-Only para auditoria pura sem exposição de gás, ou o novo modo Devnet E2E, que leva o recibo Ed25519 até as últimas consequências na Solana Devnet — cunhando o token no padrão Token-2022, executando o swap no cofre PDA e devolvendo o hash da transação para inspeção imediata no Solscan.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-06" data-slide-index="6" data-slide-title="Slide 06 — Fábrica Soberana de Ativos Próprios (SPL Token-2022 + EidosManifest v1.0)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 06 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 06 — Fábrica Soberana de Ativos Próprios (<code>SPL Token-2022</code> + <code>EidosManifest v1.0</code>)</h2>
+<h3>📜 O Padrão <code>EidosManifest v1.0</code> &amp; A Instrução <code>mint_research_asset</code></h3>
+<ul>
+<li>Formalizamos a separação entre <strong>posse criptográfica do token</strong> e <strong>direitos de propriedade intelectual</strong> através do JSON Schema <a href="file:///home/tester/valuecurator/experiments/research-nft-mint/schemas/ResearchNFTManifest.schema.json"><code>ResearchNFTManifest.schema.json</code></a>:
+<ul>
+<li><code>eidos_id</code> &amp; <code>construct_symbol</code> (ex: <code>R-NFT-ONS-001</code>, <code>GLYPH-KAIROS-002</code>)</li>
+<li><code>maturity_stage</code>: <code>IDEA</code> <span class="math-inline">$\to$</span> <code>GLYPH</code> <span class="math-inline">$\to$</span> <code>HYPOTHESIS</code> <span class="math-inline">$\to$</span> <code>PROTOTYPE</code> <span class="math-inline">$\to$</span> <code>VALIDATED</code> <span class="math-inline">$\to$</span> <code>OPERATIONAL</code></li>
+<li><code>rights_profile</code>: Licença SPDX (<code>CC-BY-NC-4.0</code>), acesso para agentes de IA (<code>MACHINE_PAYABLE</code>) e royalties nativos (<code>250 bps</code> = 2,5%).</li>
+</ul>
+</li>
+<li>Na blockchain, a instrução Rust <a href="file:///home/tester/valuecurator/apps/web/programs/kairos-engine/src/instructions/mint_research_asset.rs"><code>mint_research_asset.rs</code></a> usa as seeds <code>[b&quot;node&quot;, owner.key().as_ref(), &amp;[vault.bump]]</code> para que o <strong><code>Vault PDA</code> assine a CPI de cunhagem</strong> junto ao programa <code>Token-2022</code>:</li>
+</ul>
+<pre><code class="language-rust">// apps/web/programs/kairos-engine/src/instructions/mint_research_asset.rs
+let owner_key = ctx.accounts.owner.key();
+let signer_seeds: &amp;[&amp;[&amp;[u8]]] = &amp;[&amp;[b&quot;node&quot;, owner_key.as_ref(), &amp;[vault.bump]]];
+
+let cpi_accounts = MintTo {
+    mint: ctx.accounts.asset_mint.to_account_info(),
+    to: ctx.accounts.recipient_ata.to_account_info(),
+    authority: ctx.accounts.vault.to_account_info(), // Vault PDA é a Mint Authority exclusiva!
+};
+token_interface::mint_to(
+    CpiContext::new_with_signer(ctx.accounts.token_program.to_account_info(), cpi_accounts, signer_seeds),
+    amount,
+)?;
+</code></pre>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 2:05 a 2:30</em>)</h3>
+<blockquote>
+<p><em>&quot;Como tokenizamos nossos próprios artefatos com segurança institucional? Criamos o manifesto EidosManifest v1.0 e a instrução Anchor mint_research_asset. Nenhuma pessoa física nem o agente de IA detém a chave de emissão do token: a Mint Authority pertence exclusivamente ao endereço derivado do programa — o Vault PDA. Ele assina via Cross-Program Invocation no padrão SPL Token-2022 e deposita o ativo diretamente na carteira associada do titular.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-07" data-slide-index="7" data-slide-title="Slide 07 — Matemática do Swap Determinístico Protegido (executedevnetstrategyswap)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 07 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 07 — Matemática do Swap Determinístico Protegido (<code>execute_devnet_strategy_swap</code>)</h2>
+<h3>🧮 Equação de Liquidação Determinística com Proteção On-Chain de Slippage</h3>
+<p>Para permitir testes E2E determinísticos na Devnet com fidelidade oracular de Mainnet, a instrução <a href="file:///home/tester/valuecurator/apps/web/programs/kairos-engine/src/instructions/execute_devnet_strategy_swap.rs"><code>execute_devnet_strategy_swap.rs</code></a> implementa a equação de conversão auditada:</p>
+<div class="math-display">$$
+\text{Amount}_{\text{out}} = \text{Amount}_{\text{in}} \times P_{\text{oracle}} \times \left(1 - \frac{\text{Impact}_{\text{bps}}}{10.000}\right) \ge \text{MinAmountOut}_{\text{user}}
+$$</div>
+<ul>
+<li><strong>Exemplo Numérico Real Executado no Protocolo Experimental (<code>EXP-09</code>)</strong>:
+<ul>
+<li>Entrada (<span class="math-inline">$\text{Amount}_{\text{in}}$</span>): <strong><span class="math-inline">$100,00\text{ USDC}$</span></strong></li>
+<li>Preço Oracular Derivado (<span class="math-inline">$P_{\text{oracle}}$</span>): <strong><span class="math-inline">$100\text{ unidades de } \mathtt{R\text{-}NFT\text{-}UNITS} / \text{USDC}$</span></strong> (Saída teórica bruta = <span class="math-inline">$10.000$</span> unidades)</li>
+<li>Impacto de Liquidez Simulado (<span class="math-inline">$\text{Impact}_{\text{bps}}$</span>): <strong><span class="math-inline">$50\text{ bps}$</span> (<span class="math-inline">$0,50\%$</span>)</strong></li>
+<li>Piso Mínimo Exigido pelo Mandato (<span class="math-inline">$\text{MinAmountOut}_{\text{user}}$</span>): <strong><span class="math-inline">$9.800\text{ unidades}$</span></strong> (tolerância máxima de <span class="math-inline">$2,0\%$</span>)</li>
+<li><strong>Liquidação Efetiva On-Chain</strong>:</li>
+</ul>
+</li>
+</ul>
+<div class="math-display">$$
+\text{Amount}_{\text{out}} = 10.000 \times \left(1 - \frac{50}{10.000}\right) = \mathbf{9.950\text{ R-NFT-UNITS}} \ge 9.800 \implies \mathbf{COMMIT\_SUCCESS}
+$$</div>
+<div class="mermaid-container"><div class="mermaid">
+flowchart LR
+    IN["💵 Entrada no Cofre<br/>Amount_in = 100 USDC"] --> CALC["🧮 Motor Determinístico Anchor<br/>Saída Bruta = 10.000 unidades<br/>Impacto = 50 bps (0,50%)"]
+    CALC --> CHECK{"🛡️ Verificação On-Chain<br/>9.950 >= MinOut (9.800)?"}
+    CHECK -->|SIM (Dentro do Mandato)| MINT["✅ Liquidação Atômica<br/>Debita 100 USDC do Cofre<br/>Credita 9.950 R-NFT-UNITS na ATA"]
+    CHECK -->|NÃO (Slippage Excessivo)| REVERT["⛔ Revert Atômico!<br/>SlippageToleranceExceeded<br/>100% dos 100 USDC Preservados"]
+
+    style IN fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#fff
+    style CALC fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#fff
+    style MINT fill:#065f46,stroke:#34d399,stroke-width:2px,color:#fff
+    style REVERT fill:#7f1d1d,stroke:#f87171,stroke-width:2px,color:#fff
+</div></div>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 2:30 a 2:55</em>)</h3>
+<blockquote>
+<p><em>&quot;Como funciona o nosso swap determinístico na Devnet? Quando o cliente aprova a alocação de 100 USDC com impacto de 50 basis points, o contrato Anchor verifica em tempo de execução se os 9.950 tokens resultantes respeitam o piso mínimo de 9.800 exigido pelo usuário. Se o slippage ultrapassar um único basis point do limite, a transação inteira reverte atomicamente na Solana e nenhum centavo sai do cofre.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-08" data-slide-index="8" data-slide-title="Slide 08 — Sistema Circulatório: Treasury PDA &amp; metabolizeyield (Split 85% / 15%)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 08 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 08 — Sistema Circulatório: <code>Treasury PDA</code> &amp; <code>metabolize_yield</code> (Split 85% / 15%)</h2>
+<h3>🏛️ 1. A Tesouraria (<code>Treasury PDA</code>) como Coração Financeiro do Ecossistema</h3>
+<ul>
+<li><strong>Financiamento Contínuo de P&amp;D (<code>Research Stream</code>)</strong>: Converte taxas de performance em orçamento para novos ciclos científicos (<em>Work → Asset → Capital → More Work</em>).</li>
+<li><strong>Custeio de Infraestrutura de Nós</strong>: Mantém servidores, indexadores RPC e feeds oraculares Pyth.</li>
+<li><strong>Reserva de Amortecimento &amp; Bounties DAO (B2D)</strong>: Financia auditorias e grants comunitários.</li>
+</ul>
+<h3>🧪 2. A Instrução <code>metabolize_yield</code>: Principal Intocável, Partição Exclusiva do Lucro</h3>
+<p>A função <code>metabolize_yield</code> incide <strong>estritamente sobre os RENDIMENTOS (<span class="math-inline">$\Delta Y > 0$</span>)</strong>, mantendo o <strong>Principal (<span class="math-inline">$P_0$</span>) 100% isolado e resgatável em ~400ms via <code>emergency_withdraw</code></strong>:</p>
+<div class="math-display">$$
+\begin{aligned}
+\text{Principal}_{\text{pos}} &= P_0 \quad (\text{100\% Intocado no Vault PDA}) \\
+\text{Fee}_{\text{Treasury}} &= \left\lfloor \Delta Y \times 0,15 \right\rfloor \xrightarrow{\text{CPI Transfer}} \text{Treasury PDA (15\%)} \\
+\text{Yield}_{\text{User}} &= \Delta Y - \text{Fee}_{\text{Treasury}} \xrightarrow{\text{Reinvest}} \text{Vault PDA do Usuário (85\%)}
+\end{aligned}
+$$</div>
+<div class="mermaid-container"><div class="mermaid">
+flowchart TD
+    VAULT["🏦 Vault PDA do Usuário<br/>Principal Isolado: 1.000 USDC<br/>+ Rendimento Bruto (ΔY): +200 USDC"] --> SPLIT{"⚗️ Instrução Anchor:<br/>metabolize_yield(200 USDC)"}
+    VAULT -.->|100% Intocado e Soberano| SAFE["🛡️ Principal P0 = 1.000 USDC<br/>(Resgatável em ~400ms via emergency_withdraw)"]
+    SPLIT -->|85% do Lucro Líquido| USER_YIELD["📈 +170 USDC Reincorporados<br/>Novo Saldo do Cofre = 1.170 USDC"]
+    SPLIT -->|15% Protocol Performance Fee| TREASURY["🏛️ +30 USDC -> Treasury PDA<br/>Financia P&D, Oráculos e Novos Research NFTs"]
+
+    style VAULT fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#fff
+    style SAFE fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#fff
+    style USER_YIELD fill:#065f46,stroke:#34d399,stroke-width:2px,color:#fff
+    style TREASURY fill:#78350f,stroke:#fbbf24,stroke-width:2px,color:#fff
+</div></div>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 2:55 a 3:20</em>)</h3>
+<blockquote>
+<p><em>&quot;Um ponto crucial da nossa arquitetura: a função metabolize_yield nunca toca no montante principal depositado pelo cliente. Se você depositou 1.000 USDC e a estratégia gerou 200 USDC de lucro, os seus 1.000 USDC permanecem intocados e disponíveis para saque emergencial em 400 milissegundos. Apenas os 200 USDC de lucro passam pela metabolização: 85% (170 USDC) são somados imediatamente ao seu cofre e 15% (30 USDC) alimentam o Treasury PDA para financiar novos ciclos de pesquisa.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-09" data-slide-index="9" data-slide-title="Slide 09 — IA Quantamental &amp; Econofísica PIML em Graph Neural Networks (GNNs)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 09 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 09 — IA Quantamental &amp; Econofísica PIML em Graph Neural Networks (GNNs)</h2>
+<h3>🔬 A Síntese Quantamental + Physics-Informed Machine Learning (PIML)</h3>
+<ul>
+<li><strong>Análise Quantamental</strong>: Cruza o fluxo microestrutural de livros de ofertas em tempo real (Jupiter DEX) com fundamentos macroeconômicos verificados on-chain (Pyth Network Feed <code>922</code>).</li>
+<li><strong>Variedades Topológicas de Liquidez (<span class="math-inline">$\mathcal{M}_{\text{fluid}}$</span>)</strong>: Modelamos a liquidez entre pools da Solana como um fluido conservativo em grafos espaciotemporais.</li>
+<li><strong>Função de Perda Informada pela Física (Conservação de Capital e Não-Arbitragem Fantasma)</strong>:</li>
+</ul>
+<div class="math-display">$$
+\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{MSE}}(\hat{y}, y) + \gamma \, \Big\| \nabla \cdot \vec{J}_{\text{capital}} + \frac{\partial \rho_{\text{liquidity}}}{\partial t} \Big\|_2^2 + \eta \, \mathcal{R}_{\text{no-arb}}(G)
+$$</div>
+<ul>
+<li><strong>Resultado Prático</strong>: Impede matematicamente que a rede neural alucine loops de arbitragem impossíveis ou profundidades de liquidez inexistentes durante choques de volatilidade.</li>
+</ul>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 3:20 a 3:40</em>)</h3>
+<blockquote>
+<p><em>&quot;Sob o capô do agente KAIROS opera nosso motor de IA Quantamental baseado em Physics-Informed Machine Learning sobre Graph Neural Networks. Ao embutir leis físicas de conservação de fluxo de capital diretamente na função de perda da rede neural, impedimos que o modelo alucine liquidez fantasma, entregando sinais de alocação com rigor institucional.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-10" data-slide-index="10" data-slide-title="Slide 10 — Oportunidade de Mercado Multilateral B2X + DeSci ($4,8T+ TAM)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 10 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 10 — Oportunidade de Mercado Multilateral B2X + DeSci ($4,8T+ TAM)</h2>
+<h3>🌐 6 Verticais Sinérgicas Governadas pela Mesma Infraestrutura On-Chain</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Vertical</th>
+<th style="text-align:left">Público-Alvo</th>
+<th style="text-align:left">Dor Crítica Resolvida</th>
+<th style="text-align:left">SAM Imediato (2026)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>👤 B2C (Micro-Fundos Pessoais)</strong></td>
+<td style="text-align:left">Investidores pessoa física e poupadores Web3</td>
+<td style="text-align:left">Proteção contra insolvência bancária e perdas por trading manual</td>
+<td style="text-align:left"><strong>$180M</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>🏢 B2B (Gestoras &amp; Clubes)</strong></td>
+<td style="text-align:left">Clubes de investimento, family offices, ETFs on-chain</td>
+<td style="text-align:left">Elimina taxas opacas de <em>2% administração + 20% performance</em></td>
+<td style="text-align:left"><strong>$1,2B</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>🤖 B2A (Agent Armor SDK)</strong></td>
+<td style="text-align:left">Desenvolvedores de agentes autônomos e startups de IA</td>
+<td style="text-align:left">Middleware de segurança determinística para bots que operam capital</td>
+<td style="text-align:left"><strong>$450M</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>🏛️ B2D (Tesourarias de DAOs)</strong></td>
+<td style="text-align:left">DAOs na Solana e ecossistemas multi-chain</td>
+<td style="text-align:left">Defesa contra drenagem de governança e <em>flash-loan exploits</em></td>
+<td style="text-align:left"><strong>$2,4B</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>💳 B2B2C (Neobanks White-Label)</strong></td>
+<td style="text-align:left">Fintechs e carteiras que buscam rendimento seguro embutido</td>
+<td style="text-align:left">Abstração de custódia regulada com curadoria auditável</td>
+<td style="text-align:left"><strong>$600M</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>🧬 B2R / DeSci (Tokenização de IP)</strong></td>
+<td style="text-align:left">Laboratórios de IA, pesquisadores independentes e coletivos DeSci</td>
+<td style="text-align:left">Materialização de <em>Research NFTs</em> (<code>Token-2022</code>) com royalties <code>MACHINE_PAYABLE</code></td>
+<td style="text-align:left"><strong>$320M</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 3:40 a 4:00</em>)</h3>
+<blockquote>
+<p><em>&quot;Com a adição da fábrica Token-2022 na versão 2.0, expandimos nosso mercado endereçável para seis verticais: além de B2C, B2B, B2A, B2D e B2B2C, agora atendemos diretamente o mercado B2R e DeSci — permitindo que laboratórios de IA e pesquisadores tokenizem sua propriedade intelectual e recebam royalties automáticos sempre que outros agentes consumirem seus artefatos.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-11" data-slide-index="11" data-slide-title="Slide 11 — Modelo de Negócios Tri-Engine &amp; Unit Economics">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 11 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 11 — Modelo de Negócios Tri-Engine &amp; Unit Economics</h2>
+<h3>💰 Três Motores Complementares de Receita Recorrente e On-Chain</h3>
+<ol>
+<li><strong>Motor 1 — Assinatura de Infraestrutura SaaS (<code>1 USDC / Nó / Mês</code>)</strong>: Receita recorrente previsível (ARR) que escala linearmente com o número de cofres ativos.</li>
+<li><strong>Motor 2 — Taxa de Metabolização de Rendimentos (<code>15% sobre o Lucro Líquido</code> / <code>10–25 bps sobre Volume</code>)</strong>: Cobrada automaticamente via <code>metabolize_yield</code> apenas quando o usuário lucra (<em>alinhamento fiduciário total</em>).</li>
+<li><strong>Motor 3 — Royalties Programáticos de IP (<code>250 bps = 2,5%</code> em <code>SPL Token-2022</code>)</strong>: Cada <em>Research NFT</em> ou <em>Glyph</em> cunhado com <code>ai_agent_access: MACHINE_PAYABLE</code> reverte royalties automáticos para o <code>Treasury PDA</code> e para o autor.</li>
+</ol>
+<div class="mermaid-container"><div class="mermaid">
+xychart-beta
+    title "Projeção de Receita Anual do Protocolo (US$ Milhares) — Anos 1 a 3"
+    x-axis ["Ano 1 (2.500 Nós)", "Ano 2 (25.000 Nós)", "Ano 3 (150.000 Nós)"]
+    y-axis "Receita Anual (US$ Mil)" 0 --> 10500
+    bar [95, 1250, 10200]
+    line [95, 1250, 10200]
+</div></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Indicador Financeiro</th>
+<th style="text-align:left">Ano 1 (2026)</th>
+<th style="text-align:left">Ano 2 (2027)</th>
+<th style="text-align:left">Ano 3 (2028)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Cofres PDA Ativos (Nós)</strong></td>
+<td style="text-align:left"><span class="math-inline">$2.500$</span></td>
+<td style="text-align:left"><span class="math-inline">$25.000$</span></td>
+<td style="text-align:left"><span class="math-inline">$150.000$</span></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Total Value Governed (TVG)</strong></td>
+<td style="text-align:left"><span class="math-inline">$\$</span>12,5\text{M}<span class="math-inline">$|$</span><span class="math-inline">$150\text{M}$</span></td>
+<td style="text-align:left"><span class="math-inline">$\$</span>1,2\text{B}$</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">**Receita Motor 1 (SaaS <span class="math-inline">$1/mês)** |$</span><span class="math-inline">$30.000$</span></td>
+<td style="text-align:left"><span class="math-inline">$\$</span>300.000<span class="math-inline">$|$</span><span class="math-inline">$1.800.000$</span></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Receita Motor 2 (Yield Metabolism)</strong></td>
+<td style="text-align:left"><span class="math-inline">$\$</span>45.000<span class="math-inline">$|$</span><span class="math-inline">$675.000$</span></td>
+<td style="text-align:left"><span class="math-inline">$\$</span>7.200.000$</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Receita Motor 3 (Token-2022 IP Royalties)</strong></td>
+<td style="text-align:left"><span class="math-inline">$\$</span>20.000<span class="math-inline">$|$</span><span class="math-inline">$275.000$</span></td>
+<td style="text-align:left"><span class="math-inline">$\$</span>1.200.000$</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Receita Total Anual</strong></td>
+<td style="text-align:left"><strong><span class="math-inline">$\$</span>95.000<span class="math-inline">$** | **$</span><span class="math-inline">$1.250.000$</span></strong></td>
+<td style="text-align:left"><strong><span class="math-inline">$\$</span>10.200.000$</strong></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Relação LTV / CAC</strong></td>
+<td style="text-align:left"><strong><span class="math-inline">$9,2\times$</span></strong></td>
+<td style="text-align:left"><strong><span class="math-inline">$27,5\times$</span></strong></td>
+<td style="text-align:left"><strong><span class="math-inline">$58,0\times$</span></strong></td>
+</tr>
+</tbody>
+</table>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 4:00 a 4:20</em>)</h3>
+<blockquote>
+<p><em>&quot;Nosso modelo de negócios combina três fontes de receita altamente escaláveis: 1 dólar por nó ao mês em assinatura de infraestrutura, participação automática nos rendimentos metabolizados on-chain, e royalties de 2,5% sobre artefatos intelectuais Token-2022 consumidos por agentes. No terceiro ano, com 150 mil nós, projetamos 10,2 milhões de dólares em receita anual com relação LTV/CAC superior a 50 vezes.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-12" data-slide-index="12" data-slide-title="Slide 12 — Design do Protocolo Experimental: Carteira Owner vs. Carteira Cliente Testador">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 12 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 12 — Design do Protocolo Experimental: Carteira Owner vs. Carteira Cliente Testador</h2>
+<h3>🧪 Metodologia de Validação Científica Ponta-a-Ponta (12 Etapas Auditáveis)</h3>
+<p>Para comprovar a robustez do sistema em condições reais, desenhamos e executamos o protocolo experimental com segregação estrita de papéis na <strong>Solana Devnet</strong>:</p>
+<ul>
+<li>👑 <strong>Carteira A — <code>Owner / Protocol Deployer</code> (<code>7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU</code>)</strong>:
+<ul>
+<li>Inicializa o <code>Vault PDA</code>, configura o mandato constitucional e executa a cunhagem prévia dos artefatos intelectuais (<code>R-NFT-ONS-001</code> e <code>GLYPH-KAIROS-002</code>) via <code>SPL Token-2022</code>.</li>
+</ul>
+</li>
+<li>🧪 <strong>Carteira B — <code>Cliente Testador / Operador</code> (<code>9pLmR4vQ8wK2nJ5tY7cB3zX1vN6mK8jH4gF2dS9aP3oI</code>)</strong>:
+<ul>
+<li>Deposita <code>1.000 USDC</code>, submete intenções ao portão determinístico (testando bloqueios <em>Fail-Closed</em> e aprovação <code>Ed25519</code>), executa o swap de <code>100 USDC -&gt; 9.950 R-NFT-UNITS</code>, aciona <code>metabolize_yield</code> (<code>+200 USDC</code> <span class="math-inline">$\to$</span> <code>+170 USDC</code> cofre / <code>+30 USDC</code> tesouraria) e valida o <code>emergency_withdraw</code>.</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Etapa</th>
+<th style="text-align:left">Ator</th>
+<th style="text-align:left">Ação Experimental</th>
+<th style="text-align:left">Resultado / Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong><code>EXP-01</code> a <code>EXP-03</code></strong></td>
+<td style="text-align:left">👑 Owner</td>
+<td style="text-align:left">Conexão Phantom Devnet + Mint <code>R-NFT-ONS-001</code> e <code>GLYPH-KAIROS-002</code> + Mandato</td>
+<td style="text-align:left">✅ <code>PASS</code> (Token-2022 visível na ATA)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>EXP-04</code> a <code>EXP-06</code></strong></td>
+<td style="text-align:left">🧪 Tester</td>
+<td style="text-align:left">Teste de Estresse: Ativo Proibido (<code>DOGE</code>), Excesso (<code>500 USDC</code>) e Oráculo Expirado (<code>420s</code>)</td>
+<td style="text-align:left">✅ <code>PASS</code> (3 Bloqueios <code>FAIL_CLOSED</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>EXP-07</code> a <code>EXP-09</code></strong></td>
+<td style="text-align:left">🧪 Tester</td>
+<td style="text-align:left">Telemetria Pyth <code>922</code> Fresca (<code>12s</code>) + Seleção <code>DEVNET_E2E</code> + Swap <code>100 USDC -&gt; 9.950 UNITS</code></td>
+<td style="text-align:left">✅ <code>PASS</code> (Recibo <code>Ed25519</code> + Swap On-Chain)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>EXP-10</code> a <code>EXP-12</code></strong></td>
+<td style="text-align:left">👑/🧪 Ambos</td>
+<td style="text-align:left"><code>metabolize_yield</code> (<code>85%/15%</code>) + <code>emergency_withdraw</code> (<code>~400ms</code>) + Auditoria Solscan</td>
+<td style="text-align:left">✅ <code>PASS</code> (<code>12/12</code> Passos Verificados)</td>
+</tr>
+</tbody>
+</table>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 4:20 a 4:40</em>)</h3>
+<blockquote>
+<p><em>&quot;Não fazemos apenas testes unitários: estruturamos um protocolo experimental completo de finanças computacionais programáticas separando a carteira do Owner criador dos ativos e a carteira do Cliente Testador. Nas próximas duas telas, vocês verão as capturas reais geradas pelo Playwright com marcações exatas de onde clicar em cada uma das 12 etapas.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-13" data-slide-index="13" data-slide-title="Slide 13 — Prova Visual E2E (Parte 1: EXP-01 a EXP-06 — Mandato &amp; Defesa Fail-Closed)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 13 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 13 — Prova Visual E2E (Parte 1: <code>EXP-01</code> a <code>EXP-06</code> — Mandato &amp; Defesa <em>Fail-Closed</em>)</h2>
+<h3>📸 Evidências Automatizadas via Playwright Chromium (Com Alvos de Clique Anotados)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><code>EXP-01</code>: Conexão Phantom &amp; Mint <code>R-NFT-ONS-001</code></th>
+<th style="text-align:center"><code>EXP-02</code>: Mandato Soberano &amp; Whitelist</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="screenshots/exp_step_01_wallet_phantom.png" alt="EXP-01" /></td>
+<td style="text-align:center"><img src="screenshots/exp_step_02_mandate_whitelist.png" alt="EXP-02" /></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong><code>EXP-03</code>: Tetos de Risco (<code>250 USDC</code> / <code>300s</code>)</strong></td>
+<td style="text-align:center"><strong><code>EXP-04</code>: Bloqueio 1 — Ativo Não Autorizado (<code>DOGE</code>)</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="screenshots/exp_step_03_risk_ceilings.png" alt="EXP-03" /></td>
+<td style="text-align:center"><img src="screenshots/exp_step_04_block_unauthorized.png" alt="EXP-04" /></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong><code>EXP-05</code>: Bloqueio 2 — Excesso de Volume (<code>500 USDC</code>)</strong></td>
+<td style="text-align:center"><strong><code>EXP-06</code>: Bloqueio 3 — Oráculo Expirado (<code>420s &gt; 300s</code>)</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="screenshots/exp_step_05_block_excess_size.png" alt="EXP-05" /></td>
+<td style="text-align:center"><img src="screenshots/exp_step_06_block_stale_oracle.png" alt="EXP-06" /></td>
+</tr>
+</tbody>
+</table>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 4:40 a 5:00</em>)</h3>
+<blockquote>
+<p><em>&quot;Aqui estão as provas visuais das etapas 1 a 6 do nosso teste automatizado no Playwright. Nos passos 1 a 3, o Owner conecta a Phantom na Devnet, cunha os tokens Token-2022 e salva o mandato constitucional. Nos passos 4, 5 e 6, submetemos três ataques clássicos — ativo fora da whitelist, tentativa de alocar o dobro do limite e oráculo congelado — e o portão simbólico bloqueia todos os três com perda zero de gás.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-14" data-slide-index="14" data-slide-title="Slide 14 — Prova Visual E2E (Parte 2: EXP-07 a EXP-12 — Swap, Yield 85/15 &amp; Solscan)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 14 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 14 — Prova Visual E2E (Parte 2: <code>EXP-07</code> a <code>EXP-12</code> — Swap, Yield 85/15 &amp; Solscan)</h2>
+<h3>📸 Evidências Automatizadas de Liquidação On-Chain, Metabolização e Saque Soberano</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><code>EXP-07</code>: Telemetria Real Pyth <code>922</code> (<code>12s</code>, <code>15 bps</code>)</th>
+<th style="text-align:center"><code>EXP-08</code>: Seleção <code>DEVNET_E2E</code> &amp; Recibo <code>Ed25519</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="screenshots/exp_step_07_live_pyth_telemetry.png" alt="EXP-07" /></td>
+<td style="text-align:center"><img src="screenshots/exp_step_08_mode_toggle_approved.png" alt="EXP-08" /></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong><code>EXP-09</code>: Swap <code>100 USDC -&gt; 9.950 R-NFT-UNITS</code></strong></td>
+<td style="text-align:center"><strong><code>EXP-10</code>: <code>metabolize_yield</code> (<code>+170 USDC</code> / <code>+30 USDC</code>)</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="screenshots/exp_step_09_devnet_swap_settlement.png" alt="EXP-09" /></td>
+<td style="text-align:center"><img src="screenshots/exp_step_10_metabolize_yield_split.png" alt="EXP-10" /></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong><code>EXP-11</code>: <code>emergency_withdraw</code> Soberano (<code>~400ms</code>)</strong></td>
+<td style="text-align:center"><strong><code>EXP-12</code>: Auditoria Solscan Devnet &amp; Phantom ATA</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="screenshots/exp_step_11_emergency_withdraw.png" alt="EXP-11" /></td>
+<td style="text-align:center"><img src="screenshots/exp_step_12_solscan_audit_proof.png" alt="EXP-12" /></td>
+</tr>
+</tbody>
+</table>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 5:00 a 5:20</em>)</h3>
+<blockquote>
+<p><em>&quot;E nas etapas 7 a 12 vemos o ciclo completo de criação e captura de valor: o Pyth 922 envia prova fresca de 12 segundos, o cliente seleciona o modo DEVNET_E2E, assina o swap recebendo 9.950 unidades na carteira, metaboliza 200 dólares de lucro dividindo 85% para o cofre e 15% para a tesouraria, testa o botão de resgate de emergência em 400ms e audita todas as assinaturas no Solscan Devnet.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-15" data-slide-index="15" data-slide-title="Slide 15 — Panorama Competitivo &amp; Raio-X Full-Stack (feat/devnet-e2e-tokenization-protocol)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 15 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 15 — Panorama Competitivo &amp; Raio-X Full-Stack (<code>feat/devnet-e2e-tokenization-protocol</code>)</h2>
+<h3>⚔️ Comparativo Estratégico de Defensabilidade</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Dimensão Técnica / Fiduciária</th>
+<th style="text-align:left">Bots de IA com Chave Crua (Eliza/Swarm)</th>
+<th style="text-align:left">Multi-Sigs Manuais (Squads)</th>
+<th style="text-align:left">Fundos Tradicionais (2/20)</th>
+<th style="text-align:left"><strong>ValueCurator v2.0 (Dual-Engine)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Velocidade de Execução</strong></td>
+<td style="text-align:left">Sub-segundo</td>
+<td style="text-align:left">Horas a dias (Manual)</td>
+<td style="text-align:left">Semanas a meses</td>
+<td style="text-align:left"><strong>⚡ Autônoma &amp; Instantânea (~400ms)</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Risco de Custódia da IA</strong></td>
+<td style="text-align:left">❌ Crítico (Chave privada exposta)</td>
+<td style="text-align:left">✅ Seguro (M-de-N)</td>
+<td style="text-align:left">⚠️ Opaco (Contraparte)</td>
+<td style="text-align:left"><strong>✅ Isolamento Soberano em <code>Vault PDA</code></strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Verificação Oracular</strong></td>
+<td style="text-align:left">❌ Nenhuma ou básica</td>
+<td style="text-align:left">❌ Nenhuma</td>
+<td style="text-align:left">❌ Relatórios atrasados</td>
+<td style="text-align:left"><strong>✅ Pyth Feed <code>922</code> + Desvio Cross-Venue</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Runtime <em>Fail-Closed</em></strong></td>
+<td style="text-align:left">❌ Opera sob erro/alucinação</td>
+<td style="text-align:left">❌ N/A</td>
+<td style="text-align:left">❌ N/A</td>
+<td style="text-align:left"><strong>✅ Sim (<span class="math-inline">$\bigwedge_{k=1}^6 \mathcal{C}_k \equiv \mathbf{true}$</span>)</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Tokenização Própria (IP/DeSci)</strong></td>
+<td style="text-align:left">❌ Não suporta</td>
+<td style="text-align:left">❌ Não suporta</td>
+<td style="text-align:left">❌ Papel / Cartório</td>
+<td style="text-align:left"><strong>✅ Nativa via <code>SPL Token-2022</code> + <code>EidosManifest</code></strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Execução E2E na Devnet</strong></td>
+<td style="text-align:left">⚠️ Mocks irreais</td>
+<td style="text-align:left">⚠️ Apenas transferências</td>
+<td style="text-align:left">❌ N/A</td>
+<td style="text-align:left"><strong>✅ Dual-Mode (<code>APPROVAL_ONLY</code> <span class="math-inline">$\oplus$</span> <code>DEVNET_E2E</code>)</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>🛠️ Raio-X dos Módulos Entregues na Branch <code>feat/devnet-e2e-tokenization-protocol</code></h3>
+<ul>
+<li>🦀 <strong>Blockchain (Rust / Anchor 0.30.1)</strong>: <a href="file:///home/tester/valuecurator/apps/web/programs/kairos-engine/src/instructions/mint_research_asset.rs"><code>mint_research_asset.rs</code></a>, <a href="file:///home/tester/valuecurator/apps/web/programs/kairos-engine/src/instructions/execute_devnet_strategy_swap.rs"><code>execute_devnet_strategy_swap.rs</code></a>, <a href="file:///home/tester/valuecurator/apps/web/programs/kairos-engine/src/lib.rs"><code>lib.rs</code></a>, <a href="file:///home/tester/valuecurator/apps/web/programs/kairos-engine/src/events.rs"><code>events.rs</code></a>, <a href="file:///home/tester/valuecurator/apps/web/programs/kairos-engine/src/error.rs"><code>error.rs</code></a>.</li>
+<li>🧠 <strong>Backend Agente KAIROS (TypeScript)</strong>: <a href="file:///home/tester/valuecurator/apps/web/agent/src/execution-proposal.ts"><code>execution-proposal.ts</code></a>, <a href="file:///home/tester/valuecurator/apps/web/agent/src/approval-receipt.ts"><code>approval-receipt.ts</code></a>, <a href="file:///home/tester/valuecurator/apps/web/agent/src/execute-devnet.ts"><code>execute-devnet.ts</code></a>.</li>
+<li>🖥️ <strong>Frontend Next.js &amp; Minting Lab</strong>: <a href="file:///home/tester/valuecurator/apps/web/components/execution-proposal-card.tsx"><code>execution-proposal-card.tsx</code></a>, <a href="file:///home/tester/valuecurator/experiments/research-nft-mint/src/mint-research-nft-devnet.ts"><code>mint-research-nft-devnet.ts</code></a>, <a href="file:///home/tester/valuecurator/experiments/research-nft-mint/schemas/ResearchNFTManifest.schema.json"><code>ResearchNFTManifest.schema.json</code></a>.</li>
+</ul>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 5:20 a 5:40</em>)</h3>
+<blockquote>
+<p><em>&quot;Enquanto bots convencionais arriscam todo o capital com chaves expostas e multi-sigs travam a velocidade operacional, o ValueCurator v2.0 entrega velocidade autônoma com segurança determinística Fail-Closed e fábrica própria de ativos Token-2022. Todo esse código já está implementado em Rust, TypeScript e Next.js no nosso repositório.&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+    <section class="deck-slide" id="slide-16" data-slide-index="16" data-slide-title="Slide 16 — Equipe Fundadora, Roadmap 2026 &amp; The Ask ($250K Colosseum Accelerator)">
+      <div class="slide-badge-bar">
+        <span class="slide-pill">SLIDE 16 / 16</span>
+        <span class="slide-brand">ValueCurator × Compilatorum • Master Pitch Deck v2.0 (Devnet E2E + SPL Token-2022)</span>
+      </div>
+      <div class="slide-inner">
+        <h2>🎴 Slide 16 — Equipe Fundadora, Roadmap 2026 &amp; <em>The Ask</em> ($250K Colosseum Accelerator)</h2>
+<h3>👥 Equipe Fundadora</h3>
+<ul>
+<li>👩‍💻 <strong>Sandra Pereira</strong> — <em>Co-Founder &amp; Core Solana Systems Engineer</em>
+<ul>
+<li>Especialista em arquitetura de programas Anchor na Solana, isolamento de custódia via <em>Program Derived Addresses (PDAs)</em>, extensões <code>SPL Token-2022</code> e engenharia de contratos inteligentes resilientes.</li>
+</ul>
+</li>
+<li>👨‍💻 <strong>João Nitsche</strong> — <em>Co-Founder &amp; Epistemic Systems Architect</em>
+<ul>
+<li>Especialista em planos de controle neuro-simbólicos, econofísica PIML, modelos quantamentais de mercado, especificação formal <code>EidosManifest</code> e governança cibernética de segunda ordem.</li>
+</ul>
+</li>
+</ul>
+<h3>🛣️ Roadmap de Execução 2026–2027</h3>
+<div class="mermaid-container"><div class="mermaid">
+flowchart LR
+    Q1["✅ Fase 1 (Concluída)<br/>• Anchor PDA Vault na Devnet<br/>• Telemetria Pyth Feed 922<br/>• Fábrica Token-2022 + Swap E2E<br/>• Suíte Playwright 100% Pass"] --> Q2["🛡️ Fase 2 (Meses 1–3)<br/>• Auditoria Formal (OtterSec/Neodyme)<br/>• Deploy Mainnet Auditado<br/>• Token-2022 Transfer Hooks<br/>• Piloto com 5 Clubes B2B"]
+    Q2 --> Q3["🤖 Fase 3 (Meses 4–6)<br/>• Lançamento SDK @valuecurator/agent-armor<br/>• Módulo B2D para Tesourarias DAO<br/>• Marketplace DeSci de Research NFTs"]
+    Q3 --> Q4["🌍 Fase 4 (Meses 7–12)<br/>• Confidential Transfers (Zero-Knowledge)<br/>• API White-Label para Neobanks (B2B2C)<br/>• Meta de US$ 100M+ em TVG"]
+
+    style Q1 fill:#065f46,stroke:#34d399,stroke-width:2px,color:#fff
+    style Q2 fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#fff
+    style Q3 fill:#4c1d95,stroke:#c084fc,stroke-width:2px,color:#fff
+    style Q4 fill:#78350f,stroke:#fbbf24,stroke-width:2px,color:#fff
+</div></div>
+<h3>🤝 <em>The Seed Ask</em>: US$ 250.000 (Colosseum Accelerator Cohort)</h3>
+<ul>
+<li><strong>45% Auditoria de Smart Contracts &amp; Segurança Formal</strong>: Auditoria completa das instruções de cofre, swap e ganchos <code>SPL Token-2022</code>.</li>
+<li><strong>35% Engenharia de Protocolo &amp; SDKs (<code>@valuecurator/agent-armor</code>)</strong>: Expansão dos pacotes Rust/TypeScript para desenvolvedores de agentes e laboratórios DeSci.</li>
+<li><strong>20% Liquidez Inicial &amp; Go-To-Market Institucional</strong>: Onboarding dos primeiros clubes de investimento, DAOs e grupos de pesquisa na Solana Mainnet.</li>
+</ul>
+<blockquote>
+<h3>🌟 Axioma Soberano de Fechamento:</h3>
+<h3><em>&quot;A IA propõe. A evidência comprova. A política autoriza. O proprietário governa — e o conhecimento se materializa em capital.&quot;</em></h3>
+</blockquote>
+<h3>🎙️ Roteiro do Apresentador (<em>Pitcher Script — 5:40 a 6:00</em>)</h3>
+<blockquote>
+<p><em>&quot;Sandra e eu unimos engenharia profunda na Solana com arquitetura rigorosa de sistemas neuro-simbólicos. Estamos captando 250 mil dólares através do Colosseum Accelerator para auditar nossos novos módulos Token-2022, lançar o SDK Agent Armor na Mainnet e escalar o ValueCurator para 100 milhões de dólares sob governança. A IA vai operar os mercados do futuro; o ValueCurator garante que o capital humano e científico sobreviva e prospere nele. Muito obrigado!&quot;</em></p>
+</blockquote>
+
+      </div>
+    </section>
+    
+  </main>
+
+  <script>
+    // Render Mermaid Diagrams, MathJax Equations, and Code Highlighting via CDN
+    window.renderDiagramsAndMath = async function() {
+      try {
+        if (window.hljs) {
+          window.hljs.highlightAll();
+        }
+
+        if (window.mermaid) {
+          window.mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+            sequence: { useMaxWidth: true, showSequenceNumbers: true, actorMargin: 40 }
+          });
+
+          const mermaidNodes = document.querySelectorAll('.mermaid');
+          if (mermaidNodes.length > 0) {
+            await window.mermaid.run({ nodes: mermaidNodes });
+          }
+        }
+
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          await window.MathJax.typesetPromise();
+        }
+
+        return {
+          success: true,
+          mermaidSvgCount: document.querySelectorAll('.mermaid svg').length,
+          mathJaxCount: document.querySelectorAll('mjx-container').length
+        };
+      } catch (err) {
+        console.error('Erro ao renderizar diagramas/equações:', err);
+        return { success: false, error: err.toString() };
+      }
+    };
+
+    // Interactive Slide Deck Controller
+    (function() {
+      const slides = Array.from(document.querySelectorAll('.deck-slide'));
+      const totalSlides = slides.length;
+      const selectEl = document.getElementById('slide-select');
+      const counterEl = document.getElementById('slide-counter');
+      const progressEl = document.getElementById('progress-bar-fill');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnMode = document.getElementById('btn-mode');
+      const btnTheme = document.getElementById('btn-theme');
+      const btnFullscreen = document.getElementById('btn-fullscreen');
+
+      let currentSlide = 0;
+      let presentationMode = false;
+
+      function updateSlideUI(scrollIntoView = true) {
+        slides.forEach((s, idx) => {
+          s.classList.toggle('active-slide', idx === currentSlide);
+        });
+        selectEl.value = String(currentSlide);
+        counterEl.textContent = `Slide ${String(currentSlide).padStart(2, '0')} / ${String(totalSlides - 1).padStart(2, '0')}`;
+        const pct = ((currentSlide + 1) / totalSlides) * 100;
+        progressEl.style.width = `${pct}%`;
+
+        if (!presentationMode && scrollIntoView) {
+          slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if (presentationMode) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+
+      btnPrev.addEventListener('click', () => {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateSlideUI(true);
+      });
+
+      btnNext.addEventListener('click', () => {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateSlideUI(true);
+      });
+
+      selectEl.addEventListener('change', (e) => {
+        currentSlide = parseInt(e.target.value, 10) || 0;
+        updateSlideUI(true);
+      });
+
+      btnMode.addEventListener('click', () => {
+        presentationMode = !presentationMode;
+        document.body.classList.toggle('presentation-mode', presentationMode);
+        btnMode.classList.toggle('active', presentationMode);
+        btnMode.textContent = presentationMode ? '📜 Modo Scroll Contínuo' : '🖥️ Modo Slide-a-Slide';
+        updateSlideUI(false);
+      });
+
+      btnTheme.addEventListener('click', () => {
+        const htmlEl = document.documentElement;
+        const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+        htmlEl.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        btnTheme.textContent = isDark ? '🌙 Dark Mode' : '☀️ Light Mode';
+      });
+
+      btnFullscreen.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      });
+
+      // Keyboard Shortcuts (ArrowRight, ArrowLeft, F)
+      window.addEventListener('keydown', (e) => {
+        if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+          if (presentationMode) {
+            e.preventDefault();
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlideUI(true);
+          }
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          if (presentationMode) {
+            e.preventDefault();
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlideUI(true);
+          }
+        } else if (e.key === 'f' || e.key === 'F') {
+          btnFullscreen.click();
+        }
+      });
+
+      // Update active slide indicator on scroll when in continuous mode
+      window.addEventListener('scroll', () => {
+        if (presentationMode) return;
+        const scrollPos = window.scrollY + 180;
+        for (let i = slides.length - 1; i >= 0; i--) {
+          if (slides[i].offsetTop <= scrollPos) {
+            currentSlide = i;
+            selectEl.value = String(currentSlide);
+            counterEl.textContent = `Slide ${String(currentSlide).padStart(2, '0')} / ${String(totalSlides - 1).padStart(2, '0')}`;
+            progressEl.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            break;
+          }
+        }
+      }, { passive: true });
+
+      updateSlideUI(false);
+    })();
+
+    window.addEventListener('load', () => {
+      window.renderDiagramsAndMath();
+    });
+  </script>
+</body>
+</html>
