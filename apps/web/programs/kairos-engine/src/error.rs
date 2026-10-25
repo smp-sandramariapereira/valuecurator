@@ -6,11 +6,11 @@ pub enum KairosError {
     Unauthorized,
     #[msg("Only the configured node operator can perform this instruction")]
     UnauthorizedOperator,
-    #[msg("infrastructure_fee_bps cannot exceed 10000")]
+    #[msg("Fee basis points cannot exceed 10000")]
     InvalidFee,
-    #[msg("Yield amount must be greater than zero")]
+    #[msg("Amount must be greater than zero")]
     ZeroAmount,
-    #[msg("Arithmetic overflow while processing yield")]
+    #[msg("Arithmetic overflow while processing fee or yield")]
     MathOverflow,
     #[msg("Treasury token account owner must match node.treasury_pubkey")]
     InvalidTreasuryAccount,
@@ -26,7 +26,7 @@ pub enum KairosError {
     InvalidStrategyMint,
     #[msg("minimum_amount_out must be greater than zero")]
     InvalidMinimumOutput,
-    #[msg("Vault balance is lower than the requested strategy input")]
+    #[msg("Vault balance is lower than the requested input or periodic fee")]
     InsufficientVaultBalance,
     #[msg("Strategy swap produced an invalid balance transition")]
     InvalidSwapBalance,
@@ -48,4 +48,8 @@ pub enum KairosError {
     InvalidMultiplier,
     #[msg("Reference price mint does not match the strategy mint")]
     InvalidReferenceMint,
+    #[msg("At least one full periodic maintenance epoch must elapse before collection")]
+    PeriodicFeeNotDue,
+    #[msg("Periodic epoch duration must be strictly positive")]
+    InvalidEpochDuration,
 }

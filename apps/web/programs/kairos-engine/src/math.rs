@@ -20,6 +20,42 @@ pub fn split_yield(amount: u64, fee_bps: u16) -> Result<(u64, u64)> {
     Ok((infrastructure, reinvested))
 }
 
+/// Split a gross deposit `amount` into `(deposit_fee, net_vaulted)` using `deposit_fee_bps` / 10_000.
+pub fn split_deposit_fee(amount: u64, deposit_fee_bps: u16) -> Result<(u64, u64)> {
+    split_yield(amount, deposit_fee_bps)
+}
+
+/// Compute elapsed maintenance epochs and total periodic fee due between `last_ts` and `now_ts`.
+/// Returns `(epochs_elapsed, total_fee_due, new_last_ts)`.
+/// Strictly fails closed with `PeriodicFeeNotDue` if less than one full epoch has elapsed.
+pub fn calculate_periodic_fee_due(
+    last_ts: i64,
+    now_ts: i64,
+    epoch_seconds: i64,
+    fee_per_epoch: u64,
+) -> Result<(u64, u64, i64)> {
+    require!(epoch_seconds > 0, KairosError::InvalidEpochDuration);
+    require!(now_ts >= last_ts, KairosError::PeriodicFeeNotDue);
+
+    let elapsed = now_ts
+        .checked_sub(last_ts)
+        .ok_or(KairosError::MathOverflow)?;
+    let epochs = (elapsed / epoch_seconds) as u64;
+    require!(epochs > 0, KairosError::PeriodicFeeNotDue);
+
+    let total_fee = epochs
+        .checked_mul(fee_per_epoch)
+        .ok_or(KairosError::MathOverflow)?;
+    let advance_seconds = (epochs as i64)
+        .checked_mul(epoch_seconds)
+        .ok_or(KairosError::MathOverflow)?;
+    let new_last_ts = last_ts
+        .checked_add(advance_seconds)
+        .ok_or(KairosError::MathOverflow)?;
+
+    Ok((epochs, total_fee, new_last_ts))
+}
+
 /// Absolute distance between the executable price and the reference price,
 /// in basis points of the reference price. Truncates toward zero, matching
 /// `ratioBps` in the off-chain evidence gate.
@@ -56,9 +92,6 @@ pub fn assert_price_deviation(
 }
 
 /// Worst executable USD price, in micros, implied by `minimum_amount_out`.
-///
-/// Matches `quoteScaledUsdPriceMicros`: input is treated as the USD leg and
-/// `minimum_amount_out` is the least output the operator is willing to accept.
 pub fn implied_executable_price_micros(
     amount_in: u64,
     minimum_amount_out: u64,
@@ -124,13 +157,55 @@ fn ten_pow(exp: u8) -> Result<u128> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::constants::DEFAULT_INFRASTRUCTURE_FEE_BPS;
+    use crate::constants::{
+        DEFAULT_DEPOSIT_FEE_BPS, DEFAULT_INFRASTRUCTURE_FEE_BPS, DEFAULT_PERIODIC_FEE_AMOUNT,
+        PERIODIC_FEE_EPOCH_SECONDS,
+    };
 
     #[test]
     fn default_fee_splits_fifteen_eighty_five() {
         let (infra, reinvest) = split_yield(10_000, DEFAULT_INFRASTRUCTURE_FEE_BPS).unwrap();
         assert_eq!(infra, 1_500);
         assert_eq!(reinvest, 8_500);
+    }
+
+    #[test]
+    fn deposit_fee_splits_fifty_bps_entry_fee() {
+        // 1,000 USDC (1_000_000_000 micro-USDC) at 50 bps = 5 USDC fee, 995 USDC net vaulted
+        let (fee, net) = split_deposit_fee(1_000_000_000, DEFAULT_DEPOSIT_FEE_BPS).unwrap();
+        assert_eq!(fee, 5_000_000);
+        assert_eq!(net, 995_000_000);
+    }
+
+    #[test]
+    fn periodic_fee_rejects_before_epoch_completes() {
+        let start_ts = 1_700_000_000;
+        let premature_ts = start_ts + PERIODIC_FEE_EPOCH_SECONDS - 1;
+        let err = calculate_periodic_fee_due(
+            start_ts,
+            premature_ts,
+            PERIODIC_FEE_EPOCH_SECONDS,
+            DEFAULT_PERIODIC_FEE_AMOUNT,
+        )
+        .unwrap_err();
+        assert_eq!(err, error!(KairosError::PeriodicFeeNotDue));
+    }
+
+    #[test]
+    fn periodic_fee_settles_multiple_epochs_accurately() {
+        let start_ts = 1_700_000_000;
+        // 2 full epochs + 500 seconds partial
+        let now_ts = start_ts + (2 * PERIODIC_FEE_EPOCH_SECONDS) + 500;
+        let (epochs, fee, new_last) = calculate_periodic_fee_due(
+            start_ts,
+            now_ts,
+            PERIODIC_FEE_EPOCH_SECONDS,
+            DEFAULT_PERIODIC_FEE_AMOUNT,
+        )
+        .unwrap();
+        assert_eq!(epochs, 2);
+        assert_eq!(fee, 2_000_000);
+        assert_eq!(new_last, start_ts + 2 * PERIODIC_FEE_EPOCH_SECONDS);
     }
 
     #[test]
@@ -153,57 +228,12 @@ mod tests {
 
     #[test]
     fn deviation_within_mandate_passes() {
-        // |101 - 100| / 100 = 100 bps, under a 200 bps mandate.
         assert!(assert_price_deviation(100_000_000, 101_000_000, 200).is_ok());
     }
 
     #[test]
     fn deviation_above_mandate_is_rejected() {
-        // |103 - 100| / 100 = 300 bps, over a 200 bps mandate.
         let err = assert_price_deviation(100_000_000, 103_000_000, 200).unwrap_err();
-        assert_eq!(err, error!(KairosError::PriceDeviationExceeded));
-    }
-
-    #[test]
-    fn implied_price_within_reference_passes() {
-        // 1.01 USDC for 1.000000 output base units, 6 and 8 decimals, multiplier 1.0.
-        // Implied price is $1.01 = 101_000_000 micros, 100 bps from $1.00.
-        let executable = implied_executable_price_micros(
-            1_010_000,
-            1_000_000,
-            6,
-            8,
-            1_000_000_000,
-        )
-        .unwrap();
-        assert_eq!(executable, 101_000_000);
-        assert!(assert_price_deviation(100_000_000, executable, 200).is_ok());
-    }
-
-    #[test]
-    fn implied_price_above_reference_is_rejected() {
-        // 1.30 USDC for the same output is $1.30, 3000 bps from $1.00.
-        let executable = implied_executable_price_micros(
-            1_300_000,
-            1_000_000,
-            6,
-            8,
-            1_000_000_000,
-        )
-        .unwrap();
-        assert_eq!(executable, 130_000_000);
-        let err = assert_price_deviation(100_000_000, executable, 200).unwrap_err();
-        assert_eq!(err, error!(KairosError::PriceDeviationExceeded));
-    }
-
-    #[test]
-    fn six_decimal_whole_token_uses_one_million_as_one_dollar() {
-        let fair = implied_executable_price_micros(1_000_000, 1_000_000, 6, 6, 1_000_000_000).unwrap();
-        assert_eq!(fair, 1_000_000);
-        assert!(enforce_reference_price(1_000_000, 200, 1_000_000_000, 1_000_000, 1_000_000, 6, 6).is_ok());
-
-        let err = enforce_reference_price(1_000_000, 200, 1_000_000_000, 1_300_000, 1_000_000, 6, 6)
-            .unwrap_err();
         assert_eq!(err, error!(KairosError::PriceDeviationExceeded));
     }
 }

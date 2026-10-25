@@ -112,6 +112,10 @@ pub fn handle_metabolize_yield<'a>(
         .total_metabolized
         .checked_add(amount)
         .ok_or(KairosError::MathOverflow)?;
+    node.total_admin_fees_collected = node
+        .total_admin_fees_collected
+        .checked_add(infrastructure)
+        .ok_or(KairosError::MathOverflow)?;
 
     emit!(MetabolicEvent {
         node: node.key(),

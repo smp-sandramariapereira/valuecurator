@@ -10,6 +10,37 @@ pub struct MetabolicEvent {
 }
 
 #[event]
+pub struct DepositFeeCollectedEvent {
+    pub node: Pubkey,
+    pub depositor: Pubkey,
+    pub gross_amount: u64,
+    pub deposit_fee_collected: u64,
+    pub net_vaulted: u64,
+    pub deposit_fee_bps: u16,
+    pub timestamp: i64,
+}
+
+#[event]
+pub struct PeriodicFeeCollectedEvent {
+    pub node: Pubkey,
+    pub collector: Pubkey,
+    pub epochs_settled: u64,
+    pub periodic_fee_collected: u64,
+    pub new_last_periodic_fee_ts: i64,
+    pub timestamp: i64,
+}
+
+#[event]
+pub struct AdminFeeScheduleUpdatedEvent {
+    pub node: Pubkey,
+    pub owner: Pubkey,
+    pub deposit_fee_bps: u16,
+    pub periodic_fee_amount: u64,
+    pub infrastructure_fee_bps: u16,
+    pub timestamp: i64,
+}
+
+#[event]
 pub struct StrategyAllocationEvent {
     pub node: Pubkey,
     pub operator: Pubkey,

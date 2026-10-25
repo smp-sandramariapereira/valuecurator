@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-/// On-chain state for one Autonomous Capital Node.
+/// On-chain state for one Autonomous Capital Node with Tri-Tier Administrative Fee Accounting.
 #[account]
 #[derive(InitSpace)]
 pub struct NodeAccount {
@@ -8,18 +8,26 @@ pub struct NodeAccount {
     pub owner: Pubkey,
     /// Limited hot key allowed to process yield and allocate it to the strategy.
     pub operator: Pubkey,
-    /// Infrastructure retention in basis points. Default 1500 = 15%.
+    /// Tier 3 — Performance / yield metabolism retention in basis points. Default 1500 = 15%.
     pub infrastructure_fee_bps: u16,
-    /// Cumulative amount processed by `metabolize_yield`.
+    /// Cumulative yield amount processed by `metabolize_yield`.
     pub total_metabolized: u64,
-    /// Destination owner for the infrastructure slice.
+    /// Destination owner for all three administrative fee tiers (Deposit, Periodic, Performance).
     pub treasury_pubkey: Pubkey,
     /// Allowlisted output mint acquired by the executable strategy.
     pub strategy_mint: Pubkey,
     /// Canonical PDA bump.
     pub bump: u8,
-    /// Reserved for later fields without a layout break.
-    pub _reserved: [u8; 32],
+    /// Tier 1 — Deposit / entry fee in basis points charged on capital deposits. Default 50 = 0.50%.
+    pub deposit_fee_bps: u16,
+    /// Tier 2 — Periodic flat maintenance fee per 30-day epoch in token base units. Default 1_000_000 (1 USDC).
+    pub periodic_fee_amount: u64,
+    /// Unix timestamp of the last settled periodic maintenance epoch.
+    pub last_periodic_fee_ts: i64,
+    /// Cumulative administrative fees (Deposit + Periodic + Performance) routed to `treasury_pubkey`.
+    pub total_admin_fees_collected: u64,
+    /// Remaining reserved bytes (preserves exact 32-byte tail layout).
+    pub _reserved: [u8; 6],
 }
 
 impl NodeAccount {

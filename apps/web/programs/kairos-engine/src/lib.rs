@@ -40,10 +40,42 @@ pub mod kairos_engine {
         )
     }
 
-    /// Pull yield from the limited operator account and split it between
-    /// infrastructure and the node PDA vault.
+    /// Tier 1 Administrative Fee: Deposit collateral into the Node PDA Vault,
+    /// routing `deposit_fee_bps` to the Protocol Treasury and crediting the net
+    /// principal to the sovereign vault.
+    pub fn deposit_with_fee<'a>(
+        ctx: Context<'a, DepositWithFee<'a>>,
+        gross_amount: u64,
+    ) -> Result<()> {
+        instructions::deposit_with_fee::handle_deposit_with_fee(ctx, gross_amount)
+    }
+
+    /// Tier 2 Administrative Fee: Collect elapsed 30-day periodic maintenance fees
+    /// (`periodic_fee_amount` per epoch) from the Node PDA Vault to the Treasury.
+    pub fn collect_periodic_fee<'a>(ctx: Context<'a, CollectPeriodicFee<'a>>) -> Result<()> {
+        instructions::collect_periodic_fee::handle_collect_periodic_fee(ctx)
+    }
+
+    /// Tier 3 Administrative Fee: Pull positive strategy yield from the limited
+    /// operator account and split it between the Protocol Treasury (`infrastructure_fee_bps`)
+    /// and the Node PDA Vault (`10000 - infrastructure_fee_bps`).
     pub fn metabolize_yield<'a>(ctx: Context<'a, MetabolizeYield<'a>>, amount: u64) -> Result<()> {
         instructions::metabolize_yield::handle_metabolize_yield(ctx, amount)
+    }
+
+    /// Owner-only update of the Tri-Tier Administrative Fee Schedule.
+    pub fn configure_admin_fees(
+        ctx: Context<ConfigureAdminFees>,
+        deposit_fee_bps: u16,
+        periodic_fee_amount: u64,
+        infrastructure_fee_bps: u16,
+    ) -> Result<()> {
+        instructions::configure_admin_fees::handle_configure_admin_fees(
+            ctx,
+            deposit_fee_bps,
+            periodic_fee_amount,
+            infrastructure_fee_bps,
+        )
     }
 
     /// Owner posts the Devnet reference price the swap instruction must read.
@@ -62,9 +94,6 @@ pub mod kairos_engine {
     }
 
     /// Compare a proposed swap with the owner-posted Devnet reference.
-    ///
-    /// Returns `PriceDeviationExceeded` before any token movement. Jupiter is
-    /// not an account of this instruction.
     pub fn assert_executable_price(
         ctx: Context<AssertExecutablePrice>,
         amount_in: u64,

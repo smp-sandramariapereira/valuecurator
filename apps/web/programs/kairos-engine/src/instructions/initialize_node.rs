@@ -1,6 +1,9 @@
 use anchor_lang::prelude::*;
 
-use crate::constants::{BPS_DENOMINATOR, DEFAULT_INFRASTRUCTURE_FEE_BPS, NODE_SEED};
+use crate::constants::{
+    BPS_DENOMINATOR, DEFAULT_DEPOSIT_FEE_BPS, DEFAULT_INFRASTRUCTURE_FEE_BPS,
+    DEFAULT_PERIODIC_FEE_AMOUNT, NODE_SEED,
+};
 use crate::error::KairosError;
 use crate::state::NodeAccount;
 
@@ -50,6 +53,7 @@ pub fn handle_initialize_node(
         infrastructure_fee_bps
     };
 
+    let now_ts = Clock::get()?.unix_timestamp;
     let node = &mut ctx.accounts.node;
     node.owner = ctx.accounts.owner.key();
     node.operator = operator;
@@ -58,7 +62,11 @@ pub fn handle_initialize_node(
     node.treasury_pubkey = treasury_pubkey;
     node.strategy_mint = strategy_mint;
     node.bump = ctx.bumps.node;
-    node._reserved = [0u8; 32];
+    node.deposit_fee_bps = DEFAULT_DEPOSIT_FEE_BPS;
+    node.periodic_fee_amount = DEFAULT_PERIODIC_FEE_AMOUNT;
+    node.last_periodic_fee_ts = now_ts;
+    node.total_admin_fees_collected = 0;
+    node._reserved = [0u8; 6];
 
     Ok(())
 }

@@ -1,4 +1,7 @@
 pub mod assert_executable_price;
+pub mod collect_periodic_fee;
+pub mod configure_admin_fees;
+pub mod deposit_with_fee;
 pub mod emergency_withdraw;
 pub mod execute_strategy_swap;
 pub mod initialize_node;
@@ -8,6 +11,9 @@ pub mod transfer_hook;
 pub mod update_operator;
 
 pub use assert_executable_price::*;
+pub use collect_periodic_fee::*;
+pub use configure_admin_fees::*;
+pub use deposit_with_fee::*;
 pub use emergency_withdraw::*;
 pub use execute_strategy_swap::*;
 pub use initialize_node::*;
