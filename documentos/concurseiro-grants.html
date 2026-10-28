@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Concurseiro de Grants v2.0 — Experimento Sociotécnico Farcaster × IPIT × Multi-Chain Stacking</title>
+<title>Farcaster Commons Lab (IPIT) × ValueCurator — Concurseiro de Grants v3.0</title>
 <style>
 :root{
   --bg:#f2f5f8;--sf:#ffffff;--sf2:#f8fafc;--ink:#14213d;--mu:#5b6678;
@@ -24,42 +24,43 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.52;font-size:15px}
+body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.52;font-size:14.8px}
 header{background:#0f172a;color:#fff;padding:14px 16px 0;border-bottom:1px solid #1e293b;position:sticky;top:0;z-index:100}
-.hd{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px}
-.hd-left{flex:1;min-width:280px}
+.hd{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px}
+.hd-left{flex:1;min-width:290px}
 .hd-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-h1{font-size:21px;margin:0;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+h1{font-size:20.5px;margin:0;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 h1 span.hl{background:var(--ye);color:#14213d;padding:1px 7px;border-radius:4px}
-h1 span.bdg{background:linear-gradient(90deg,#7c3aed,#2563eb);color:#fff;font-size:11px;padding:2px 8px;border-radius:99px;font-weight:700}
+h1 span.bdg{background:linear-gradient(90deg,#10b981,#2563eb);color:#fff;font-size:11px;padding:2px 8px;border-radius:99px;font-weight:700}
 .sub{color:#b9c4da;font-size:12.5px;margin:3px 0 8px}
 .ov-wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
 .ov{height:8px;background:#ffffff26;border-radius:4px;overflow:hidden;width:280px}
 .ov i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ye),#3ccf84);transition:width .4s}
 .ovl{font-size:12px;color:#e2e8f0;font-weight:600}
-nav{display:flex;gap:2px;overflow-x:auto;max-width:1180px;margin:6px auto 0;scrollbar-width:thin}
-nav button{background:none;border:0;color:#b9c4da;padding:9px 12px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all .15s}
+nav{display:flex;gap:2px;overflow-x:auto;max-width:1240px;margin:6px auto 0;scrollbar-width:thin}
+nav button{background:none;border:0;color:#b9c4da;padding:9px 11px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all .15s}
 nav button:hover{color:#fff;background:#ffffff0d}
 nav button.on{color:#fff;border-color:var(--ye);background:#ffffff14}
 nav button:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--bl);outline-offset:2px}
-main{max-width:1180px;margin:0 auto;padding:18px 16px 40px}
+main{max-width:1240px;margin:0 auto;padding:18px 16px 44px}
 section{display:none}
 section.on{display:block}
 h2{font-size:19px;margin:0 0 4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .lead{color:var(--mu);margin:0 0 14px;font-size:14px}
 .g{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
-.g2{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(380px,1fr))}
+.g2{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(390px,1fr))}
+.g3{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
 .c{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:14px 16px;box-shadow:0 2px 6px rgba(0,0,0,.03)}
-.c h3{margin:0 0 8px;font-size:15.5px;display:flex;align-items:center;justify-content:space-between;gap:6px}
-.it{display:flex;gap:8px;align-items:flex-start;padding:4px 0;cursor:pointer;font-size:14px}
+.c h3{margin:0 0 8px;font-size:15px;display:flex;align-items:center;justify-content:space-between;gap:6px}
+.it{display:flex;gap:8px;align-items:flex-start;padding:4px 0;cursor:pointer;font-size:13.8px}
 .it input{margin-top:4px;accent-color:var(--bl)}
 .it.ok span{background:linear-gradient(transparent 55%,#ffd60a55 55%);font-weight:600}
 .st{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));margin-bottom:14px}
-.st .c b{font-size:24px;display:block;line-height:1.15;color:var(--bl)}
+.st .c b{font-size:23px;display:block;line-height:1.15;color:var(--bl)}
 .st .c small{color:var(--mu);font-size:12px}
-.ch{position:relative;height:260px}
+.ch{position:relative;height:255px}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.chips button,.btn{border:1px solid var(--ln);background:var(--sf);color:var(--ink);border-radius:16px;padding:5px 12px;font:inherit;font-size:13px;cursor:pointer;transition:all .15s}
+.chips button,.btn{border:1px solid var(--ln);background:var(--sf);color:var(--ink);border-radius:16px;padding:5px 12px;font:inherit;font-size:12.8px;cursor:pointer;transition:all .15s}
 .chips button.on{background:var(--bl);color:#fff;border-color:var(--bl)}
 .btn{border-radius:6px;background:var(--bl);color:#fff;border-color:var(--bl);font-weight:600;padding:7px 13px}
 .btn:hover{filter:brightness(1.08)}
@@ -72,9 +73,10 @@ h2{font-size:19px;margin:0 0 4px;display:flex;align-items:center;gap:8px;flex-wr
 .tag.pu{background:var(--pu);color:#fff}
 .tag.gr{background:var(--gr);color:#fff}
 .tag.cy{background:var(--cy);color:#fff}
-textarea,input[type=text],input[type=number],select{width:100%;font:inherit;background:var(--sf2);color:var(--ink);border:1px solid var(--ln);border-radius:6px;padding:7px 9px;font-size:13.5px}
-textarea{min-height:62px;resize:vertical}
-.fr{border-bottom:1px solid var(--ln);padding:10px 0}
+.tag.bl{background:var(--bl);color:#fff}
+textarea,input[type=text],input[type=number],select{width:100%;font:inherit;background:var(--sf2);color:var(--ink);border:1px solid var(--ln);border-radius:6px;padding:7px 9px;font-size:13.2px}
+textarea{min-height:60px;resize:vertical}
+.fr{border-bottom:1px solid var(--ln);padding:9px 0}
 .fr:last-child{border:0}
 .fr small{color:var(--mu);display:block;margin-bottom:4px}
 .fr label.it{font-weight:700}
@@ -86,21 +88,16 @@ textarea{min-height:62px;resize:vertical}
 .op.no{border-color:var(--rd)}
 .op.no i{background:var(--rd);border-color:var(--rd);color:#fff}
 .ex{background:var(--sf2);border-left:4px solid var(--ye);padding:10px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:13.5px}
-pre{white-space:pre-wrap;background:var(--sf2);border:1px solid var(--ln);border-radius:8px;padding:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;max-height:380px;overflow-y:auto}
-ul.l{margin:4px 0 0;padding-left:18px;font-size:13.8px}
+pre{white-space:pre-wrap;background:var(--sf2);border:1px solid var(--ln);border-radius:8px;padding:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.2px;max-height:390px;overflow-y:auto}
+ul.l{margin:4px 0 0;padding-left:18px;font-size:13.5px}
 ul.l li{margin-bottom:4px}
-table.tb{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+table.tb{width:100%;border-collapse:collapse;font-size:12.8px;margin-top:8px}
 table.tb th,table.tb td{border:1px solid var(--ln);padding:7px 9px;text-align:left;vertical-align:top}
 table.tb th{background:var(--sf2);font-weight:700}
-/* Farcaster Frame Simulator Card */
-.fc-card{background:linear-gradient(145deg,#1e1b4b,#0f172a);color:#f8fafc;border:1px solid #4c1d95;border-radius:12px;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
-.fc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:13px;color:#c4b5fd}
-.fc-screen{background:#090d16;border:1px solid #334155;border-radius:8px;padding:12px;margin-bottom:10px;font-family:ui-monospace,monospace;font-size:12.5px;color:#e2e8f0}
-.fc-btns{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.fc-btns button{background:#4c1d95;color:#fff;border:1px solid #7c3aed;border-radius:6px;padding:8px;font-weight:700;font-size:12.5px;cursor:pointer;transition:all .15s}
-.fc-btns button:hover{background:#6d28d9}
+.pipe-step{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--ln);border-radius:8px;background:var(--sf2);font-size:12.8px;margin-bottom:6px}
+.pipe-step b{background:var(--bl);color:#fff;width:22px;height:22px;border-radius:50%;display:inline-grid;place-items:center;font-size:11px;flex:none}
 #dbg{position:fixed;right:12px;bottom:12px;background:#0f172a;color:#fff;border:1px solid #334155;padding:7px 12px;border-radius:6px;font-size:12px;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,.3)}
-footer{max-width:1180px;margin:0 auto;padding:12px 16px 28px;color:var(--mu);font-size:12px;border-top:1px solid var(--ln);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer{max-width:1240px;margin:0 auto;padding:12px 16px 28px;color:var(--mu);font-size:12px;border-top:1px solid var(--ln);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -109,248 +106,385 @@ footer{max-width:1180px;margin:0 auto;padding:12px 16px 28px;color:var(--mu);fon
   <div class="hd">
     <div class="hd-left">
       <h1>
-        Concurseiro de <span class="hl">Grants</span>
-        <span class="bdg">v2.0 • Farcaster × IPIT × Multi-Chain Stack</span>
+        🌱 Farcaster <span class="hl">Commons Lab</span> (IPIT)
+        <span class="bdg">v3.0 • Inteligência Coletiva × ValueCurator × Grants</span>
       </h1>
-      <div class="sub">Plataforma Operacional de Inteligência Coletiva, Circulação de Tokens no Farcaster, Build in Public (Devnet E2E) e Empilhamento Não-Diluidor de Grants</div>
+      <div class="sub">An open experiment in collective intelligence, contribution incentives and ecosystem regeneration: <code>Interação &rarr; Contribuição &rarr; Evidência &rarr; Reconhecimento &rarr; Incentivo &rarr; Reinvestimento</code></div>
       <div class="ov-wrap">
         <div class="ov"><i id="ovb"></i></div>
-        <div class="ovl" id="ovl">Prontidão Global de Aprovação: 0%</div>
+        <div class="ovl" id="ovl">Maturidade Experimental & Prontidão de Grants: 0%</div>
       </div>
     </div>
     <div class="hd-right">
-      <button class="btn ye" onclick="loadPreset()" title="Preenche automaticamente com o caso real ValueCurator + Eidos Token-2022 + IPIT Farcaster">⚡ Carregar Caso Real (ValueCurator × IPIT)</button>
-      <button class="btn s" style="background:#1e293b;color:#fff;border-color:#475569" onclick="toggleTheme()" id="btnTheme">🌓 Tema</button>
-      <button class="btn s" style="background:#1e293b;color:#fff;border-color:#475569" onclick="exportState()" title="Exportar progresso e experimento em JSON">💾 Exportar</button>
+      <button class="btn ye" onclick="loadPreset()" title="Preenche todos os módulos, hipóteses H1-H4, calendário de 30 dias, convos e funding ledger">⚡ Carregar Experimento Completo (100%)</button>
+      <button class="btn s" style="background:#1e293b;color:#fff;border-color:#475569" onclick="toggleTheme()">🌓 Tema</button>
+      <button class="btn s" style="background:#1e293b;color:#fff;border-color:#475569" onclick="exportState()">💾 Exportar JSON</button>
     </div>
   </div>
   <nav id="nav"></nav>
 </header>
 
 <main>
-  <!-- 1. PAINEL -->
+  <!-- ABA 1: PAINEL & ECOLOGIA SOCIOECONÔMICA (ODUM / GÖTSCH) -->
   <section id="s-dash">
-    <h2>📊 Painel de Comando & Prontidão Multi-Grant</h2>
-    <p class="lead">Monitore sua pontuação de prontidão nas 6 disciplinas, o potencial acumulado da sua pilha de grants (Grant Stack) e a geração de bens públicos abertos.</p>
+    <h2>📊 Painel Experimental & Ecologia Socioeconômica (Odum & Götsch)</h2>
+    <p class="lead">Tese Central: <em>"Podemos mobilizar inteligência coletiva por meio de interações sociais abertas, converter contribuições em artefatos verificáveis, experimentar mecanismos de reconhecimento e incentivo e devolver infraestrutura reutilizável ao ecossistema — sem depender inicialmente de um grant."</em></p>
+    
     <div class="st" id="stats"></div>
+
     <div class="g2">
       <div class="c">
-        <h3>🎯 Prontidão por Dimensão Operacional</h3>
+        <h3>🎯 Maturidade das 6 Dimensões do Experimento</h3>
         <div class="ch"><canvas id="cRad"></canvas></div>
       </div>
       <div class="c">
-        <h3>💰 Volume Global por Mecanismo Não-Diluidor (US$ M)</h3>
-        <div class="ch"><canvas id="cDon"></canvas></div>
+        <h3>⚖️ Atenção vs. Contribuição vs. Impacto (Distinção Metodológica)</h3>
+        <div class="ch"><canvas id="cBar"></canvas></div>
       </div>
     </div>
+
+    <!-- Os 4 Componentes Separados -->
     <div class="c" style="margin-top:12px">
-      <h3>🧭 Tese Central: Por que Ecossistemas Financiam a Fundo Perdido (Zero Equity / Zero Dívida)?</h3>
+      <h3>🧭 1. Os 4 Componentes do Experimento (Sem Confundir Marketing com Engenharia)</h3>
+      <table class="tb">
+        <thead>
+          <tr><th>Componente</th><th>Função no Experimento</th><th>Resultado Verificável</th><th>Repositório / Ambiente</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>🟣 Farcaster</strong></td><td>Descobrir participantes, mobilizar colaboradores e formular desafios</td><td>Interações, casts estruturados e conversas documentadas</td><td>Canais <code>/build</code>, <code>/solana</code>, <code>/base</code>, Mini-App</td></tr>
+          <tr><td><strong>🐙 GitHub</strong></td><td>Construir publicamente e coordenar o trabalho técnico e documental</td><td>Commits, issues, PRs, testes automatizados e releases</td><td><code>compilatorum/*</code> &amp; <code>valuecurator</code></td></tr>
+          <tr><td><strong>🪙 Protocolo de Incentivos</strong></td><td>Experimentar reconhecimento gradual: Reputação, Créditos e Tokens</td><td>Regras claras, ledger auditável e transações em Devnet/Testnet</td><td><code>compilatorum/eidos-tokenization</code></td></tr>
+          <tr><td><strong>🏛️ ValueCurator</strong></td><td>Relacionar contribuições, evidências, políticas determinísticas e alocação</td><td>Fluxo end-to-end reproduzível (Recibo Ed25519 + Cofre PDA + 3 Taxas)</td><td><code>smp-sandramariapereira/valuecurator</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Ecologia Socioeconômica: Os 6 Fluxos (Howard Odum & Ernst Götsch) -->
+    <div class="c" style="margin-top:12px">
+      <h3>🌱 2. Ecologia Socioeconômica: Os 6 Fluxos do Ecossistema (Inspirado em Odum & Götsch)</h3>
       <div class="ex">
-        <strong>A Contrapartida Ecossistêmica:</strong> Fundações L1/L2 (Solana, Base, Optimism, Arbitrum, Sui) e programas de Bens Públicos (Gitcoin, Octant, RetroPGF) <strong>não pedem participação societária (equity) nem geram dívida</strong> porque a contrapartida exigida é o <strong>fomento mensurável do próprio ecossistema</strong>: código aberto reutilizável, transações on-chain verificáveis (Devnet &rarr; Mainnet), mobilização de desenvolvedores via GitHub e circulação socioeconômica em redes sociais descentralizadas como o <strong>Farcaster</strong>.
+        <strong>Ressalva Metodológica:</strong> Atenção, reputação, dinheiro e conhecimento <em>não são a mesma coisa que energia física</em> — são estoques e fluxos distintos com unidades e métricas próprias. O ciclo de regeneração (<code>Contribuição &rarr; Artefato &rarr; Utilização &rarr; Impacto &rarr; Financiamento &rarr; Nova contribuição</code>) deve ser medido empiricamente para observar onde ele se fecha e onde depende de subsídios.
       </div>
-      <div id="tipos" style="margin-top:8px"></div>
+      <table class="tb" id="odumTable"></table>
     </div>
   </section>
 
-  <!-- 2. EXPERIMENTO SOCIOTÉCNICO IPIT x FARCASTER (NOVO!) -->
-  <section id="s-ipit">
-    <h2>🧪 Experimento Sociotécnico & Socioeconômico: IPIT × Farcaster × GitHub</h2>
-    <p class="lead">Transforme a metodologia de 8 etapas do <strong>IPIT (Ideathon Pedagógico de Inovação Tecnológica)</strong> em um motor de <strong>Inteligência Coletiva no Farcaster</strong>: circule tokens na Devnet/Testnet para recompensar contribuidores de código aberto antes mesmo do grant sair — criando a prova irrefutável para <strong>Grants Retroativos (RetroPGF)</strong> e <strong>Builder Grants</strong>.</p>
+  <!-- ABA 2: CONVOS & DESAFIOS (FARCASTER -> GITHUB) -->
+  <section id="s-conv">
+    <h2>💬 Farcaster Commons Lab: Convos, Desafios Públicos & Inteligência Coletiva</h2>
+    <p class="lead">Desafio Inaugural: <strong>“Can we turn one Farcaster conversation into a verifiable, reusable open-source contribution?”</strong> — Começamos por um desafio real e unidades pequenas recombináveis (microcontribuições), não pela especulação de um token.</p>
 
     <div class="g2">
-      <!-- Coluna Esquerda: Simulador de Frame v2 + Circulação de Tokens -->
+      <!-- Pipeline de 10 Passos da Conversa ao Artefato Reutilizável -->
       <div class="c">
-        <h3>🟣 Simulador Farcaster Frame v2 / Mini-App (Tokenização de Contribuições)</h3>
-        <p style="font-size:13px;color:var(--mu);margin-top:0">Selecione a etapa do IPIT abaixo para simular o Frame interativo no Farcaster (`/build`, `/solana`, `/base`, `/desci`) e gerar o Cast + Manifesto de Mintagem (`SPL Token-2022` + `EAS Attestation`).</p>
-        
-        <label style="font-size:12.5px;font-weight:700">Etapa Ativa do Percurso IPIT (8 Etapas):</label>
-        <select id="ipitStageSel" onchange="renderIpitFrame()" style="margin:6px 0 12px"></select>
-
-        <div class="fc-card">
-          <div class="fc-head">
-            <span>🟣 <strong>@compilatorum / @valuecurator</strong> • Canal <code>/ipit-builders</code></span>
-            <span class="tag pu" id="fcStageBadge">Etapa 1/8</span>
-          </div>
-          <div class="fc-screen" id="fcScreen"></div>
-          <div class="fc-btns">
-            <button onclick="simFrameAction('submit_pr')">1. 🔗 Vincular PR / Issue (GitHub)</button>
-            <button onclick="simFrameAction('mint_devnet')">2. 🪙 Mintar R-NFT / Token (Devnet)</button>
-            <button onclick="simFrameAction('attest_eas')">3. 🧾 Gerar Attestation (Karma GAP)</button>
-            <button onclick="simFrameAction('copy_cast')">4. 📋 Copiar Cast Build-in-Public</button>
-          </div>
-        </div>
-        <pre id="fcOut" style="margin-top:10px;min-height:90px">Clique em um dos botões do Frame acima para simular a ação on-chain ou gerar o Cast do experimento...</pre>
+        <h3>🔄 Ciclo de 10 Passos: De Uma Conversa no Farcaster ao Bem Público</h3>
+        <div id="convoSteps"></div>
       </div>
 
-      <!-- Coluna Direita: Checklist das 8 Etapas IPIT adaptadas para Web3 + Ledger de Contribuidores -->
+      <!-- Gerador de Desafio Público & Cast Estruturado (Pergunta / Construção / Evidência / Resultado / Próximo Passo) -->
       <div class="c">
-        <h3>🧬 As 8 Etapas do IPIT Adaptadas para Inteligência Coletiva Web3</h3>
-        <div id="ipitList"></div>
+        <h3>🎙️ Gerador de Cast "Protocolo de Pesquisa" & Manifesto Mini-App</h3>
+        <p style="font-size:12.8px;color:var(--mu);margin-top:0">Princípio editorial: <em>publicar menos promessas e mais artefatos verificáveis</em>.</p>
+        <p style="margin:5px 0"><small>1. Pergunta Experimental (O que queremos descobrir?):</small><input type="text" id="cvQ" value="Como converter uma discussão técnica no Farcaster em uma microcontribuição documentada, revisada e reutilizável no GitHub?"></p>
+        <p style="margin:5px 0"><small>2. Construção (O que implementamos?):</small><input type="text" id="cvB" value="Schema JSON de microcontribuições + Ledger de Evidências (Níveis L1 a L5) + Integração Devnet ValueCurator"></p>
+        <p style="margin:5px 0"><small>3. Evidência (O que foi testado?):</small><input type="text" id="cvE" value="Issue #01 aberta a partir de convo no Farcaster -> PR revisado -> Teste Playwright reproduzido"></p>
+        <p style="margin:5px 0"><small>4. Resultado (O que funcionou e o que falhou?):</small><input type="text" id="cvR" value="Microtarefas de documentação e reprodução de bugs tiveram adesão 3x mais rápida que tarefas monolíticas"></p>
+        <p style="margin:5px 0"><small>5. Próximo Passo (O que faremos com o aprendizado?):</small><input type="text" id="cvN" value="Abrir 5 microcontribuições recombináveis para o Desafio #02 e testar Créditos de Utilidade"></p>
+        <p style="margin-top:8px">
+          <button class="btn pu" onclick="genConvoCast()">🟣 Gerar Cast de Pesquisa</button>
+          <button class="btn gr" onclick="genMiniAppManifest()">📱 Gerar Manifesto Farcaster Mini-App (farcaster.json)</button>
+          <button class="btn s" onclick="cp('cvOut')">Copiar</button>
+        </p>
+        <pre id="cvOut"></pre>
       </div>
     </div>
 
-    <!-- Ledger Socioeconômico de Contribuidores (Prova de Circulação de Tokens sem Grant prévio) -->
+    <!-- Rastreador de Convos, Desafios e Microcontribuições (Atenção vs. Contribuição vs. Impacto) -->
     <div class="c" style="margin-top:14px">
-      <h3>🪙 Ledger de Circulação Comunitária de Tokens (Farcaster &harr; GitHub &harr; Devnet)</h3>
-      <p style="font-size:13px;color:var(--mu);margin:0 0 10px">Registre os contribuidores mobilizados pelo Farcaster que receberam tokens experimentais (`R-NFT-ONS`, `$EIDOS`, `SPL Token-2022` na Solana Devnet ou `ERC-1155` na Base/Optimism Sepolia) por contribuições abertas no GitHub.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:10px">
-        <input type="text" id="cbHandle" placeholder="@handle Farcaster (ex: @vitalik)">
-        <input type="text" id="cbGh" placeholder="GitHub PR/Issue (ex: PR #14)">
-        <input type="text" id="cbStage" placeholder="Etapa IPIT (ex: 7. Dev E2E)">
-        <input type="text" id="cbToken" placeholder="Token/Mint (ex: 250 R-NFT-UNITS)">
-        <button class="btn gr" onclick="addContributor()">+ Registrar Mint Comunitário</button>
+      <h3>🗂️ Rastreador de Convos Farcaster &rarr; Microcontribuições Verificáveis no GitHub</h3>
+      <p style="font-size:13px;color:var(--mu);margin:0 0 10px">Registre conversas do Farcaster que viraram desafios e microcontribuições, separando métricas de <strong>Atenção</strong>, <strong>Contribuição</strong> e <strong>Impacto</strong>:</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px;margin-bottom:10px">
+        <input type="text" id="mcConvo" placeholder="Convo/Cast (ex: Cast #0x8a2f)">
+        <input type="text" id="mcAuthor" placeholder="Autor (@handle)">
+        <select id="mcType">
+          <option value="Descoberta de Problema">1. Descoberta de Problema</option>
+          <option value="Proposta Técnica">2. Proposta Técnica</option>
+          <option value="Reprodução de Bug">3. Reprodução de Bug</option>
+          <option value="Documentação">4. Documentação</option>
+          <option value="Teste de Onboarding">5. Teste de Onboarding</option>
+          <option value="Análise Econômica">6. Análise Econômica</option>
+          <option value="Simulação">7. Simulação</option>
+          <option value="Revisão de Hipótese">8. Revisão de Hipótese</option>
+          <option value="Integração">9. Integração</option>
+          <option value="Reutilização em 3ºs">10. Reutilização em 3ºs</option>
+        </select>
+        <input type="text" id="mcGh" placeholder="Evidência GitHub (Issue/PR)">
+        <select id="mcLvl">
+          <option value="L1: Declarada">Nível 1: Declarada</option>
+          <option value="L2: Observada (GitHub)">Nível 2: Observada (GitHub)</option>
+          <option value="L3: Revisada por Pares">Nível 3: Revisada por Pares</option>
+          <option value="L4: Reproduzida (Teste)">Nível 4: Reproduzida (Teste)</option>
+          <option value="L5: Impacto em Terceiros">Nível 5: Impacto em Terceiros</option>
+        </select>
+        <button class="btn gr" onclick="addMicroConvo()">+ Registrar</button>
       </div>
-      <table class="tb" id="cbTable"></table>
+      <table class="tb" id="mcTable"></table>
     </div>
   </section>
 
-  <!-- 3. GRANT STACKING MULTI-CHAIN (NOVO!) -->
-  <section id="s-stk">
-    <h2>🥞 Grant Stacking Multi-Chain (Empilhamento Estratégico sem Duplicação de Escopo)</h2>
-    <p class="lead">Como pleitear e receber múltiplas bolsas simultaneamente em diferentes redes/ecossistemas financiando módulos complementares da mesma arquitetura aberta.</p>
+  <!-- ABA 3: TOKENIZAÇÃO SEM ESPECULAÇÃO (3 INSTRUMENTOS + SEQUÊNCIA A -> B -> C -> D) -->
+  <section id="s-tok">
+    <h2>🪙 Tokenização Científica: Os 3 Instrumentos & Sequência Experimental (A &rarr; B &rarr; C &rarr; D)</h2>
+    <p class="lead">Princípio de Design de Mecanismos: <strong>Não usamos um único token para representar mérito, governança, acesso e dinheiro simultaneamente</strong> — separamos três instrumentos para isolar variáveis causais.</p>
 
-    <div class="ex" style="margin-bottom:14px">
-      <strong>Regra de Ouro do Grant Stacking Ético:</strong> Nunca peça dinheiro a dois fundos para fazer <em>exatamente a mesma linha de código</em>. Divida sua arquitetura modular em <strong>camadas complementares por ecossistema</strong>: cada rede financia o adaptador, contrato ou experimento que gera transações, ferramentas abertas e desenvolvedores para a <strong>própria rede dela</strong>!
+    <div class="g3">
+      <div class="c" style="border-top:4px solid var(--bl)">
+        <span class="tag bl">Instrumento 1 • Não-Transferível</span>
+        <h3>🏅 Reputação Contextual</h3>
+        <p style="font-size:13.2px">Representa o <strong>histórico de contribuições reconhecidas e revisadas</strong>. Mantida fora da blockchain ou via attestations (EAS), identifica experiência e confiabilidade técnica sem virar ativo especulativo.</p>
+      </div>
+      <div class="c" style="border-top:4px solid var(--pu)">
+        <span class="tag pu">Instrumento 2 • Ledger de Serviço</span>
+        <h3>🎟️ Créditos de Utilidade</h3>
+        <p style="font-size:13.2px">Representam o <strong>direito de acessar um serviço definido no laboratório</strong>: solicitar uma análise de mecanismo econômico, pedir revisão prioritária de código ou acionar uma simulação.</p>
+      </div>
+      <div class="c" style="border-top:4px solid var(--gr)">
+        <span class="tag gr">Instrumento 3 • Ativo Programático</span>
+        <h3>🪙 Token Transferível (Devnet)</h3>
+        <p style="font-size:13.2px">Ativo que circula entre carteiras sujeito às regras da rede e do contrato (`SPL Token-2022` / `ValueCurator PDA`). Usado para experimentar transferências, recibos assinados e divisão de taxas.</p>
+      </div>
     </div>
 
+    <div class="g2" style="margin-top:14px">
+      <div class="c">
+        <h3>🔬 Sequência Gradual de Experimentos (A &rarr; B &rarr; C &rarr; D)</h3>
+        <div id="expSeqList"></div>
+      </div>
+      <div class="c">
+        <h3>⚖️ Regra de Ouro do Reconhecimento & Integração ValueCurator</h3>
+        <div class="ex">
+          <strong>O que NÃO recompensamos:</strong> Volume bruto de casts, curtidas, comentários vazios ou número de seguidores (<em>métricas de vaidade/atenção</em>).
+        </div>
+        <ul class="l">
+          <li><strong>O que reconhecemos:</strong> Contribuições aceitas, testes reproduzíveis, revisões úteis, documentação reutilizada, bugs resolvidos e artefatos adotados por projetos independentes.</li>
+          <li><strong>Papel do ValueCurator (`compilatorum/value-curator` &amp; `smp-sandramariapereira/valuecurator`):</strong> Conecta políticas determinísticas, propostas, recibos assinados (`Ed25519`) e recolhimento de 3 taxas administrativas (`deposit_with_fee`, `collect_periodic_fee`, `metabolize_yield`) para fechar o ciclo de alocação.</li>
+        </ul>
+        <p style="margin-top:10px">
+          <button class="btn" onclick="simTokenExperiment()">🧪 Simular Comparação: Reputação vs. Crédito vs. Token Devnet</button>
+        </p>
+        <pre id="tokSimOut">Clique acima para gerar o protocolo de comparação entre os 3 instrumentos...</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABA 4: PROTOCOLO EXPERIMENTAL (HIPÓTESES H1-H4 & DOSSIÊ DE EVIDÊNCIAS) -->
+  <section id="s-hyp">
+    <h2>🧪 Protocolo Experimental: Hipóteses H1–H4 & Dossiê de Evidências no Repositório</h2>
+    <p class="lead">Como saber se funcionou? Avaliamos 4 hipóteses explícitas (incluindo publicação transparente de resultados negativos e limitações) e geramos o dossiê completo na pasta <code>docs/</code>.</p>
+
+    <div class="g2" id="hypCards"></div>
+
+    <div class="c" style="margin-top:14px">
+      <h3>📂 Gerador Interativo do Dossiê de Evidências (`docs/`, `data/`, `examples/`)</h3>
+      <p style="font-size:13px;color:var(--mu);margin:0 0 10px">Clique em qualquer arquivo da árvore abaixo para inspecionar e copiar seu conteúdo normativo (todos os arquivos também já foram gravados fisicamente no repositório):</p>
+      <div class="chips" id="dossierBtns"></div>
+      <p><button class="btn s" onclick="cp('dossierOut')">📋 Copiar Arquivo Selecionado</button></p>
+      <pre id="dossierOut"></pre>
+    </div>
+  </section>
+
+  <!-- ABA 5: CALENDÁRIO (CADÊNCIA SEMANAL SEG-SEX & PLANO DE 30 DIAS) -->
+  <section id="s-cal">
+    <h2>🗓️ Calendário Operacional: Cadência Semanal (Seg–Sex) & Plano de Execução em 30 Dias</h2>
+    <p class="lead">Uma rotina sustentável de produção de evidências: fechar um ciclo end-to-end pequeno, documentado e demonstrável em 4 semanas.</p>
+
+    <div class="c" style="margin-bottom:14px">
+      <h3>📅 1. Cadência Pública Semanal (Seg–Sex: Menos Promessas, Mais Artefatos Verificáveis)</h3>
+      <table class="tb" id="wkTable"></table>
+    </div>
+
+    <div class="g2" id="plan30Cards"></div>
+
+    <div class="c" style="margin-top:14px">
+      <h3>📌 Registro de Tarefas & Eventos do Sprint de 30 Dias</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:10px">
+        <select id="calWeek">
+          <option value="Semana 1 (Delimitação)">Semana 1 — Delimitação e Infra</option>
+          <option value="Semana 2 (Fluxo Funcional)">Semana 2 — Primeiro Fluxo Funcional</option>
+          <option value="Semana 3 (Exp. Pública)">Semana 3 — Experimentação Farcaster/GitHub</option>
+          <option value="Semana 4 (Empacotamento)">Semana 4 — Avaliação e Empacotamento</option>
+        </select>
+        <select id="calDay">
+          <option value="Segunda (Desafio)">Segunda (Formular Desafio)</option>
+          <option value="Terça (Debate)">Terça (Debater Alternativas)</option>
+          <option value="Quarta (Código/PR)">Quarta (Implementar Solução)</option>
+          <option value="Quinta (Teste/Revisão)">Quinta (Testar e Revisar)</option>
+          <option value="Sexta (Relatório/Release)">Sexta (Publicar Aprendizado)</option>
+        </select>
+        <input type="text" id="calTask" placeholder="Entregável / Artefato Público (ex: Issue #03 + Cast)">
+        <button class="btn gr" onclick="addCalEvent()">+ Agendar Entrega</button>
+      </div>
+      <table class="tb" id="calEventsTable"></table>
+    </div>
+  </section>
+
+  <!-- ABA 6: MAPEAMENTO MULTI-REDE & ARQUITETURA CORE vs. ADAPTADORES -->
+  <section id="s-map">
+    <h2>🗺️ Mapeamento Técnico & Arquitetura Multiecossistema (Core Agnóstico vs. Adaptadores)</h2>
+    <p class="lead">Não ficar preso a uma única rede: separamos o <strong>Core Agnóstico de Rede</strong> dos <strong>Adaptadores Específicos</strong> e avaliamos cada ecossistema por uma matriz objetiva de 7 critérios.</p>
+
+    <div class="g2">
+      <div class="c">
+        <h3>🧱 1. Separação Arquitetural: Core Agnóstico vs. Adaptadores</h3>
+        <table class="tb">
+          <thead><tr><th>Camada</th><th>Componentes</th><th>Portabilidade</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>🧠 Core Agnóstico de Rede</strong></td>
+              <td>Modelo de microcontribuição, Esquema de evidências (L1–L5), Regras de reconhecimento, Registro de proveniência, Motor de avaliação, Simulação de distribuição, Métricas H1–H4</td>
+              <td><span class="tag gr">100% Reutilizável</span> em qualquer L1/L2 ou Web2/Web3</td>
+            </tr>
+            <tr>
+              <td><strong>🔌 Adaptadores Específicos</strong></td>
+              <td>Integração Farcaster Mini-App, Adaptador de Carteira (Phantom / EVM), Contratos Anchor (Solana) ou Stylus/EVM (Base, Arbitrum, Optimism), SPL Token-2022, Attestations EAS</td>
+              <td><span class="tag pu">Modular por Rede</span> (habilita Grant Stacking legítimo)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="c">
+        <h3>🔍 2. Mapeamento do Estado Atual & Menor Lacuna Técnica (Gap Analysis)</h3>
+        <table class="tb">
+          <thead><tr><th>Repositório / Sistema</th><th>O Que Já Existe e Está Validado</th><th>Menor Lacuna para Fechar o Ciclo</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>compilatorum/IPIT</code></td>
+              <td>Percurso de 8 etapas, guias de facilitação, micro-ideathon de 4h e templates de documentação</td>
+              <td>Conectar as entregas de cada etapa ao schema JSON de microcontribuições (`contribution.schema.json`)</td>
+            </tr>
+            <tr>
+              <td><code>smp-sandramariapereira/valuecurator</code></td>
+              <td>Políticas determinísticas, propostas, recibos assinados `Ed25519`, cofre PDA e 3 taxas (`feat/tri-tier-admin-fees`)</td>
+              <td>Vincular o hash da evidência aprovada no GitHub como gatilho de liberação de créditos/recompensas</td>
+            </tr>
+            <tr>
+              <td><code>compilatorum/eidos-tokenization</code></td>
+              <td>Schema `EidosManifest v1.0`, instrução Anchor `mint_research_asset` e script Devnet `SPL Token-2022`</td>
+              <td>Emitir recibo de proveniência para microcontribuições compostas por múltiplos coautores do Farcaster</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="c" style="margin-top:14px">
+      <h3>⚖️ 3. Matriz de Escolha e Priorização de Redes (7 Critérios — Notas de 1 a 5)</h3>
+      <p style="font-size:13px;color:var(--mu);margin:0 0 8px">Declaração metodológica obrigatória: <strong>Testnet/Devnet comprova execução técnica de ponta-a-ponta</strong>, mas não prova demanda econômica com ativos reais — o relatório sempre declara se mede comportamento simulado, em testnet ou uso econômico real.</p>
+      <table class="tb" id="netMatrixTable"></table>
+    </div>
+  </section>
+
+  <!-- ABA 7: GRANTS RETROATIVOS, STACKING EM CAMADAS (A-E) & FUNDING LEDGER -->
+  <section id="s-stk">
+    <h2>🥞 Estratégia de Financiamento em 5 Camadas (A–E) & `FUNDING-LEDGER.md`</h2>
+    <p class="lead">Como combinar recursos próprios, apoio comunitário, grants prospectivos, grants retroativos e módulos multi-chain mantendo um <strong>registro único e auditável</strong> sem cobrar duas vezes pelo mesmo trabalho.</p>
+
     <div class="st" id="stkStats"></div>
+
+    <div class="c" style="margin-bottom:14px">
+      <h3>🏛️ 1. As 5 Camadas de Financiamento do Experimento</h3>
+      <table class="tb">
+        <thead><tr><th>Camada</th><th>O Que Financia</th><th>Evidência Necessária</th><th>Status no Projeto</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Camada A — Recursos Próprios</strong></td><td>Protótipo inicial, pesquisa conceitual e infraestrutura base</td><td>Histórico público de commits, dossiê `docs/` e testes</td><td><span class="tag gr">Ativa &amp; Entregue</span></td></tr>
+          <tr><td><strong>Camada B — Apoio Comunitário</strong></td><td>Pequenas tarefas e microcontribuições específicas no Farcaster</td><td>Escopo claro, critérios de aceite e ledger de créditos/reputação</td><td><span class="tag gr">Pronta p/ Sprint 30d</span></td></tr>
+          <tr><td><strong>Camada C — Grants Prospectivos</strong></td><td>Desenvolvimento futuro de módulos específicos por milestone</td><td>Plano técnico, orçamento isolado, milestones e obrigações de licença</td><td><span class="tag ye">Em Submissão</span></td></tr>
+          <tr><td><strong>Camada D — Grants Retroativos</strong></td><td>Impacto público já produzido e verificado (quando elegível na janela)</td><td>Artefatos abertos reutilizados, métricas de adoção e relatórios</td><td><span class="tag pu">Acumulando Provas</span></td></tr>
+          <tr><td><strong>Camada E — Financiamento Complementar</strong></td><td>Adaptadores especializados em outros ecossistemas (Multi-Chain)</td><td>Escopo exclusivo do adaptador e resultados próprios naquela rede</td><td><span class="tag cy">Módulos A / B / C</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
     <div class="g" id="stkCards"></div>
 
     <div class="c" style="margin-top:14px">
-      <h3>📐 Matriz de Escopos Complementares (Prova de Não-Sobreposição para Comitês)</h3>
-      <p style="font-size:13px;color:var(--mu);margin:0 0 8px">Gere automaticamente a declaração de transparência multi-grant para anexar nas suas applications.</p>
-      <p><button class="btn" onclick="genStackProof()">Gerar Declaração de Grant Stacking & Escopos</button> <button class="btn s" onclick="cp('stkOut')">Copiar</button></p>
+      <h3>📒 2. Gerador do `FUNDING-LEDGER.md` (Separação de Escopos Exclusivos vs. Despesas Compartilhadas)</h3>
+      <p><button class="btn" onclick="genStackProof()">Gerar `FUNDING-LEDGER.md` Auditável</button> <button class="btn s" onclick="cp('stkOut')">Copiar</button></p>
       <pre id="stkOut"></pre>
     </div>
   </section>
 
-  <!-- 4. BUILD IN PUBLIC & RETROPGF (NOVO!) -->
-  <section id="s-bip">
-    <h2>🏗️ Motor "Build in Public" (Indie Hacker) & Evidências para RetroPGF</h2>
-    <p class="lead">Construa em público na Devnet/Testnet, mobilize a comunidade pelo Farcaster e transforme cada commit no GitHub em prova auditável para Grants Retroativos.</p>
-
-    <div class="g2">
-      <div class="c">
-        <h3>🚀 Gerador de Post "Build in Public" (Farcaster + X + GitHub Release)</h3>
-        <p style="font-size:13px;color:var(--mu);margin-top:0">Documente o experimento end-to-end na Devnet e convide a comunidade do Farcaster para testar a carteira e receber tokens.</p>
-        <p style="margin:6px 0"><small>1. O que enviamos para produção/Devnet hoje (Ship Log):</small><input type="text" id="bipShip" value="Motor Tri-Tier de Taxas Administrativas (Anchor) + Repositório aberto compilatorum/eidos-tokenization (SPL Token-2022)"></p>
-        <p style="margin:6px 0"><small>2. Prova On-Chain / Link Solscan ou BaseScan (Devnet/Testnet):</small><input type="text" id="bipTx" value="Program ID: 6owAcX...MiW5 | Mint Token-2022: EAP343292JM934s6B3C736cT2U2tA357tC4J7gX3nN8x"></p>
-        <p style="margin:6px 0"><small>3. Repositório Open-Source (Contrapartida Pública):</small><input type="text" id="bipRepo" value="https://github.com/compilatorum/eidos-tokenization & https://github.com/smp-sandramariapereira/valuecurator"></p>
-        <p style="margin:6px 0"><small>4. Call-to-Action de Inteligência Coletiva (Bounty em Tokens):</small><input type="text" id="bipCta" value="Teste o protocolo E2E na Devnet, abra uma issue/PR com um manifesto Eidos e receba 500 R-NFT-UNITS direto na sua carteira!"></p>
-        <p style="margin-top:10px">
-          <button class="btn pu" onclick="genBipCast()">🟣 Gerar Thread Farcaster + RetroPGF Log</button>
-          <button class="btn s" onclick="cp('bipOut')">Copiar</button>
-        </p>
-        <pre id="bipOut"></pre>
-      </div>
-
-      <div class="c">
-        <h3>🔁 Checklist de Elegibilidade para Grant Retroativo (RetroPGF / Octant / Gitcoin)</h3>
-        <p style="font-size:13px;color:var(--mu);margin-top:0">Marque os artefatos de impacto público que já estão no ar e verificáveis por qualquer avaliador:</p>
-        <div id="bipChk"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. TRILHA: CICLO DE VIDA (8 FASES) -->
+  <!-- ABA 8: TRILHA (8 FASES DO CICLO DE GRANTS) -->
   <section id="s-tri">
-    <h2>🔄 Trilha Completa: As 8 Fases do Ciclo de Vida de Grants</h2>
-    <p class="lead">Marque cada tópico dominado ou executado, da descoberta à sustentabilidade pós-grant.</p>
+    <h2>🔄 Trilha Completa: As 8 Fases do Ciclo de Vida de um Grant</h2>
+    <p class="lead">Da descoberta de programas e verificação de janelas de elegibilidade até a prestação de contas e sustentabilidade pós-grant.</p>
     <div class="g" id="tri"></div>
   </section>
 
-  <!-- 6. APPLICATION: FORMULÁRIO TÍPICO COM TEMPLATES PRÉ-PREENCHIDOS -->
+  <!-- ABA 9: APPLICATION & NARRATIVA DE 4 PILARES (PROBLEMA, MECANISMO, EXECUÇÃO, IMPACTO) -->
   <section id="s-frm">
-    <h2>📋 Application Builder (17 Seções + Templates Prontos do Nosso Ecossistema)</h2>
-    <p class="lead">Carregue um template estratégico com 1 clique ou personalize cada campo com números, links de repositórios e hashes on-chain.</p>
-    <div class="chips">
-      <button onclick="loadAppTemplate('farcaster_retro')">🟣 Template 1: Experimento Farcaster × IPIT (RetroPGF / Base / Octant)</button>
-      <button onclick="loadAppTemplate('solana_devnet')">⚡ Template 2: ValueCurator Devnet E2E & Taxas Tri-Tier (Solana / Colosseum)</button>
-      <button onclick="loadAppTemplate('multichain_ai')">🌐 Template 3: Agent Armor & Eidos Tokenization (Arbitrum / Sui / Gitcoin)</button>
+    <h2>📋 Application Builder & Narrativa para Fundações (Problema &rarr; Mecanismo &rarr; Execução &rarr; Impacto)</h2>
+    <p class="lead">A narrativa parte do trabalho realizado, não de promessas exageradas: selecione um template para preencher as 17 seções do edital.</p>
+
+    <div class="ex" style="margin-bottom:12px">
+      <strong>Narrativa Central para Fundações:</strong> <em>“Estamos construindo e avaliando um protocolo aberto para transformar interações sociais em contribuições verificáveis para bens públicos digitais. O experimento conecta Farcaster, GitHub e mecanismos programáveis de reconhecimento e incentivo, investigando como a inteligência coletiva pode produzir infraestrutura reutilizável e como diferentes mecanismos econômicos afetam participação, coordenação e impacto.”</em>
     </div>
+
+    <div class="chips">
+      <button onclick="loadAppTemplate('commons_lab')">🌱 Template 1: Farcaster Commons Lab — IPIT (RetroPGF / Gitcoin / Octant / Base)</button>
+      <button onclick="loadAppTemplate('solana_devnet')">⚡ Template 2: ValueCurator Core &amp; Motor Tri-Tier de Taxas (Solana / Colosseum)</button>
+      <button onclick="loadAppTemplate('multichain_adapter')">🔌 Template 3: Adaptador Multi-Rede &amp; Proveniência Eidos (Arbitrum / Optimism / Sui)</button>
+    </div>
+
     <div class="c" id="frm"></div>
     <p style="margin-top:12px">
-      <button class="btn" onclick="genProp()">📄 Gerar Documento Completo da Application (Markdown)</button>
+      <button class="btn" onclick="genProp()">📄 Gerar Application Completa + Narrativa de 4 Pilares</button>
       <button class="btn s" onclick="cp('propo')">📋 Copiar Markdown</button>
     </p>
     <pre id="propo"></pre>
   </section>
 
-  <!-- 7. COMUNICAÇÃO E CONTAS (KARMA GAP) -->
-  <section id="s-com">
-    <h2>📣 Comunicação Radical, Prestação de Contas & Karma GAP (EAS)</h2>
-    <p class="lead">Transparência previsível (quinzenal/mensal), attestations on-chain de milestones e relatórios auditáveis.</p>
-    <div class="g2">
-      <div class="c" id="comf"></div>
-      <div class="c">
-        <h3>🧾 O Que Reportar em Cada Tranche / Milestone</h3>
-        <ul class="l">
-          <li><strong>Entregáveis Verificáveis:</strong> Links diretos para PRs, commits, releases e contratos na Devnet/Mainnet.</li>
-          <li><strong>Métricas Sociotécnicas (IPIT × Farcaster):</strong> Casts publicados, contribuidores únicos recompensados, tokens cunhados e forks.</li>
-          <li><strong>Uso dos Fundos e Contabilidade:</strong> Separação estrita na carteira/multisig e taxas recolhidas pelo `Treasury PDA`.</li>
-          <li><strong>Desvios e Aprendizados ("Build in Public"):</strong> Avisar qualquer ajuste de rota antes do vencimento do prazo.</li>
-        </ul>
-        <h3 style="margin-top:12px">🛠️ Ferramentas de Accountability On-Chain</h3>
-        <ul class="l">
-          <li><strong>Karma GAP (Ethereum Attestation Service — EAS):</strong> Padrão exigido por Optimism, Arbitrum, Gitcoin, Octant, Celo, Scroll e Lisk.</li>
-          <li><strong>Solscan Devnet & BaseScan:</strong> Provas imutáveis de execução de `mint_research_asset`, `deposit_with_fee`, `collect_periodic_fee` e `metabolize_yield`.</li>
-        </ul>
-      </div>
-    </div>
-    <p style="margin-top:12px">
-      <button class="btn" onclick="genUp()">Gerar Relatório de Milestone / Update (Karma GAP)</button>
-      <button class="btn s" onclick="cp('upo')">Copiar</button>
-    </p>
-    <pre id="upo"></pre>
-  </section>
-
-  <!-- 8. ECOSSISTEMA 2026 -->
-  <section id="s-eco">
-    <h2>🌍 Mapa de Ecossistemas e Programas de Grants (2026)</h2>
-    <p class="lead">Combine Grants Diretos de L1/L2, Financiamento Retroativo (RetroPGF), Quadratic Funding (Gitcoin/Octant) e Bounties de Hackathons.</p>
-    <div class="chips" id="chips"></div>
-    <div class="g" id="eco"></div>
-  </section>
-
-  <!-- 9. BOAS PRÁTICAS E ARMADILHAS -->
-  <section id="s-chk">
-    <h2>✅ Checklist de Boas Práticas & Blindagem contra Armadilhas</h2>
-    <p class="lead">Audite sua estratégia antes de submeter cada application da sua pilha de grants.</p>
-    <div class="g" id="chk"></div>
-  </section>
-
-  <!-- 10. SIMULADO EXPANDIDO -->
+  <!-- ABA 10: SIMULADO METODOLÓGICO (12 QUESTÕES) -->
   <section id="s-qz">
-    <h2>📝 Simulado Oficial do Concurseiro de Grants (14 Questões)</h2>
-    <p class="lead">Teste seu domínio sobre Grants Não-Diluidores, Farcaster Token Circulation, IPIT, Grant Stacking, Karma GAP e RetroPGF.</p>
+    <h2>📝 Simulado Metodológico: Farcaster Commons Lab, IPIT & Grants (12 Questões)</h2>
+    <p class="lead">Valide o domínio sobre Atenção vs. Contribuição vs. Impacto, os 3 Instrumentos de Incentivo, as Hipóteses H1–H4, Ecologia de Fluxos e Grant Stacking Responsável.</p>
     <div class="c" id="qz"></div>
   </section>
 </main>
 
 <footer>
-  <span><strong>Concurseiro de Grants v2.0</strong> — Ecossistema <code>ValueCurator × Compilatorum × Eidos × IPIT</code> (MIT Open Source)</span>
-  <span>Persistência automática via <code>localStorage</code> • Pronto para operação E2E na Solana Devnet, Farcaster & Superchain</span>
+  <span><strong>Farcaster Commons Lab — IPIT × ValueCurator (v3.0)</strong> • Dossiê completo em <code>docs/</code>, <code>data/</code> e <code>examples/</code></span>
+  <span>Persistência local ativa (<code>localStorage</code>) • Código aberto voltado à regeneração de ecossistemas Web3</span>
 </footer>
 <div id="dbg">iniciando...</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 <script>
-var STORAGE_KEY = "concurseiro_grants_v2_state";
+var STORAGE_KEY = "farcaster_commons_lab_v3_state";
 var S = {
-  t: {}, f: {}, c: {}, ipit: {}, bip: {}, stk: {0:true, 1:true, 2:true, 3:true, 4:false},
-  fx: {}, q: {n:0, ok:0, a:null}, flt: "todos",
-  contributors: [
-    {handle:"@sandra.eth", gh:"compilatorum/eidos-tokenization#1", stage:"6. Arquitetura PDA", token:"1 R-NFT-ONS-001 (Token-2022)", status:"Mintado na Devnet"},
-    {handle:"@nitsche.sol", gh:"valuecurator/pull/2 (feat/tri-tier-admin-fees)", stage:"7. Dev E2E & Taxas", token:"9.950 R-NFT-UNITS", status:"Verificado Solscan"},
-    {handle:"@dev_coletivo", gh:"compilatorum/IPIT#8", stage:"2. Ideação Coletiva", token:"500 EIDOS-PTS + EAS Badge", status:"Attested on Base"}
+  t: {}, f: {}, exp: {0:true, 1:true, 2:false, 3:false},
+  hyp: {0:true, 1:true, 2:true, 3:true},
+  p30: {0:true, 1:true, 2:true, 3:false},
+  stk: {0:true, 1:true, 2:true},
+  fx: {}, q: {n:0, ok:0, a:null},
+  microConvos: [
+    {convo:"Cast #0x91a4 (/build)", author:"@sandra.eth", type:"1. Descoberta de Problema", gh:"concurseiro-grants/issues/1", lvl:"L4: Reproduzida (Teste)", att:"42 views / 9 replies", imp:"Base do Desafio #01"},
+    {convo:"Cast #0x7c3b (/solana)", author:"@nitsche.sol", type:"2. Proposta Técnica", gh:"valuecurator/pull/2 (feat/tri-tier-admin-fees)", lvl:"L4: Reproduzida (Teste)", att:"38 views / 7 replies", imp:"3 Taxas On-Chain em Rust"},
+    {convo:"Cast #0x4e12 (/desci)", author:"@colab_open", type:"4. Documentação", gh:"eidos-tokenization/commit/173c5a9", lvl:"L5: Impacto em Terceiros", att:"29 views / 6 replies", imp:"Schema reutilizado em 2 repos"}
+  ],
+  calEvents: [
+    {week:"Semana 1 (Delimitação)", day:"Segunda (Desafio)", task:"Publicar docs/EXPERIMENT.md + Cast Desafio #01 no Farcaster", status:"Concluído"},
+    {week:"Semana 1 (Delimitação)", day:"Quarta (Código/PR)", task:"Mapear integração IPIT x ValueCurator x Eidos-Tokenization", status:"Concluído"},
+    {week:"Semana 2 (Fluxo Funcional)", day:"Quinta (Teste/Revisão)", task:"Validar Ledger de Créditos Simulados e Níveis de Evidência L1-L5", status:"Concluído"},
+    {week:"Semana 3 (Exp. Pública)", day:"Sexta (Relatório/Release)", task:"Executar ciclo Devnet Token-2022 e publicar Relatório week-03.md", status:"Em Execução"}
   ]
 };
 var charts = {}, inited = {};
 function $(i){ return document.getElementById(i); }
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
-/* Carregar estado salvo no localStorage */
 function loadSaved(){
   try {
     var raw = localStorage.getItem(STORAGE_KEY);
@@ -365,193 +499,271 @@ function saveState(){
 }
 
 var TABS = [
-  ["dash","📊 Painel"],
-  ["ipit","🧪 IPIT × Farcaster"],
-  ["stk","🥞 Grant Stacking"],
-  ["bip","🏗️ Build in Public"],
+  ["dash","📊 Ecologia & Painel"],
+  ["conv","💬 Convos & Desafios"],
+  ["tok","🪙 Tokenização (A–D)"],
+  ["hyp","🧪 Protocolo H1–H4 & Dossiê"],
+  ["cal","🗓️ Calendário (Semanal & 30d)"],
+  ["map","🗺️ Mapeamento & Redes"],
+  ["stk","🥞 Grants & Funding Ledger"],
   ["tri","🔄 Trilha (8 Fases)"],
-  ["frm","📋 Application"],
-  ["com","📣 Contas & GAP"],
-  ["eco","🌍 Ecossistema"],
-  ["chk","✅ Prática"],
+  ["frm","📋 Application & Narrativa"],
   ["qz","📝 Simulado"]
 ];
 
-/* 8 Etapas do IPIT adaptadas para o Experimento Sociotécnico Farcaster x GitHub x Tokenização */
-var IPIT_STAGES = [
-  ["1. Descoberta Sociotécnica", "Mapear dores reais da comunidade em canais do Farcaster (/build, /solana, /desci) e abrir Issues estruturadas no GitHub.", "50 EIDOS-PTS + Badge Descoberta", "Issue aberta e validada por 3+ membros no Farcaster"],
-  ["2. Ideação & Inteligência Coletiva", "Enquetes interativas via Farcaster Frames v2 para priorizar propostas de valor e votar nos parâmetros do mandato.", "100 EIDOS-PTS + Co-Authorship Hash", "Votação on-frame registrada + resumo no repositório"],
-  ["3. Desenho da Solução & Manifesto", "Submissão comunitária de manifestos JSON Schema (EidosManifest v1.0) definindo licenças abertas (SPDX) e royalties.", "150 EIDOS-PTS + GLYPH-DRAFT", "JSON validado contra ResearchNFTManifest.schema.json"],
-  ["4. Seleção Tecnológica Multi-Chain", "Documentar a arquitetura híbrida: Solana Devnet (Anchor + Token-2022 + Pyth 922) + Farcaster/Base (Frames + EAS).", "200 EIDOS-PTS", "ADR (Architecture Decision Record) mergeado no GitHub"],
-  ["5. Escopo do MVP Executável", "Delimitar o protocolo experimental E2E (Carteira Owner + Carteira Cliente Testador + 3 Taxas Administrativas).", "250 EIDOS-PTS", "Checklist de critérios de aceite verificáveis publicado"],
-  ["6. Arquitetura & Contratos Abertos", "Implementar as instruções modulares: deposit_with_fee, collect_periodic_fee, metabolize_yield e mint_research_asset.", "500 R-NFT-UNITS (Token-2022)", "Código Rust/TS com testes passando em código aberto"],
-  ["7. Desenvolvimento & Testes E2E Devnet", "Rodar bateria automatizada Playwright (12 passos anotados) + distribuir tokens de teste para testadores do Farcaster.", "1.000 R-NFT-UNITS + 1 R-NFT", "Assinatura verificável no Solscan Devnet + Print anotado"],
-  ["8. Pitch, RetroPGF & Grant Stacking", "Publicar Pitch Deck interativo HTML/PDF, registrar attestations no Karma GAP e submeter applications multi-chain.", "RetroPGF Share + Royalties 2,5%", "Application submetida + Thread Build-in-Public no ar"]
+/* Dados: 6 Fluxos Socioeconômicos (Odum & Götsch) */
+var ODUM_FLOWS = [
+  ["📚 Conhecimento", "Conversas no Farcaster, artigos e repositórios", "Curadoria comunitária e síntese estruturada", "Documentação aberta e schemas reutilizáveis", "Nº de docs/schemas adotados"],
+  ["🛠️ Trabalho", "Tempo e competências diversas dos colaboradores", "Desenvolvimento, reprodução de bugs e revisão", "Código aberto, PRs, testes e ferramentas", "PRs aceitos & tempo de ciclo"],
+  ["👀 Atenção", "Descoberta e casts em canais do Farcaster", "Mobilização direcionada a desafios explícitos", "Novas microcontribuições verificáveis", "Taxa de conversão Convo -> Issue (H1)"],
+  ["💰 Capital", "Recursos próprios, apoio comunitário e grants", "Alocação orientada por regras (ValueCurator)", "Infraestrutura pública e recompensas sustentáveis", "Custo por artefato reproduzível"],
+  ["🏅 Reputação", "Contribuições documentadas com autoria e método", "Revisão por pares e validação de evidência (L1–L5)", "Sinais de confiabilidade contextual", "% de artefatos aprovados na 1ª revisão"],
+  ["🔄 Utilização", "Ferramentas, contratos e artefatos produzidos", "Integração e fork por projetos independentes", "Adoção real e impacto verificável no ecossistema", "Integrações externas confirmadas (H4)"]
 ];
 
-/* Pilha de Grants Complementares (Grant Stacking sem sobreposição de escopo) */
-var STACK_ITEMS = [
+/* Dados: 10 Passos Convo -> Contribuição */
+var CONVO_10_STEPS = [
+  "Uma pessoa apresenta um problema autêntico em uma conversa no Farcaster.",
+  "O problema é delimitado e vira um Desafio Público com hipótese e escopo claro.",
+  "Um colaborador escolhe uma microcontribuição compatível com sua competência e propõe solução.",
+  "A solução é implementada ou documentada publicamente no GitHub (Issue -> PR).",
+  "Outra pessoa da comunidade revisa o código/documento ou executa o teste de reprodução.",
+  "O resultado (positivo ou negativo) e sua evidência (Níveis L1 a L5) são documentados.",
+  "A contribuição recebe reconhecimento contextual (Reputação) e/ou Créditos/Tokens de teste.",
+  "O sistema registra o evento de proveniência no ledger aberto (e no ValueCurator).",
+  "O artefato composto fica disponível sob licença aberta para reutilização por outros projetos.",
+  "O relatório semanal (Build in Public) apresenta o que foi aprendido e abre o próximo ciclo."
+];
+
+/* Dados: Sequência Experimental A -> B -> C -> D */
+var EXP_SEQ = [
+  ["Experimento A — Ledger de Contribuições (Zero Ativos Reais)", "Registra desafios, tarefas, evidências (L1–L5), revisões e créditos de utilidade simulados. Permite validar o fluxo de coordenação sem ruído financeiro."],
+  ["Experimento B — Token em Testnet / Devnet", "Executa um ciclo real de criação e distribuição de tokens de teste (SPL Token-2022 na Solana Devnet / Base Sepolia), interação com carteiras e registro de eventos."],
+  ["Experimento C — Recompensas Reais de Baixo Valor", "Ativado somente quando houver necessidade demonstrada nos Experimentos A/B, orçamento dedicado, regras claras e condições adequadas."],
+  ["Experimento D — Mecanismo Econômico Avançado", "Mercados, curvas de precificação ou automação complexa apenas quando houver uma pergunta experimental específica que dependa deles."]
+];
+
+/* Dados: 4 Hipóteses H1 a H4 */
+var HYPOTHESES = [
   {
-    id: 0,
-    net: "Solana / Colosseum",
-    prog: "Colosseum Accelerator & Solana Foundation Grants",
-    type: "Grant Direto + Hackathon-to-Grant",
-    ask: 50000,
-    module: "Core Anchor Engine (`kairos-engine`): Cofre PDA Soberano, Oráculo Pyth 922 e Motor Tri-Tier de Taxas Administrativas (`deposit_with_fee`, `collect_periodic_fee`, `metabolize_yield`).",
-    counterpart: "Aumenta o TVG seguro na Solana, gera transações SPL Token-2022 nativas e oferece infraestrutura aberta de custódia para agentes na rede.",
-    repo: "smp-sandramariapereira/valuecurator (branch: feat/tri-tier-admin-fees)"
+    code: "H1",
+    title: "H1 — Conversação → Contribuição",
+    question: "A participação estruturada no Farcaster aumenta a quantidade de contribuições verificáveis em relação à divulgação sem tarefas explícitas?",
+    indicators: ["Participantes que passam da discussão no Farcaster para uma atividade no GitHub", "Issues abertas e concluídas", "Pull requests enviados e aceitos", "Tempo decorrido entre a proposta do desafio e a primeira contribuição"],
+    status: "Em teste no Desafio #01 (taxa atual: 3 microcontribuições verificáveis a partir de 3 threads)"
   },
   {
-    id: 1,
-    net: "Optimism / Base (Superchain)",
-    prog: "Optimism RetroPGF + Base Builder Grants",
-    type: "Grant Retroativo (RetroPGF) + Micro-Grant",
-    ask: 30000,
-    module: "Experimento Sociotécnico IPIT × Farcaster: Frames v2 interativos para mobilização de inteligência coletiva, attestations EAS (Karma GAP) e distribuição de badges para contribuidores open-source.",
-    counterpart: "Fomenta engajamento qualificado de builders no Farcaster/Base e cria um protocolo pedagógico e socioeconômico 100% open-source na Superchain.",
-    repo: "compilatorum/IPIT + compilatorum/concurseiro-grants"
+    code: "H2",
+    title: "H2 — Incentivos → Participação",
+    question: "O reconhecimento explícito ou os créditos de utilidade ajudam a mobilizar contribuições que não aconteceriam sem esse mecanismo?",
+    indicators: ["Participação recorrente de colaboradores em múltiplos desafios", "Diversidade de competências (código, docs, UX, economia, testes)", "Taxa de conclusão de tarefas abertas", "Diferença entre contribuição reconhecida e contribuição efetivamente útil"],
+    status: "Desenho exploratório ativo: comparando Reputação contextual vs. Créditos de Utilidade"
   },
   {
-    id: 2,
-    net: "Gitcoin / Octant v2",
-    prog: "Octant Yield Public Goods & Gitcoin Grants Stack",
-    type: "Quadratic Funding (QF) + Yield Funding",
-    ask: 20000,
-    module: "Fábrica Aberta de Tokenização Científica (`EidosManifest v1.0` + `eidos-tokenization`): padrão aberto para transformar pesquisa, glifos e constructos de IA em ativos auditáveis.",
-    counterpart: "Bem público universal (MIT/CC-BY) que permite a qualquer pesquisador ou coletivo DeSci tokenizar artefatos e financiar ciência aberta sem intermediários.",
-    repo: "compilatorum/eidos-tokenization"
+    code: "H3",
+    title: "H3 — Evidência → Confiança",
+    question: "O registro estruturado de autoria, método, revisão e proveniência facilita a avaliação e a reutilização de contribuições?",
+    indicators: ["Tempo médio para revisar uma microcontribuição", "Percentual de artefatos reproduzíveis por terceiros (Nível L4)", "Número de contribuições recombinadas em artefatos maiores", "Número de divergências ou bugs identificados na revisão"],
+    status: "Protocolo de 5 níveis (EVIDENCE-PROTOCOL.md) reduzindo atrito de revisão técnica"
   },
   {
-    id: 3,
-    net: "Arbitrum DAO",
-    prog: "Arbitrum Questbook (AI × DeFi & Stylus Rust Track)",
-    type: "Grant Direto por Milestones",
-    ask: 35000,
-    module: "Portabilidade do Portão Neuro-Simbólico (`@valuecurator/agent-armor`) para contratos Rust WASM no Arbitrum Stylus, protegendo tesourarias de DAOs no ecossistema EVM.",
-    counterpart: "Traz nosso motor determinístico em Rust para o Arbitrum Stylus, blindando tesourarias de DAOs da Arbitrum contra alucinações de agentes de IA.",
-    repo: "smp-sandramariapereira/valuecurator (SDK multi-chain)"
-  },
-  {
-    id: 4,
-    net: "Sui / Filecoin / Arweave",
-    prog: "Sui Foundation & Decentralized Storage Micro-Grants",
-    type: "Grant de Infraestrutura de Dados & IA",
-    ask: 15000,
-    module: "Camada de Persistência Imutável de Manifestos (`EidosManifest` CIDs) e Datasets Quantamentais PIML para auditoria histórica de oráculos.",
-    counterpart: "Consome armazenamento descentralizado verificável para cada Research NFT e recibo criptográfico Ed25519 emitido pelo protocolo.",
-    repo: "compilatorum/eidos-tokenization (Storage Adapter)"
+    code: "H4",
+    title: "H4 — Produção → Impacto no Ecossistema",
+    question: "Os artefatos produzidos são úteis para outras pessoas ou projetos além do grupo inicial?",
+    indicators: ["Dependências, forks ou integrações externas", "Uso documentado por outros repositórios", "Colaboradores independentes fora do núcleo fundador", "Problemas resolvidos para terceiros e feedbacks externos"],
+    status: "Monitorando adoção dos módulos abertos compilatorum/eidos-tokenization e valuecurator"
   }
 ];
 
-var BIP_CHECKS = [
-  "Repositórios públicos no GitHub com licença aberta clara (MIT / Apache-2.0) e histórico real de commits",
-  "Contratos e scripts rodando End-to-End na Devnet/Testnet com hashes verificáveis no Explorer (Solscan / BaseScan)",
-  "Experimento ativo no Farcaster mobilizando testadores e distribuindo tokens de governança/pesquisa na Devnet",
-  "Separação modular de repositórios (ValueCurator para Custódia/Taxas vs. Eidos-Tokenization para Emissão SPL Token-2022)",
-  "Registro de Milestones e impacto entregue compatível com Karma GAP (Ethereum Attestation Service — EAS)",
-  "Documentação técnica bilíngue (PT/EN), Pitch Deck interativo com CDN e suíte automatizada Playwright (100% Pass)"
+/* Dossiê de Evidências (Arquivos geráveis na aba H1-H4) */
+var DOSSIER_FILES = {
+  "docs/EXPERIMENT.md": "# 🌐 EXPERIMENT.md — Farcaster Commons Lab (IPIT)\n\n" +
+    "> Subtítulo: An open experiment in collective intelligence, contribution incentives and ecosystem regeneration.\n\n" +
+    "## 1. Evolução da Cadeia Experimental\n" +
+    "- Origem (IPIT): `Problema → Projeto → Agente → Mundo → Interação → Trajetória → Evidência`\n" +
+    "- Hipótese Socioeconômica: `Interação → Contribuição → Evidência → Reconhecimento → Incentivo → Reinvestimento no ecossistema`\n\n" +
+    "## 2. As 6 Perguntas Fundamentais\n" +
+    "1. Conseguimos atrair colaboradores por meio de uma rede social descentralizada (Farcaster)?\n" +
+    "2. Conseguimos transformar interações em microcontribuições úteis no GitHub?\n" +
+    "3. Conseguimos reconhecer contribuições sem depender exclusivamente de popularidade/atenção?\n" +
+    "4. Conseguimos usar créditos ou tokens para coordenar atividades que não ocorreriam sozinhas?\n" +
+    "5. Conseguimos produzir bens públicos reutilizáveis por outros projetos?\n" +
+    "6. Conseguimos documentar resultados para verificação independente por avaliadores externos?",
+  "docs/THEORY-OF-CHANGE.md": "# 🌱 THEORY-OF-CHANGE.md — Ecologia Socioeconômica\n\n" +
+    "Modelamos o experimento como um sistema aberto de 6 fluxos (Conhecimento, Trabalho, Atenção, Capital, Reputação e Utilização), inspirado em Howard Odum e Ernst Götsch, distinguindo rigorosamente as métricas de cada domínio.\n\n" +
+    "## Ciclo de Regeneração Testado\n" +
+    "`Contribuição → Artefato → Utilização → Impacto → Financiamento → Nova contribuição`\n\n" +
+    "Observamos empiricamente onde o ciclo se fecha por utilidade própria e onde requer subsídio via grants.",
+  "docs/MECHANISM-DESIGN.md": "# ⚙️ MECHANISM-DESIGN.md — Três Instrumentos e Sequência A–D\n\n" +
+    "1. **Reputação:** Histórico contextual de contribuições aceitas e revisadas.\n" +
+    "2. **Créditos de Utilidade:** Direito de solicitar análises, revisões ou execuções no laboratório.\n" +
+    "3. **Token Transferível (Devnet/Testnet):** Ativo programático sujeito às regras da rede (`SPL Token-2022` / `ValueCurator PDA`).\n\n" +
+    "Sequência: Experimento A (Ledger Simulado) → Experimento B (Token em Devnet) → Experimento C (Recompensas Reais de Baixo Valor) → Experimento D (Mecanismos Avançados).",
+  "docs/CONTRIBUTION-POLICY.md": "# 🤝 CONTRIBUTION-POLICY.md — Política de Microcontribuições\n\n" +
+    "Unidade experimental: **Microcontribuição Verificável** (Descoberta de problema, Proposta técnica, Reprodução de bug, Documentação, Teste de onboarding, Análise econômica, Simulação, Revisão de hipótese, Integração, Reutilização).\n\n" +
+    "**Regra de Ouro:** Recompensamos contribuições aceitas, testes reproduzíveis e utilidade real — nunca volume bruto de posts ou seguidores.",
+  "docs/EVIDENCE-PROTOCOL.md": "# 🔍 EVIDENCE-PROTOCOL.md — Protocolo de Evidências (Níveis L1 a L5)\n\n" +
+    "Separamos estritamente **Atenção** (alcance social), **Contribuição** (artefato produzido) e **Impacto** (utilidade confirmada).\n\n" +
+    "- **L1 (Atividade Declarada):** Relato em cast ou comentário.\n" +
+    "- **L2 (Atividade Observada):** Commit, issue ou PR público no GitHub.\n" +
+    "- **L3 (Contribuição Revisada):** Validação técnica por par ou mantenedor.\n" +
+    "- **L4 (Resultado Reproduzido):** Teste automatizado ou reprodução independente.\n" +
+    "- **L5 (Impacto Confirmado):** Reutilização documentada por projeto terceiro.",
+  "docs/FUNDING-LEDGER.md": "# 📒 FUNDING-LEDGER.md — Registro de Fontes, Custos e Escopos\n\n" +
+    "Mantém registro único das entregas, identificação da fonte de financiamento de cada módulo (Módulo A: Registro/Proveniência; Módulo B: Farcaster/UX; Módulo C: Incentivos/ValueCurator) e separação entre despesas compartilhadas e exclusivas.",
+  "docs/reports/week-01..04.md": "# 📊 Relatórios Semanais (Semanas 01 a 04)\n\n" +
+    "- **week-01.md:** Delimitação do Desafio #01, hipóteses H1–H4 e mapeamento IPIT × ValueCurator.\n" +
+    "- **week-02.md:** Primeiro fluxo funcional (Convo → Issue → Evidência → Ledger de Créditos).\n" +
+    "- **week-03.md:** Experimentação pública no Farcaster e ciclo Devnet Token-2022.\n" +
+    "- **week-04.md:** Release do artefato, métricas consolidadas, limitações/resultados negativos e plano da próxima rodada."
+};
+
+/* Cadência Semanal Segunda a Sexta */
+var WEEKLY_CADENCE = [
+  ["Segunda-feira", "Formular um Desafio Público", "Cast estruturado no Farcaster + Issue aberta no GitHub com escopo e hipótese"],
+  ["Terça-feira", "Debater Alternativas com a Comunidade", "Casts de discussão técnica + decisões de arquitetura documentadas na Issue"],
+  ["Quarta-feira", "Implementar Solução / Microcontribuições", "Commits + Pull Requests abertos vinculando autoria e contexto"],
+  ["Quinta-feira", "Testar, Reproduzir e Revisar", "Execução de testes reproduzíveis + revisão por pares (elevando evidência a L3/L4)"],
+  ["Sexta-feira", "Publicar o Aprendizado (Build in Public)", "Relatório semanal (`docs/reports/week-XX.md`) + Release e registro no Ledger"]
+];
+
+/* Plano de 30 Dias (4 Semanas) */
+var PLAN_30_DAYS = [
+  {
+    id: 0,
+    title: "Semana 1 — Delimitação e Infraestrutura",
+    goal: "Definir uma pergunta experimental clara e o artefato base.",
+    deliverables: ["Documento docs/EXPERIMENT.md com hipóteses H1–H4 e métricas", "Definição do modelo de microcontribuição verificável", "Mapeamento real das funcionalidades existentes no IPIT e no ValueCurator", "Issue tracker público + regras de participação e licença aberta"],
+    criterion: "Qualquer pessoa externa consegue compreender o experimento e identificar como contribuir."
+  },
+  {
+    id: 1,
+    title: "Semana 2 — Primeiro Fluxo Funcional",
+    goal: "Registrar, revisar e avaliar microcontribuições de ponta a ponta.",
+    deliverables: ["Cadastro público de desafios (ex: Desafio #01)", "Registro de contribuições vinculado a evidências (Níveis L1–L5)", "Fluxo de revisão técnica documentado", "Ledger de créditos de utilidade simulados (Experimento A) + relatório de eventos"],
+    criterion: "Uma contribuição percorre o ciclo completo sem intervenção manual não documentada."
+  },
+  {
+    id: 2,
+    title: "Semana 3 — Integração e Experimentação Pública",
+    goal: "Executar o experimento ao vivo no Farcaster e no GitHub.",
+    deliverables: ["Desafios publicados no Farcaster com tarefas recombináveis", "Coleta de contribuições de colaboradores (ou validação de baixa adesão)", "Testes reproduzíveis e integração Devnet (Experimento B) com fluxo básico estável", "Primeiro relatório público de resultados parciais"],
+    criterion: "Existe evidência empírica de execução pública, não apenas um anúncio."
+  },
+  {
+    id: 3,
+    title: "Semana 4 — Avaliação e Empacotamento",
+    goal: "Transformar a experiência em um artefato reutilizável pelo ecossistema.",
+    deliverables: ["Release oficial do protótipo e documentação de replicação", "Relatório experimental completo com métricas, limitações e resultados negativos", "Demonstração gravada/documentada do fluxo completo", "Mapa de oportunidades de financiamento (Camadas A–E) e plano da próxima rodada"],
+    criterion: "Um terceiro consegue inspecionar o código, compreender os resultados e reproduzir a parte central."
+  }
+];
+
+/* Matriz de Seleção da Primeira Rede (7 Critérios) */
+var NET_MATRIX = [
+  ["Base / Optimism (Superchain)", "5/5 (Nativa no Farcaster)", "5/5 (Testnet grátis / L2 centavos)", "5/5 (Frames / Mini-Apps / EAS)", "5/5 (Viem, Wagmi, Karma GAP)", "5/5 (RetroPGF + Base Grants)", "5/5 (Padrão EVM)", "Alta (Comunidade Farcaster ativa)"],
+  ["Solana (Devnet / Mainnet)", "4/5 (Forte em DeFi/DeSci)", "5/5 (Devnet grátis / Sub-centavo)", "4/5 (Solana Actions / Mini-Apps)", "5/5 (Anchor, Token-2022, Pyth)", "5/5 (Colosseum + Solana Found.)", "4/5 (Rust modular)", "Alta (ValueCurator + Eidos já rodando)"],
+  ["Arbitrum (Orbit / Stylus)", "4/5 (Forte em DAOs e DeFi)", "4/5 (Testnet grátis / L2 baixo)", "4/5 (Compatível c/ Farcaster EVM)", "5/5 (Stylus aceita contratos Rust!)", "5/5 (Questbook + DAO Grants)", "5/5 (EVM + Rust WASM)", "Média-Alta (Foco em tesourarias)"],
+  ["Gitcoin / Octant (Agnóstico)", "5/5 (Foco em Bens Públicos)", "5/5 (Multi-rede)", "4/5 (Comunidade Web3 aberta)", "4/5 (Grants Stack / Allo / EAS)", "4/5 (QF + Yield Contínuo)", "5/5 (Totalmente portável)", "Alta (Ideal para o Core Agnóstico)"]
+];
+
+/* Módulos A, B e C para Grant Stacking sem sobreposição */
+var STACK_MODULES = [
+  {
+    id: 0,
+    code: "MÓDULO A",
+    title: "Infraestrutura de Registro, Proveniência e Schemas (`Eidos` + Core Agnóstico)",
+    layer: "Camada A (Recursos Próprios) + Camada D (Retroativo — Gitcoin / Octant)",
+    ask: 20000,
+    scope: "Esquema de evidências (L1–L5), modelo de microcontribuições (`contribution.schema.json`), manifesto `EidosManifest v1.0` e dossiê de reprodutibilidade.",
+    exclusiveCost: "Desenvolvimento de schemas, validação automatizada e documentação de padrões abertos.",
+    repo: "compilatorum/eidos-tokenization & compilatorum/concurseiro-grants"
+  },
+  {
+    id: 1,
+    code: "MÓDULO B",
+    title: "Integração Farcaster Commons Lab & Experiência de Contribuição",
+    layer: "Camada B (Comunitária) + Camada D/E (Optimism RetroPGF / Base Grants)",
+    ask: 30000,
+    scope: "Publicação de desafios no Farcaster, Mini-App (`farcaster.json`), conversão Convo → Issue/PR e relatórios públicos semanais (Build in Public).",
+    exclusiveCost: "Frontend do Mini-App, facilitação dos ciclos semanais e incentivos comunitários de teste.",
+    repo: "compilatorum/concurseiro-grants & compilatorum/IPIT"
+  },
+  {
+    id: 2,
+    code: "MÓDULO C",
+    title: "Motor de Políticas, Recibos Assinados e Alocação (`ValueCurator` + 3 Taxas)",
+    layer: "Camada C (Prospectiva — Solana / Colosseum) + Camada E (Arbitrum Stylus)",
+    ask: 50000,
+    scope: "Integração de propostas e recibos `Ed25519` com o cofre PDA e recolhimento das 3 taxas administrativas (`deposit_with_fee`, `collect_periodic_fee`, `metabolize_yield`).",
+    exclusiveCost: "Engenharia e auditoria dos contratos inteligentes em Rust/Anchor e SDK TypeScript.",
+    repo: "smp-sandramariapereira/valuecurator (branch: feat/tri-tier-admin-fees)"
+  }
 ];
 
 var FASES = [
-  ["🔍","Descoberta",["Mapear programas ativos e com caixa (fundações L1/L2, RetroPGF, Gitcoin/Octant)","Checar deadline: rolling application ou rodada trimestral","Filtrar por ecossistema, vertical (IA × DeFi, DeSci, Public Goods), valor e KYC"]],
-  ["📝","Preparação & Build in Public",["Ter MVP funcional na Devnet e repositórios abertos no GitHub","Rodar experimento sociotécnico no Farcaster circulando tokens de teste","Construir presença pública na comunidade antes de pedir financiamento","Definir orçamento modular para Grant Stacking sem sobreposição de escopo"]],
-  ["📤","Submissão",["Preencher application respondendo com números, links de commits e hashes on-chain","Publicar post no fórum da DAO / Karma GAP e compartilhar resumo no Farcaster"]],
-  ["🔎","Avaliação",["Responder due diligence técnica mostrando testes E2E (Playwright) e contratos","Demonstrar exatamente como o projeto fomenta transações e devs naquela rede"]],
-  ["✅","Aprovação",["Assinar termos de milestones, tranches, KYC/KYB e licença open-source","Configurar carteira/multisig ou Treasury PDA para recebimento transparente"]],
-  ["🛠️","Execução",["Entregar cada milestone dentro do prazo com código aberto e releases no GitHub","Manter updates quinzenais/mensais públicos (Build in Public)"]],
-  ["🧾","Prestação de Contas",["Publicar relatório final comparando KPIs prometidos vs. entregues","Emitir attestations on-chain no Karma GAP (EAS) comprovando cada entrega"]],
-  ["🔭","Pós-Grant & Sustentabilidade",["Converter impacto entregue em novos Grants Retroativos (RetroPGF / Octant)","Ativar sustentabilidade própria via as 3 taxas administrativas on-chain (Depósito, Periódica e Performance)"]]
+  ["🔍","1. Descoberta & Elegibilidade",["Mapear programas ativos verificando janelas reais de elegibilidade e regras do edital","Distinguir grants prospectivos (financiam plano futuro) de retroativos (premiam impacto já provado)","Avaliar a primeira rede pela matriz de 7 critérios (menor custo e evidência mais forte)"]],
+  ["🧪","2. Experimento Antes do Grant",["Executar o Desafio #01 no Farcaster e GitHub sem depender de financiamento prévio","Separar métricas de Atenção, Contribuição e Impacto desde o primeiro dia","Começar pelo Experimento A (Ledger Simulado) e Experimento B (Token em Devnet/Testnet)"]],
+  ["📂","3. Dossiê de Evidências",["Manter atualizados EXPERIMENT.md, THEORY-OF-CHANGE.md, MECHANISM-DESIGN.md e EVIDENCE-PROTOCOL.md","Classificar cada entrega nos níveis L1 (Declarada) a L5 (Impacto Confirmado por Terceiros)","Publicar também resultados negativos, limitações e ajustes de hipótese (rigor científico)"]],
+  ["📤","4. Narrativa & Submissão",["Estruturar a candidatura nos 4 pilares: Problema, Mecanismo, Execução e Impacto","Anexar o FUNDING-LEDGER.md demonstrando separação entre Módulos A, B e C","Declarar explicitamente se os dados vêm de ambiente simulado, testnet/devnet ou uso real"]],
+  ["🔎","5. Due Diligence & Revisão",["Demonstrar que um terceiro consegue inspecionar o código e reproduzir o fluxo central","Apresentar o mapeamento claro do que já existe no IPIT e no ValueCurator vs. lacunas"]],
+  ["✅","6. Acordo & Obrigações",["Compreender que ausência de equity/dívida não isenta de milestones, licenças abertas e relatórios","Separar despesas exclusivas de cada grant das despesas compartilhadas do laboratório"]],
+  ["🛠️","7. Execução & Cadência Semanal",["Manter a cadência Segunda (Desafio) -> Quarta (PR) -> Quinta (Teste) -> Sexta (Relatório)","Reconhecer contribuições pela Regra de Ouro (utilidade e reprodutibilidade, não popularidade)"]],
+  ["🌱","8. Regeneração & Pós-Grant",["Converter artefatos abertos reutilizados em elegibilidade para rodadas retroativas","Sustentar a infraestrutura no longo prazo via as 3 taxas administrativas do ValueCurator"]]
 ];
 
 var FORM = [
-  ["Identificação","Nome do projeto, time, links do GitHub, Farcaster, site e carteiras/contratos"],
-  ["Resumo executivo","1 a 3 frases diretas: o que construímos, para quem e qual prova já está rodando na Devnet"],
-  ["Problema e oportunidade","A dor real do ecossistema (risco de agentes de IA com chave crua + iliquidez de contribuições open-source)"],
-  ["Solução e experimento sociotécnico","Como unimos governança determinística, tokenização aberta e inteligência coletiva no Farcaster"],
-  ["Abordagem técnica e arquitetura","Stack Rust/Anchor, SPL Token-2022, Pyth Feed 922, Farcaster Frames e testes Playwright E2E"],
-  ["Alinhamento e contrapartida para o ecossistema","Por que esta rede específica e como geramos bens públicos, transações e novos builders para ela"],
-  ["Time e histórico de execução","Papéis de Sandra Pereira e João Nitsche + repositórios e entregas verificáveis"],
-  ["Roadmap e milestones verificáveis","Entregável técnico/sociotécnico, prazo, valor da tranche e critério objetivo de aceite"],
-  ["Orçamento e transparência de Grant Stacking","Valor solicitado nesta rede + declaração transparente de módulos complementares em outras redes"],
-  ["KPIs on-chain e comunitários","Commits, nós PDA criados, tokens distribuídos no Farcaster, testadores na Devnet e TVG"],
-  ["Sustentabilidade pós-grant (Motor Tri-Tier)","Como o protocolo se mantém vivo via Taxa de Depósito (0,5%), Taxa Periódica (1 USDC/mês) e Taxa de Performance (15%)"],
-  ["Riscos e mitigação","Mitigação técnica (Fail-Closed), regulatória (Devnet/Non-custodial PDA) e operacional"],
-  ["Diferenciais competitivos","Comparativo contra bots de chave crua (Eliza), multi-sigs lentos (Squads) e projetos fechados"],
-  ["Licença Open-Source e Propriedade Intelectual","Código aberto (MIT) + padrão EidosManifest v1.0 para atribuição e royalties programáticos"],
-  ["Segurança e auditoria","Isolamento em PDA, invariantes matemáticos em Rust, suíte Playwright e plano de auditoria"],
-  ["Legal, KYC e Treasury PDA","Jurisdição, conformidade e endereço da carteira/tesouraria para recebimento das tranches"],
-  ["Anexos e provas inspecionáveis","Links para o Pitch Deck HTML/PDF, contratos na Devnet, Solscan e repositório GitHub"]
-];
-
-var ECO = [
-  ["dir","Solana Foundation & Colosseum","Grants diretos e aceleradora ($250k) para infraestrutura DeFi, IA agêntica e Token Extensions (Token-2022)."],
-  ["retro","Optimism RetroPGF & Superchain","Remunera impacto público já entregue e comprovado em código aberto, educação (IPIT) e ferramentas no Farcaster/Base."],
-  ["dir","Base Builder Grants & Rounds","Micro-grants rápidos (1 a 5 ETH) e rodadas no Farcaster (/base-builds) para apps que mobilizam usuários e Frames."],
-  ["qf","Gitcoin & Octant v2","Financiamento quadrático e distribuição contínua de yield para bens públicos open-source, DeSci e ferramentas coletivas."],
-  ["dir","Arbitrum DAO (Questbook / Stylus)","Trilhas dedicadas a IA × DeFi, contratos em Rust (Stylus) e segurança de tesourarias de DAOs."],
-  ["dir","Ethereum Foundation (ESP)","Financia pesquisa aplicada, padrões abertos (como EidosManifest), educação técnica e infraestrutura pública."],
-  ["dir","Sui Foundation & NEAR","Bolsas para agentes autônomos verificáveis, armazenamento de metadados e novos primitivos financeiros."],
-  ["hack","DoraHacks, Devfolio & Bounties","Ideais para financiar sprints específicos e empilhar micro-grants (Grant Stacking) durante o desenvolvimento."],
-  ["acc","Karma GAP (EAS)","Infraestrutura indispensável de reputação on-chain: registra cada milestone entregue e destrava novos grants em 7+ redes."],
-  ["risk","Alerta de Saúde de Programa","Sempre valide se a fundação continua com caixa ativo (ex: Radix entrou em manutenção em abr/2026). Nunca dependa de uma única fonte."]
-];
-var TAGS = {dir:"Grant Direto", retro:"Retroativo (RetroPGF)", qf:"QF / Yield Público", hack:"Hackathon / Bounty", acc:"Accountability", risk:"Alerta"};
-
-var TIPOS = [
-  "🏗️ Ecosystem / Builder Grants",
-  "🔁 Retroactive Public Goods (RetroPGF)",
-  "🟣 Farcaster Rounds & Micro-Grants",
-  "🥞 Multi-Chain Grant Stacking",
-  "🔢 Quadratic & Yield Funding (Octant/Gitcoin)",
-  "🏆 Hackathon-to-Accelerator (Colosseum)",
-  "🔬 DeSci & IP Tokenization Grants",
-  "🛡️ Security & Audit Subsidies"
-];
-
-var CHK = [
-  ["🎯 Estratégia & Grant Stacking",["Separar módulos por repositório (ex: ValueCurator vs. Eidos-Tokenization) para clareza de escopo","Empilhar grants complementares em múltiplas redes declarando abertamente o escopo de cada uma","Focar na contrapartida: mostrar como o seu código aberto atrai devs e transações para a rede financiadora","Rodar primeiro na Devnet/Testnet e circular tokens no Farcaster para chegar na application com tração real"]],
-  ["🟣 Experimento Farcaster × IPIT",["Publicar os 8 passos do percurso IPIT em público (Build in Public) conectando Farcaster e GitHub","Usar tokens na Devnet/Testnet para recompensar quem abre Issues, PRs ou testa a aplicação","Transformar cada interação comunitária em prova social e técnica para pleitear RetroPGF"]],
-  ["🧠 Escrita da Application",["Responder exatamente o que foi perguntado com números, hashes de transação e links clicáveis","Definir milestones de 4 a 12 semanas com critérios de aceite que qualquer auditor externo possa checar","Demonstrar sustentabilidade pós-grant (nosso modelo de 3 taxas: Depósito, Periódica e Performance)"]],
-  ["🛡️ Risco, Licença e Prestação de Contas",["Manter repositórios públicos com licença open-source clara (exigência quase universal de grants)","Registrar progresso quinzenal no Karma GAP via attestations EAS","Avisar qualquer mudança técnica antes do vencimento do milestone (transparência radical)"]]
+  ["Identificação do Experimento","Nome (Farcaster Commons Lab — IPIT × ValueCurator), equipe e repositórios públicos"],
+  ["Síntese Narrativa (4 Pilares)","Problema, Mecanismo, Execução já realizada e Impacto verificável"],
+  ["Problema de Coordenação","Por que conversas e ideias em comunidades Web3 se perdem sem virar bens públicos rastreáveis"],
+  ["Hipóteses Testáveis (H1 a H4)","Quais perguntas fundamentais o experimento responde e com quais indicadores"],
+  ["Unidade Experimental (Microcontribuições)","Como tarefas pequenas e recombináveis reduzem a barreira de entrada para colaboradores"],
+  ["Design de Mecanismos (3 Instrumentos)","Por que separamos Reputação, Créditos de Utilidade e Tokens Transferíveis (Sequência A–D)"],
+  ["Arquitetura: Core Agnóstico vs. Adaptadores","Como o protocolo separa a lógica central de evidências dos contratos de cada rede"],
+  ["Integração ValueCurator & Sustentabilidade","Papel dos recibos assinados e das 3 taxas administrativas (Depósito, Periódica e Performance)"],
+  ["Plano de Execução de 30 Dias (Semanas 1–4)","Entregas semanais e critérios objetivos de conclusão"],
+  ["Protocolo de Evidências (Atenção vs. Contribuição vs. Impacto)","Como o dossiê distingue alcance social de artefatos reproduzidos (Níveis L1 a L5)"],
+  ["Ecologia Socioeconômica (6 Fluxos)","O que o projeto devolve ao ecossistema em Conhecimento, Trabalho, Código e Utilização"],
+  ["Estratégia de Financiamento & Grant Stacking (`FUNDING-LEDGER.md`)","Camadas A–E, escopo exclusivo deste módulo e declaração de não-duplicação de custos"],
+  ["Ambiente Experimental Declarado","Distinção transparente entre resultados em Ledger Simulado (Exp A), Devnet/Testnet (Exp B) e Mainnet"],
+  ["Limitações e Resultados Negativos","O que aprendemos quando hipóteses falham ou quando a adesão comunitária é baixa"],
+  ["Licenciamento e Bens Públicos","Licença aberta (MIT / CC-BY) garantindo que qualquer comunidade possa replicar o laboratório"],
+  ["Equipe e Histórico Comprovado","Sandra Maria Pereira & João Nitsche — entregas verificáveis em código e educação tecnológica"],
+  ["Links do Dossiê e Repositórios","Links diretos para EXPERIMENT.md, FUNDING-LEDGER.md, contratos Devnet e relatórios semanais"]
 ];
 
 var QZ = [
-  ["Por que os programas de Web3 Grants não exigem participação societária (equity) nem geram dívida?",["Porque são empréstimos bancários","Porque a contrapartida exigida é fomentar o ecossistema com código aberto, uso e bens públicos","Porque não exigem entrega alguma","Porque só pagam após 10 anos"],1,"Grants são investimentos não-diluidores cujo retorno para a fundação é o crescimento e a utilidade pública do próprio ecossistema."],
-  ["O que caracteriza a prática ética e eficaz de 'Grant Stacking' (empilhamento de bolsas)?",["Submeter exatamente o mesmo código para 5 fundos escondendo dos avaliadores","Receber diversas bolsas simultaneamente para módulos diferentes ou adaptadores complementares em cada rede, com transparência total","Pedir apenas um grant a cada 5 anos","Vender tokens antes de escrever código"],1,"Você pode empilhar diversas bolsas simultaneamente desde que cada grant financie um trabalho/módulo complementar e gere valor para aquela respectiva rede."],
-  ["Como um experimento sociotécnico no Farcaster (estilo IPIT) ajuda a conquistar grants mesmo começando sem verba?",["Não ajuda, pois Farcaster não tem relação com Web3","Permite mobilizar inteligência coletiva, circular tokens na Devnet/Testnet e gerar impacto público provado para pleitear Grants Retroativos (RetroPGF)","Substitui o repositório no GitHub","Serve apenas para marketing pago"],1,"No Farcaster você engaja builders, circula tokens comunitários sem custo de Mainnet e constrói o histórico de impacto exigido pelo RetroPGF e Builder Grants."],
-  ["No modelo de sustentabilidade pós-grant da branch 'feat/tri-tier-admin-fees' do ValueCurator, quais são as 3 taxas recolhidas?",["Taxa de gas, taxa de saque e multa","Taxa mediante depósito (deposit_with_fee), taxa periódica por época (collect_periodic_fee) e taxa de performance sobre o lucro (metabolize_yield)","Apenas 2% de administração e 20% de performance anual manual","Imposto sobre chaves privadas"],1,"As 3 taxas on-chain garantem receita recorrente e alinhada para a Tesouraria do protocolo manter a infraestrutura após o término dos grants."],
-  ["Por que separamos o motor de tokenização ('compilatorum/eidos-tokenization') do cofre principal ('valuecurator')?",["Para apagar o histórico de commits","Para permitir modularidade técnica, clareza arquitetural e pleitear grants específicos de DeSci/Tokenização e de DeFi/Custódia separadamente","Porque o GitHub só aceita um arquivo por repositório","Para fechar o código fonte"],1,"A separação em repositórios modulares facilita a auditoria e permite alocar diferentes grants para diferentes camadas do ecossistema."],
-  ["O que o financiamento retroativo (como Optimism RetroPGF) remunera prioritariamente?",["Promessas vagas em um PDF sem código","Impacto real e bens públicos abertos que já foram construídos e utilizados pela comunidade","Apenas campanhas de influenciadores","Projetos de código fechado sem usuários"],1,"RetroPGF segue o axioma 'é mais fácil medir o impacto que já aconteceu do que adivinhar qual promessa dará certo'."],
-  ["Por que focar na execução End-to-End na Devnet (Solana Devnet / Base Sepolia) é estratégico para o 'Build in Public'?",["Porque a Devnet exige dinheiro real dos testadores","Porque já permite uso real de ponta-a-ponta com carteiras (Phantom) e exploradores (Solscan) a custo zero, gerando provas auditáveis imediatas","Porque avaliadores de grants nunca olham repositórios","Porque dispensa testes automatizados"],1,"Na Devnet o produto já é plenamente utilizável pela comunidade do Farcaster/GitHub sem barreiras financeiras, gerando telemetria real."],
-  ["Qual é a função do Karma GAP (baseado no Ethereum Attestation Service — EAS) na jornada de um concurseiro de grants?",["Criar memes no Farcaster","Registrar on-chain os milestones prometidos versus entregues, construindo um currículo reputacional auditável entre várias redes","Esconder atrasos do comitê","Cobrar taxas de gas mais caras"],1,"Karma GAP é usado por Optimism, Arbitrum, Gitcoin, Octant, Celo e Scroll para verificar o histórico de entrega do time."],
-  ["Na instrução 'metabolize_yield' do ValueCurator, o que acontece com o montante principal depositado pelo usuário?",["É enviado para a tesouraria","Permanece 100% isolado e intocado no Vault PDA; apenas o rendimento positivo (yield) sofre o split de 15% para a tesouraria e 85% para o cofre","É queimado a cada 30 dias","Fica bloqueado por 5 anos"],1,"A soberania do principal garante que o usuário possa acionar 'emergency_withdraw' a qualquer instante."],
-  ["Como a metodologia IPIT (8 etapas) se conecta à tokenização no Farcaster?",["Cada uma das 8 etapas (da Descoberta ao Pitch) gera entregáveis verificáveis no GitHub que destravam mints de tokens/badges para os colaboradores","O IPIT proíbe o uso de inteligência coletiva","O IPIT só funciona sem internet","Substitui o compilador Rust"],0,"A estrutura em 8 etapas do IPIT transforma a colaboração aberta em micro-entregas auditáveis e tokenizáveis."]
+  ["Qual é a diferença fundamental entre tratar o IPIT como um 'experimento socioeconômico' versus uma 'campanha de marketing'?",["Marketing publica apenas código, enquanto experimento não usa redes sociais","O experimento formula hipóteses testáveis (H1–H4), separa Atenção de Contribuição e Impacto, e publica inclusive resultados negativos e limitações","Uma campanha de marketing exige contratos em Rust","O experimento exige que o token tenha alto valor especulativo no dia 1"],1,"Tratar o projeto como experimento científico gera evidências auditáveis muito mais convincentes para avaliadores de grants."],
+  ["Por que o Farcaster Commons Lab separa 'Atenção', 'Contribuição' e 'Impacto' em três dimensões distintas?",["Porque um cast com muitas curtidas (Atenção) não produz automaticamente código útil (Contribuição), e um código escrito só gera Impacto quando resolve um problema ou é reutilizado","Porque o Farcaster proíbe links do GitHub","Para recompensar apenas quem tem mais seguidores","Para substituir os testes automatizados"],0,"Separar essas três dimensões evita recompensar vaidade e melhora substancialmente a qualidade dos relatórios de Build in Public e RetroPGF."],
+  ["Por que NÃO devemos usar um único token para representar simultaneamente mérito, governança, acesso a serviços e dinheiro logo no início?",["Porque a blockchain não permite criar tokens","Porque misturar tudo em um único ativo gera especulação prematura e impede saber qual propriedade produziu o resultado experimental","Porque tokens são ilegais em testnets","Porque créditos de utilidade custam caro"],1,"Ao separar Reputação (histórico), Créditos de Utilidade (acesso a serviços) e Token Transferível (Devnet), isolamos as variáveis do experimento."],
+  ["Qual é a ordem correta da Sequência de Experimentos (A → B → C → D) proposta para o mecanismo de incentivos?",["Começar direto com uma bonding curve especulativa na Mainnet","Exp A (Ledger Simulado sem ativos reais) → Exp B (Token em Testnet/Devnet) → Exp C (Recompensas reais de baixo valor com regras claras) → Exp D (Mecanismo avançado se a hipótese exigir)","Distribuir airdrops aleatórios antes de ter repositório no GitHub","Aguardar 2 anos até receber um grant milionário para escrever a primeira linha de código"],1,"Essa progressão permite construir utilidade imediata agora sem comprometer o projeto com especulação prematura."],
+  ["O que é a 'Unidade Experimental' do Farcaster Commons Lab para facilitar a inteligência coletiva?",["Um projeto monolítico de 12 meses que uma única pessoa deve fazer sozinha","Uma Microcontribuição Verificável (ex: reproduzir um bug, melhorar uma doc, propor um schema, revisar uma hipótese, testar onboarding)","Um comentário de uma palavra no Farcaster","A compra de um token no mercado secundário"],1,"Unidades pequenas, verificáveis e recombináveis permitem que colaboradores com diferentes competências contribuam sem atrito."],
+  ["Segundo a 'Regra de Ouro' do reconhecimento no IPIT, o que deve ser priorizado na avaliação?",["Quem publicou mais casts por dia ou trouxe mais seguidores","Contribuições aceitas, testes reproduzíveis, revisões úteis, problemas resolvidos e artefatos reutilizados por projetos independentes","Apenas quem investiu dinheiro no projeto","Ordem alfabética dos participantes"],1,"O reconhecimento combina regras objetivas e revisão humana focadas em utilidade verificável."],
+  ["Na ecologia socioeconômica inspirada em Howard Odum e Ernst Götsch, qual cuidado metodológico devemos manter?",["Tratar curtidas exatamente como joules de energia solar","Reconhecer que atenção, reputação, capital, trabalho e conhecimento são estoques e fluxos distintos que exigem unidades e métricas próprias","Assumir que a regeneração acontece por mágica sem medir nada","Ignorar os custos de manutenção"],1,"Modelar entradas, transformações e saídas de cada fluxo com métricas próprias torna a teoria de mudança rigorosa."],
+  ["Como fazer 'Grant Stacking' (combinar múltiplas fontes de financiamento) de forma ética e auditável?",["Apresentar o mesmo trabalho como três entregas independentes para cobrar três vezes por ele","Dividir o projeto em módulos complementares (Módulo A: Proveniência; Módulo B: Farcaster UX; Módulo C: Incentivos/ValueCurator) e manter um FUNDING-LEDGER.md separando despesas exclusivas e compartilhadas","Ocultar das fundações os outros apoios recebidos","Pedir grants sem ler os termos de elegibilidade"],1,"Um projeto modular pode legitimamente receber apoio de diversas fontes para componentes diferentes, desde que mantenha transparência e contabilidade separada."],
+  ["Sobre a ausência de equity e dívida nos grants Web3, qual distinção jurídica e operacional é essencial lembrar?",["Que o dinheiro não exige nenhuma entrega ou relatório","Que mesmo não exigindo participação societária nem gerando dívida, um grant ainda impõe obrigações reais: milestones, relatórios, licenças open-source, restrições orçamentárias ou deveres de manutenção","Que fundações nunca auditam o código","Que todo projeto é automaticamente elegível para RetroPGF"],1,"Reconhecer as obrigações contratuais e de prestação de contas demonstra maturidade institucional perante qualquer comitê."],
+  ["Por que dividir a arquitetura em 'Core Agnóstico de Rede' e 'Adaptadores Específicos' é vantajoso?",["Para reescrever 100% do código do zero em cada blockchain","Porque o modelo de contribuição, esquema de evidências (L1–L5) e motor de avaliação permanecem intactos no Core, enquanto apenas os contratos e carteiras mudam nos Adaptadores de cada rede","Para impedir o uso de código aberto","Porque o Farcaster só funciona em uma única rede"],1,"Isso reduz drasticamente o custo de portabilidade e permite testar ou pleitear bolsas de integração em múltiplos ecossistemas."],
+  ["O que acontece no Plano de 30 Dias se a adesão comunitária inicial na Semana 3 for baixa?",["O experimento deve ser falsificado com bots","Isso não invalida o mês de trabalho: teremos validado a infraestrutura técnica e aprendido sobre a estratégia de mobilização, declarando honestamente que ainda não há impacto social amplo","Devemos apagar o repositório do GitHub","Devemos lançar uma memecoin imediatamente"],1,"Publicar limitações e resultados negativos faz parte do protocolo de pesquisa aberta e aumenta a credibilidade técnica da equipe."],
+  ["Qual deve ser o ponto de partida da narrativa ao apresentar o projeto para fundações e programas de grants?",["Afirmar que vamos revolucionar todo o sistema financeiro global amanhã","Partir do trabalho já realizado e demonstrado nos 4 pilares: Problema de coordenação, Mecanismo aberto, Execução verificada e Impacto observado","Focar apenas numa lista de siglas tecnológicas","Prometer valorização garantida de token"],1,"Fundações valorizam equipes que mostram um ciclo pequeno já funcionando e documentado com honestidade epistêmica."]
 ];
 
-/* Utilitários de cálculo */
 function pct(o, n){ var k, c = 0; for (k in o){ if (o[k]) c++; } return n ? Math.round(100 * c / n) : 0; }
 function totT(){ var i, n = 0; for (i = 0; i < FASES.length; i++){ n += FASES[i][2].length; } return n; }
-function totC(){ var i, n = 0; for (i = 0; i < CHK.length; i++){ n += CHK[i][1].length; } return n; }
 function qp(){ return QZ.length ? Math.round(100 * S.q.ok / QZ.length) : 0; }
-function stkPct(){
-  var k, c = 0;
-  for (k in S.stk){ if (S.stk[k]) c++; }
-  return Math.round(100 * c / STACK_ITEMS.length);
-}
 function stkSum(){
   var i, sum = 0;
-  for (i = 0; i < STACK_ITEMS.length; i++){
-    if (S.stk[STACK_ITEMS[i].id]) sum += STACK_ITEMS[i].ask;
+  for (i = 0; i < STACK_MODULES.length; i++){
+    if (S.stk[STACK_MODULES[i].id]) sum += STACK_MODULES[i].ask;
   }
   return sum;
 }
 function vals(){
   return [
-    pct(S.t, totT()),
+    pct(S.hyp, HYPOTHESES.length),
+    pct(S.exp, EXP_SEQ.length),
+    pct(S.p30, PLAN_30_DAYS.length),
+    pct(S.stk, STACK_MODULES.length),
     pct(S.f, FORM.length),
-    pct(S.ipit, IPIT_STAGES.length),
-    stkPct(),
-    pct(S.bip, BIP_CHECKS.length),
     qp()
   ];
 }
@@ -560,7 +772,7 @@ function upd(){
   for (i = 0; i < v.length; i++) sum += v[i];
   var m = Math.round(sum / v.length);
   $("ovb").style.width = m + "%";
-  $("ovl").textContent = "Prontidão Global de Aprovação: " + m + "% | Pilha de Grants Ativa: US$ " + stkSum().toLocaleString("pt-BR");
+  $("ovl").textContent = "Maturidade Experimental & Grants: " + m + "% | Módulos A/B/C Ativos: US$ " + stkSum().toLocaleString("pt-BR");
   saveState();
 }
 
@@ -585,19 +797,18 @@ function toggleTheme(){
   var cur = root.getAttribute("data-theme");
   var next = cur === "dark" ? "light" : "dark";
   root.setAttribute("data-theme", next);
-  dbg("Tema alterado para " + next.toUpperCase(), true);
+  dbg("Tema: " + next.toUpperCase(), true);
 }
 
 function exportState(){
   var blob = new Blob([JSON.stringify(S, null, 2)], {type:"application/json"});
   var a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = "concurseiro-grants-experimento-state.json";
+  a.download = "farcaster-commons-lab-ipit-state.json";
   a.click();
-  dbg("Estado exportado em JSON!", true);
+  dbg("Dossiê e estado exportados em JSON!", true);
 }
 
-/* Navegação entre abas */
 function show(t){
   var i, s = document.getElementsByTagName("section"), b = $("nav").getElementsByTagName("button");
   for (i = 0; i < s.length; i++){ s[i].className = (s[i].id === "s-" + t) ? "on" : ""; }
@@ -612,25 +823,24 @@ function boxes(k, key, txt){
   " onchange=\"tg('" + k + "','" + key + "',this.checked);this.parentNode.className=this.checked?'it ok':'it'\"><span>" + esc(txt) + "</span></label>";
 }
 
-/* 1. ABA PAINEL */
+/* 1. ABA PAINEL & ECOLOGIA (ODUM / GÖTSCH) */
 function initDash(){
   var v = vals();
-  var L = ["Trilha (8 Fases)","Application (17 Itens)","IPIT × Farcaster","Grant Stacking","Build in Public","Simulado"];
+  var L = ["Hipóteses H1–H4","Sequência Exp A–D","Plano 30 Dias","Módulos A/B/C","Narrativa (17 Itens)","Simulado"];
   var i, h = "";
   for (i = 0; i < L.length; i++){
     h += "<div class=c><b>" + v[i] + "%</b><small>" + L[i] + "</small></div>";
   }
-  h += "<div class=c><b style='color:var(--gr)'>US$ " + (stkSum()/1000) + "k</b><small>Grant Stack Alvo (Não-Diluidor)</small></div>";
-  h += "<div class=c><b style='color:var(--pu)'>" + S.contributors.length + "</b><small>Mints Comunitários Farcaster</small></div>";
+  h += "<div class=c><b style='color:var(--gr)'>" + S.microConvos.length + "</b><small>Microcontribuições Verificáveis</small></div>";
+  h += "<div class=c><b style='color:var(--pu)'>US$ " + (stkSum()/1000) + "k</b><small>Funding Ledger (Módulos A/B/C)</small></div>";
   $("stats").innerHTML = h;
-  $("tipos").innerHTML = TIPOS.map(function(x){ return "<span class=tag style=\"margin-right:6px;margin-bottom:6px\">" + x + "</span>"; }).join("");
 
   safeChart("cRad", {
     type: "radar",
     data: {
       labels: L,
       datasets: [{
-        label: "% Prontidão",
+        label: "% Concluído",
         data: v,
         backgroundColor: "rgba(39,72,214,.22)",
         borderColor: "#2748d6",
@@ -640,132 +850,244 @@ function initDash(){
     options: {maintainAspectRatio: false, scales: {r: {min: 0, max: 100, ticks: {stepSize: 25}}}, plugins: {legend: {display: false}}}
   });
 
-  safeChart("cDon", {
-    type: "doughnut",
+  safeChart("cBar", {
+    type: "bar",
     data: {
-      labels: ["Grants Diretos L1/L2 (~US$ 200M)", "RetroPGF / Impacto Retroativo (~US$ 150M)", "Quadratic & Yield Funding (~US$ 50M)", "Hackathons & Bounties (~US$ 40M)"],
-      datasets: [{data: [200, 150, 50, 40], backgroundColor: ["#2748d6", "#7c3aed", "#1b9e5a", "#ffd60a"]}]
+      labels: ["1. Atenção (Casts/Views)", "2. Contribuição (Issues/PRs/Docs)", "3. Impacto (Reuso/Problemas Resolvidos)"],
+      datasets: [{
+        label: "Eventos Verificados no Ciclo Atual",
+        data: [109, S.microConvos.length * 3, S.microConvos.length],
+        backgroundColor: ["#7f98ff", "#ffd60a", "#1b9e5a"]
+      }]
     },
-    options: {maintainAspectRatio: false, plugins: {legend: {position: "bottom"}}}
+    options: {maintainAspectRatio: false, plugins: {legend: {display: false}}}
   });
-}
 
-/* 2. ABA EXPERIMENTO IPIT x FARCASTER */
-function initIpit(){
-  var sel = $("ipitStageSel"), i, opts = "", listHtml = "";
-  for (i = 0; i < IPIT_STAGES.length; i++){
-    opts += "<option value=\"" + i + "\">Etapa " + (i+1) + " — " + esc(IPIT_STAGES[i][0]) + "</option>";
-    listHtml += "<div class=fr>" +
-      boxes("ipit", "ip" + i, IPIT_STAGES[i][0] + " — Recompensa: " + IPIT_STAGES[i][2]) +
-      "<small>" + esc(IPIT_STAGES[i][1]) + " | <strong>Critério On-Chain:</strong> " + esc(IPIT_STAGES[i][3]) + "</small></div>";
+  var od = "<thead><tr><th>Fluxo Ecológico</th><th>Entrada (Input)</th><th>Transformação no IPIT</th><th>Saída para o Ecossistema</th><th>Métrica Própria (Não-Física)</th></tr></thead><tbody>";
+  for (i = 0; i < ODUM_FLOWS.length; i++){
+    var f = ODUM_FLOWS[i];
+    od += "<tr><td><strong>" + f[0] + "</strong></td><td>" + esc(f[1]) + "</td><td>" + esc(f[2]) + "</td><td>" + esc(f[3]) + "</td><td><span class='tag bl'>" + esc(f[4]) + "</span></td></tr>";
   }
-  sel.innerHTML = opts;
-  $("ipitList").innerHTML = listHtml;
-  renderIpitFrame();
-  renderContributors();
+  od += "</tbody>";
+  $("odumTable").innerHTML = od;
 }
 
-function renderIpitFrame(){
-  var idx = parseInt($("ipitStageSel").value || "0", 10);
-  var st = IPIT_STAGES[idx];
-  $("fcStageBadge").textContent = "Etapa " + (idx + 1) + "/8 • " + st[2];
-  $("fcScreen").innerHTML =
-    "<strong>[FRAME v2 INTERATIVO — IPIT × EIDOS × VALUECURATOR]</strong><br>" +
-    "• <strong>Etapa:</strong> " + esc(st[0]) + "<br>" +
-    "• <strong>Missão Comunitária:</strong> " + esc(st[1]) + "<br>" +
-    "• <strong>Critério de Aceite:</strong> " + esc(st[3]) + "<br>" +
-    "• <strong>Recompensa On-Chain (Devnet):</strong> <span style='color:#3ccf84'>" + esc(st[2]) + "</span><br>" +
-    "• <strong>Repos Abertos:</strong> <code>compilatorum/eidos-tokenization</code> &bull; <code>valuecurator</code>";
-}
-
-function simFrameAction(act){
-  var idx = parseInt($("ipitStageSel").value || "0", 10);
-  var st = IPIT_STAGES[idx];
-  var out = "";
-  if (act === "submit_pr"){
-    out = "✅ [SIMULAÇÃO FRAME -> GITHUB WEBHOOK]\n" +
-      "Etapa IPIT: " + st[0] + "\n" +
-      "Verificando autoria do contribuidor Farcaster FID #48291...\n" +
-      "Critério verificado: " + st[3] + "\n" +
-      "Status: PR/Issue validado! Pronto para cunhagem atômica na Devnet.";
-  } else if (act === "mint_devnet"){
-    out = "🪙 [SPL TOKEN-2022 DEVNET MINT — compilatorum/eidos-tokenization]\n" +
-      "Instrução Anchor: mint_research_asset (Vault PDA MintAuthority)\n" +
-      "Beneficiário: @builder_farcaster (ATA Devnet)\n" +
-      "Ativo Cunhado: " + st[2] + " (EidosManifest v1.0 SHA-256 verificado)\n" +
-      "Prova Solscan Devnet: https://solscan.io/token/EAP343292JM934s6B3C736cT2U2tA357tC4J7gX3nN8x?cluster=devnet";
-  } else if (act === "attest_eas"){
-    out = "🧾 [KARMA GAP / EAS ATTESTATION — OPTIMISM & BASE]\n" +
-      "Schema: IPIT_Collective_Intelligence_Milestone_v1\n" +
-      "Etapa Concluída: " + st[0] + "\n" +
-      "Evidência Pública: https://github.com/compilatorum/eidos-tokenization\n" +
-      "Impacto: Bem público de código aberto elegível para RetroPGF e Octant.";
-  } else {
-    out = "🟣 [CAST PRONTO PARA PUBLICAR NO FARCASTER — CANAL /build ou /solana]\n\n" +
-      "🚀 Build in Public — Experimento Sociotécnico IPIT × ValueCurator [" + st[0] + "]\n\n" +
-      st[1] + "\n\n" +
-      "🎁 Recompensa na Devnet para quem contribuir nesta etapa: " + st[2] + "\n" +
-      "✅ Critério verificável: " + st[3] + "\n\n" +
-      "🔗 Repo Open-Source: https://github.com/compilatorum/eidos-tokenization\n" +
-      "🔗 Vault & Taxas Tri-Tier: https://github.com/smp-sandramariapereira/valuecurator/tree/feat/tri-tier-admin-fees";
+/* 2. ABA CONVOS & DESAFIOS */
+function initConv(){
+  var h = "", i;
+  for (i = 0; i < CONVO_10_STEPS.length; i++){
+    h += "<div class=pipe-step><b>" + (i+1) + "</b><span>" + esc(CONVO_10_STEPS[i]) + "</span></div>";
   }
-  $("fcOut").textContent = out;
-  S.ipit["ip" + idx] = true;
-  upd();
-  initIpit();
-  $("ipitStageSel").value = String(idx);
-  renderIpitFrame();
+  $("convoSteps").innerHTML = h;
+  genConvoCast();
+  renderMicroConvos();
 }
 
-function renderContributors(){
-  var h = "<thead><tr><th>Farcaster @handle</th><th>Entrega no GitHub (Open Source)</th><th>Etapa IPIT</th><th>Tokens Circulados (Devnet/Testnet)</th><th>Status Auditável</th></tr></thead><tbody>";
-  for (var i = 0; i < S.contributors.length; i++){
-    var c = S.contributors[i];
-    h += "<tr><td><strong>" + esc(c.handle) + "</strong></td><td><code>" + esc(c.gh) + "</code></td><td>" + esc(c.stage) + "</td><td><span class='tag gr'>" + esc(c.token) + "</span></td><td>" + esc(c.status) + "</td></tr>";
+function genConvoCast(){
+  var q = $("cvQ").value, b = $("cvB").value, e = $("cvE").value, r = $("cvR").value, n = $("cvN").value;
+  var o = "🟣 [CAST PROTOCOLO BUILD IN PUBLIC — FARCASTER COMMONS LAB (IPIT)]\n\n" +
+    "🔬 Desafio #01: “Can we turn one Farcaster conversation into a verifiable, reusable open-source contribution?”\n\n" +
+    "❓ Pergunta: " + q + "\n" +
+    "🛠️ Construção: " + b + "\n" +
+    "🔍 Evidência: " + e + "\n" +
+    "📊 Resultado: " + r + "\n" +
+    "⏭️ Próximo passo: " + n + "\n\n" +
+    "🔗 Dossiê aberto: https://github.com/compilatorum/concurseiro-grants/tree/main/docs\n" +
+    "🔗 ValueCurator & Eidos: https://github.com/compilatorum/eidos-tokenization";
+  $("cvOut").textContent = o;
+}
+
+function genMiniAppManifest(){
+  var manifest = {
+    accountAssociation: {
+      header: "eyJmaWQiOjQ4MjkxLCJ0eXBlIjoiY3VzdG9keSIsImtleSI6IjB4In0",
+      payload: "eyJkb21haW4iOiJjb21tb25zLmNvbXBpbGF0b3J1bS5vcmcifQ",
+      signature: "0x_farcaster_miniapp_manifest_signature"
+    },
+    frame: {
+      version: "1",
+      name: "Farcaster Commons Lab (IPIT)",
+      iconUrl: "https://commons.compilatorum.org/icon.png",
+      homeUrl: "https://commons.compilatorum.org",
+      imageUrl: "https://commons.compilatorum.org/og-challenge-01.png",
+      buttonTitle: "🌱 Contribuir no Desafio #01",
+      splashImageUrl: "https://commons.compilatorum.org/splash.png",
+      splashBackgroundColor: "#0f172a",
+      webhookUrl: "https://commons.compilatorum.org/api/farcaster-webhook"
+    },
+    experiment: {
+      workingName: "Farcaster Commons Lab — IPIT",
+      defaultInstrument: "UTILITY_CREDIT_AND_REPUTATION",
+      evidenceProtocol: "docs/EVIDENCE-PROTOCOL.md"
+    }
+  };
+  $("cvOut").textContent = "// Manifesto Oficial Farcaster Mini-App (/.well-known/farcaster.json)\n" + JSON.stringify(manifest, null, 2);
+}
+
+function renderMicroConvos(){
+  var h = "<thead><tr><th>Convo Farcaster</th><th>Colaborador</th><th>Unidade (Microcontribuição)</th><th>Evidência GitHub</th><th>Nível de Evidência</th><th>Atenção vs. Impacto</th></tr></thead><tbody>";
+  for (var i = 0; i < S.microConvos.length; i++){
+    var m = S.microConvos[i];
+    h += "<tr><td><code>" + esc(m.convo) + "</code></td><td><strong>" + esc(m.author) + "</strong></td><td>" + esc(m.type) + "</td><td><code>" + esc(m.gh) + "</code></td><td><span class='tag gr'>" + esc(m.lvl) + "</span></td><td><small>👀 " + esc(m.att) + "<br>🌱 <strong>" + esc(m.imp) + "</strong></small></td></tr>";
   }
   h += "</tbody>";
-  $("cbTable").innerHTML = h;
+  $("mcTable").innerHTML = h;
 }
 
-function addContributor(){
-  var h = $("cbHandle").value.trim(), gh = $("cbGh").value.trim(), st = $("cbStage").value.trim(), tk = $("cbToken").value.trim();
-  if (!h || !gh){ dbg("Preencha ao menos o @handle do Farcaster e o PR/Issue do GitHub!", false); return; }
-  S.contributors.unshift({
-    handle: h,
-    gh: gh,
-    stage: st || "7. Dev E2E",
-    token: tk || "500 R-NFT-UNITS (Token-2022)",
-    status: "Mintado & Registrado"
+function addMicroConvo(){
+  var cv = $("mcConvo").value.trim(), au = $("mcAuthor").value.trim(), tp = $("mcType").value, gh = $("mcGh").value.trim(), lv = $("mcLvl").value;
+  if (!cv || !au || !gh){ dbg("Preencha o Cast/Convo, o Autor e o link da Evidência no GitHub!", false); return; }
+  S.microConvos.unshift({
+    convo: cv, author: au, type: tp, gh: gh, lvl: lv,
+    att: "Discussão registrada", imp: "Artefato verificável no repositório"
   });
-  $("cbHandle").value = ""; $("cbGh").value = ""; $("cbStage").value = ""; $("cbToken").value = "";
-  renderContributors();
+  $("mcConvo").value = ""; $("mcAuthor").value = ""; $("mcGh").value = "";
+  renderMicroConvos();
   upd();
-  dbg("Contribuidor adicionado ao Ledger Socioeconômico!", true);
+  if (inited.dash) initDash();
+  dbg("Microcontribuição registrada no protocolo!", true);
 }
 
-/* 3. ABA GRANT STACKING MULTI-CHAIN */
-function initStk(){
-  var activeCount = 0, i;
-  for (i = 0; i < STACK_ITEMS.length; i++){ if (S.stk[STACK_ITEMS[i].id]) activeCount++; }
-  $("stkStats").innerHTML =
-    "<div class=c><b>" + activeCount + " / " + STACK_ITEMS.length + "</b><small>Ecossistemas Empilhados</small></div>" +
-    "<div class=c><b style='color:var(--gr)'>US$ " + stkSum().toLocaleString("pt-BR") + "</b><small>Capital Não-Diluidor Total</small></div>" +
-    "<div class=c><b>0%</b><small>Diluição Societária (Equity Cedido)</small></div>" +
-    "<div class=c><b>0%</b><small>Sobreposição de Escopo Técnico</small></div>";
+/* 3. ABA TOKENIZAÇÃO (EXP A -> B -> C -> D) */
+function initTok(){
+  var h = "", i;
+  for (i = 0; i < EXP_SEQ.length; i++){
+    var on = !!S.exp[i];
+    h += "<div class=fr>" +
+      "<label class=\"it" + (on ? " ok" : "") + "\"><input type=\"checkbox\"" + (on ? " checked" : "") +
+      " onchange=\"S.exp[" + i + "]=this.checked;upd();initTok()\"><span><strong>" + esc(EXP_SEQ[i][0]) + "</strong></span></label>" +
+      "<small>" + esc(EXP_SEQ[i][1]) + "</small></div>";
+  }
+  $("expSeqList").innerHTML = h;
+}
+
+function simTokenExperiment(){
+  $("tokSimOut").textContent =
+    "🔬 [MATRIZ EXPERIMENTAL DE ISOLAMENTO DE VARIÁVEIS]\n\n" +
+    "• Grupo / Fase 1 (Apenas Reputação Contextual — Off-chain/GitHub):\n" +
+    "  -> Mede a motivação intrínseca e utilidade pura do desafio aberto.\n\n" +
+    "• Grupo / Fase 2 (+ Créditos de Utilidade no Ledger Simulado — Experimento A):\n" +
+    "  -> Colaborador ganha direito de solicitar revisão prioritária ou simulação econômica.\n" +
+    "  -> Testa H2 sem ruído de especulação financeira.\n\n" +
+    "• Grupo / Fase 3 (+ Token Transferível em Devnet — Experimento B):\n" +
+    "  -> Cunhagem de SPL Token-2022 (`eidos-tokenization`) + Cofre PDA (`valuecurator`).\n" +
+    "  -> Valida infraestrutura técnica end-to-end (recibos Ed25519 e 3 taxas administrativas).";
+}
+
+/* 4. ABA HIPÓTESES H1-H4 & DOSSIÊ */
+function initHyp(){
+  var h = "", i;
+  for (i = 0; i < HYPOTHESES.length; i++){
+    var hy = HYPOTHESES[i];
+    var on = !!S.hyp[i];
+    h += "<div class=c style='border-left:4px solid " + (on ? "var(--gr)" : "var(--ln)") + "'>" +
+      "<span class='tag " + (on ? "gr" : "") + "'>Hipótese " + hy.code + "</span>" +
+      "<h3>" + esc(hy.title) + "</h3>" +
+      "<p style='font-size:13.2px;margin:4px 0 8px'><em>" + esc(hy.question) + "</em></p>" +
+      "<strong>Indicadores Verificáveis:</strong><ul class='l'>" +
+      hy.indicators.map(function(x){ return "<li>" + esc(x) + "</li>"; }).join("") +
+      "</ul>" +
+      "<div class='ex' style='margin-top:8px'><strong>Estado / Observação:</strong> " + esc(hy.status) + "</div>" +
+      "<label class=\"it" + (on ? " ok" : "") + "\"><input type=\"checkbox\"" + (on ? " checked" : "") +
+      " onchange=\"S.hyp[" + i + "]=this.checked;upd();initHyp()\"><span>Hipótese instrumentada e monitorada no dossiê</span></label>" +
+      "</div>";
+  }
+  $("hypCards").innerHTML = h;
+
+  var btns = "", firstKey = "";
+  for (var k in DOSSIER_FILES){
+    if (!firstKey) firstKey = k;
+    btns += "<button onclick=\"showDossier('" + k + "')\">📄 " + k + "</button>";
+  }
+  $("dossierBtns").innerHTML = btns;
+  showDossier(firstKey);
+}
+
+function showDossier(key){
+  $("dossierOut").textContent = DOSSIER_FILES[key] || "";
+}
+
+/* 5. ABA CALENDÁRIO (CADÊNCIA SEMANAL & 30 DIAS) */
+function initCal(){
+  var wk = "<thead><tr><th>Dia da Semana</th><th>Atividade no Ciclo Build in Public</th><th>Artefato Público Verificável</th></tr></thead><tbody>";
+  for (var i = 0; i < WEEKLY_CADENCE.length; i++){
+    var w = WEEKLY_CADENCE[i];
+    wk += "<tr><td><strong>" + w[0] + "</strong></td><td>" + esc(w[1]) + "</td><td><code>" + esc(w[2]) + "</code></td></tr>";
+  }
+  wk += "</tbody>";
+  $("wkTable").innerHTML = wk;
 
   var cards = "";
-  for (i = 0; i < STACK_ITEMS.length; i++){
-    var it = STACK_ITEMS[i];
-    var on = !!S.stk[it.id];
-    cards += "<div class=c style=\"border-left:4px solid " + (on ? "var(--gr)" : "var(--ln)") + "\">" +
-      "<span class=\"tag " + (on ? "gr" : "") + "\">" + esc(it.type) + " • US$ " + it.ask.toLocaleString("pt-BR") + "</span>" +
-      "<h3>" + esc(it.net) + "</h3>" +
-      "<p style='font-size:12.5px;color:var(--mu);margin:2px 0 8px'><strong>Programa:</strong> " + esc(it.prog) + "</p>" +
-      "<p style='font-size:13px;margin:4px 0'><strong>Módulo Exclusivo Financiado:</strong> " + esc(it.module) + "</p>" +
-      "<p style='font-size:13px;margin:4px 0'><strong>Contrapartida para a Rede:</strong> " + esc(it.counterpart) + "</p>" +
-      "<p style='font-size:12px;color:var(--mu);margin:4px 0'><strong>Repositório Alvo:</strong> <code>" + esc(it.repo) + "</code></p>" +
-      "<label class=\"it" + (on ? " ok" : "") + "\" style='margin-top:8px'><input type=\"checkbox\"" + (on ? " checked" : "") +
-      " onchange=\"S.stk[" + it.id + "]=this.checked;upd();initStk()\"><span>Incluir na minha Pilha Ativa de Grants (Grant Stack)</span></label>" +
+  for (i = 0; i < PLAN_30_DAYS.length; i++){
+    var p = PLAN_30_DAYS[i];
+    var on = !!S.p30[p.id];
+    cards += "<div class=c style='border-top:4px solid " + (on ? "var(--gr)" : "var(--bl)") + "'>" +
+      "<h3>" + esc(p.title) + "</h3>" +
+      "<p style='font-size:13px;color:var(--mu);margin:0 0 8px'><strong>Objetivo:</strong> " + esc(p.goal) + "</p>" +
+      "<ul class='l'>" + p.deliverables.map(function(d){ return "<li>" + esc(d) + "</li>"; }).join("") + "</ul>" +
+      "<div class='ex'><strong>Critério de Conclusão:</strong> " + esc(p.criterion) + "</div>" +
+      "<label class=\"it" + (on ? " ok" : "") + "\"><input type=\"checkbox\"" + (on ? " checked" : "") +
+      " onchange=\"S.p30[" + p.id + "]=this.checked;upd();initCal()\"><span>Semana validada com evidências no repositório</span></label>" +
+      "</div>";
+  }
+  $("plan30Cards").innerHTML = cards;
+  renderCalEvents();
+}
+
+function renderCalEvents(){
+  var h = "<thead><tr><th>Semana do Plano 30d</th><th>Dia da Cadência</th><th>Entregável / Artefato Público</th><th>Status</th></tr></thead><tbody>";
+  for (var i = 0; i < S.calEvents.length; i++){
+    var e = S.calEvents[i];
+    h += "<tr><td><strong>" + esc(e.week) + "</strong></td><td>" + esc(e.day) + "</td><td>" + esc(e.task) + "</td><td><span class='tag gr'>" + esc(e.status) + "</span></td></tr>";
+  }
+  h += "</tbody>";
+  $("calEventsTable").innerHTML = h;
+}
+
+function addCalEvent(){
+  var w = $("calWeek").value, d = $("calDay").value, t = $("calTask").value.trim();
+  if (!t){ dbg("Descreva o entregável ou artefato público para agendar!", false); return; }
+  S.calEvents.unshift({week: w, day: d, task: t, status: "Planejado"});
+  $("calTask").value = "";
+  renderCalEvents();
+  upd();
+  dbg("Entrega adicionada ao calendário de 30 dias!", true);
+}
+
+/* 6. ABA MAPEAMENTO & REDES */
+function initMap(){
+  var tb = "<thead><tr><th>Ecossistema / Rede</th><th>1. Aderência</th><th>2. Custo</th><th>3. Social (Farcaster)</th><th>4. Ferramentas</th><th>5. Grants</th><th>6. Portabilidade</th><th>7. Impacto Demonstrável</th></tr></thead><tbody>";
+  for (var i = 0; i < NET_MATRIX.length; i++){
+    var r = NET_MATRIX[i];
+    tb += "<tr><td><strong>" + esc(r[0]) + "</strong></td><td>" + esc(r[1]) + "</td><td>" + esc(r[2]) + "</td><td>" + esc(r[3]) + "</td><td>" + esc(r[4]) + "</td><td>" + esc(r[5]) + "</td><td>" + esc(r[6]) + "</td><td><span class='tag gr'>" + esc(r[7]) + "</span></td></tr>";
+  }
+  tb += "</tbody>";
+  $("netMatrixTable").innerHTML = tb;
+}
+
+/* 7. ABA GRANTS & FUNDING LEDGER */
+function initStk(){
+  var active = 0, i;
+  for (i = 0; i < STACK_MODULES.length; i++){ if (S.stk[STACK_MODULES[i].id]) active++; }
+  $("stkStats").innerHTML =
+    "<div class=c><b>" + active + " / " + STACK_MODULES.length + "</b><small>Módulos Independentes (A, B, C)</small></div>" +
+    "<div class=c><b style='color:var(--gr)'>US$ " + stkSum().toLocaleString("pt-BR") + "</b><small>Orçamento Modular Combinado</small></div>" +
+    "<div class=c><b>5 Camadas</b><small>Próprio + Comunidade + Prospectivo + Retro + Multi-rede</small></div>" +
+    "<div class=c><b>100%</b><small>Rastreabilidade no FUNDING-LEDGER.md</small></div>";
+
+  var cards = "";
+  for (i = 0; i < STACK_MODULES.length; i++){
+    var m = STACK_MODULES[i];
+    var on = !!S.stk[m.id];
+    cards += "<div class=c style='border-left:4px solid " + (on ? "var(--gr)" : "var(--ln)") + "'>" +
+      "<span class='tag " + (on ? "gr" : "") + "'>" + m.code + " • US$ " + m.ask.toLocaleString("pt-BR") + "</span>" +
+      "<h3>" + esc(m.title) + "</h3>" +
+      "<p style='font-size:12.5px;color:var(--mu);margin:4px 0'><strong>Camada:</strong> " + esc(m.layer) + "</p>" +
+      "<p style='font-size:13px;margin:4px 0'><strong>Escopo Técnico Isolado:</strong> " + esc(m.scope) + "</p>" +
+      "<p style='font-size:13px;margin:4px 0'><strong>Despesa Exclusiva:</strong> " + esc(m.exclusiveCost) + "</p>" +
+      "<p style='font-size:12px;color:var(--mu);margin:4px 0'><strong>Repositório:</strong> <code>" + esc(m.repo) + "</code></p>" +
+      "<label class=\"it" + (on ? " ok" : "") + "\"><input type=\"checkbox\"" + (on ? " checked" : "") +
+      " onchange=\"S.stk[" + m.id + "]=this.checked;upd();initStk()\"><span>Ativar este módulo no FUNDING-LEDGER.md</span></label>" +
       "</div>";
   }
   $("stkCards").innerHTML = cards;
@@ -773,196 +1095,90 @@ function initStk(){
 }
 
 function genStackProof(){
-  var o = "# Declaração de Transparência e Não-Sobreposição de Escopo (Multi-Chain Grant Stacking)\n\n";
-  o += "Nossa arquitetura de código aberto é estritamente modularizada em repositórios e camadas independentes. Cada bolsa pleiteada financia entregáveis exclusivos que geram bens públicos e atividade on-chain para a respectiva rede financiadora:\n\n";
-  for (var i = 0; i < STACK_ITEMS.length; i++){
-    var it = STACK_ITEMS[i];
-    if (S.stk[it.id]){
-      o += "## " + (i+1) + ". " + it.net + " — " + it.prog + " (US$ " + it.ask.toLocaleString("pt-BR") + ")\n";
-      o += "- **Escopo Técnico Isolado:** " + it.module + "\n";
-      o += "- **Contrapartida de Fomento ao Ecossistema:** " + it.counterpart + "\n";
-      o += "- **Repositório Auditável:** `" + it.repo + "`\n\n";
+  var o = "# 📒 FUNDING-LEDGER.md — Registro Auditável de Custos, Escopos e Fontes\n\n";
+  o += "## 1. Princípios de Governança Financeira e Não-Duplicação\n";
+  o += "1. Mantemos um registro único das atividades, custos e entregas.\n";
+  o += "2. Identificamos explicitamente a fonte de financiamento de cada módulo.\n";
+  o += "3. Separamos despesas compartilhadas (infraestrutura base custeada pela Camada A — Recursos Próprios) de despesas exclusivas de cada grant.\n";
+  o += "4. O mesmo trabalho nunca é cobrado duas vezes como entregas independentes.\n\n";
+  for (var i = 0; i < STACK_MODULES.length; i++){
+    var m = STACK_MODULES[i];
+    if (S.stk[m.id]){
+      o += "### " + m.code + ": " + m.title + " (US$ " + m.ask.toLocaleString("pt-BR") + ")\n";
+      o += "- **Camada e Fonte Alvo:** " + m.layer + "\n";
+      o += "- **Escopo Exclusivo:** " + m.scope + "\n";
+      o += "- **Despesas Exclusivas Alocadas:** " + m.exclusiveCost + "\n";
+      o += "- **Repositório de Verificação:** `" + m.repo + "`\n\n";
     }
   }
-  o += "**Total Acumulado na Pilha (Não-Diluidor / Sem Dívida):** US$ " + stkSum().toLocaleString("pt-BR") + "\n";
   $("stkOut").textContent = o;
 }
 
-/* 4. ABA BUILD IN PUBLIC & RETROPGF */
-function initBip(){
-  var h = "", i;
-  for (i = 0; i < BIP_CHECKS.length; i++){
-    h += boxes("bip", "b" + i, BIP_CHECKS[i]);
-  }
-  $("bipChk").innerHTML = h;
-  genBipCast();
-}
-
-function genBipCast(){
-  var ship = $("bipShip").value, tx = $("bipTx").value, repo = $("bipRepo").value, cta = $("bipCta").value;
-  var o = "🟣 [THREAD FARCASTER / X — BUILD IN PUBLIC & RETROPGF PROOF]\n\n" +
-    "1/3 🛠️ Ship Log da Semana (End-to-End na Devnet):\n" + ship + "\n\n" +
-    "2/3 🔍 Prova On-Chain & Código 100% Aberto (Bem Público para o Ecossistema):\n" +
-    "• Telemetria / Hashes: " + tx + "\n" +
-    "• Repositórios: " + repo + "\n\n" +
-    "3/3 🧪 Experimento Sociotécnico IPIT no Farcaster (Participe e Ganhe Tokens na Devnet):\n" +
-    cta + "\n\n" +
-    "#BuildInPublic #Solana #Farcaster #DeSci #PublicGoods #RetroPGF";
-  $("bipOut").textContent = o;
-}
-
-/* 5. ABA TRILHA */
+/* 8. ABA TRILHA */
 function initTri(){
   var h = "", i, j, f;
   for (i = 0; i < FASES.length; i++){
-    f = FASES[i]; h += "<div class=c><h3>" + f[0] + " Fase " + (i+1) + ": " + f[1] + "</h3>";
+    f = FASES[i]; h += "<div class=c><h3>" + f[0] + " " + f[1] + "</h3>";
     for (j = 0; j < f[2].length; j++){ h += boxes("t", i + "-" + j, f[2][j]); }
     h += "</div>";
   }
   $("tri").innerHTML = h;
 }
 
-/* 6. ABA APPLICATION BUILDER + TEMPLATES */
+/* 9. ABA APPLICATION & NARRATIVA DE 4 PILARES */
 function initFrm(){
   var h = "", i;
   for (i = 0; i < FORM.length; i++){
     h += "<div class=fr>" + boxes("f", "f" + i, (i+1) + ". " + FORM[i][0]) + "<small>" + esc(FORM[i][1]) + "</small>" +
-    "<textarea id=\"fx" + i + "\" placeholder=\"Preencha ou clique em um dos Templates acima...\" oninput=\"S.fx[" + i + "]=this.value;saveState()\">" + esc(S.fx[i] || "") + "</textarea></div>";
+    "<textarea id=\"fx" + i + "\" placeholder=\"Selecione um dos Templates acima ou escreva seu rascunho...\" oninput=\"S.fx[" + i + "]=this.value;saveState()\">" + esc(S.fx[i] || "") + "</textarea></div>";
   }
   $("frm").innerHTML = h;
 }
 
 function loadAppTemplate(tpl){
-  var d = [];
-  if (tpl === "farcaster_retro"){
-    d = [
-      "Projeto: Experimento Sociotécnico IPIT × Eidos Tokenization × ValueCurator | Time: Sandra Maria Pereira & João Nitsche | GitHub: https://github.com/compilatorum/eidos-tokenization & https://github.com/compilatorum/IPIT",
-      "Mobilizamos a inteligência coletiva da comunidade via Farcaster e GitHub usando a metodologia aberta IPIT (8 etapas), circulando tokens SPL Token-2022 e attestations on-chain na Devnet/Testnet para criar bens públicos e pleitear financiamento retroativo.",
-      "Contribuir para bens públicos e pesquisa aberta em Web3 ainda sofre com falta de coordenação metodológica e ausência de retorno socioeconômico imediato antes da aprovação de grants tradicionais.",
-      "Combinamos o percurso pedagógico e sociotécnico de 8 etapas do IPIT com a fábrica soberana de tokens Eidos (SPL Token-2022) e o Farcaster: cada Issue, PR, revisão ou manifesto JSON submetido pela comunidade recebe tokens de governança/pesquisa e attestations auditáveis.",
-      "Arquitetura modular aberta: (1) Metodologia IPIT em 8 etapas; (2) Manifesto JSON Schema EidosManifest v1.0 (CC-BY / MIT); (3) Emissão atômica via Vault PDA (mint_research_asset); (4) Verificação automatizada via Playwright E2E.",
-      "Gera código aberto puro (MIT), documentações técnicas, ferramentas de governança e engajamento real de construtores nos canais do Farcaster (/build, /desci, /solana, /base) sem exigir diluição nem gerar dívida.",
-      "Sandra Pereira (Engenheira de Sistemas Solana/Anchor e criadora da metodologia IPIT aplicada com sucesso em educação tecnológica) & João Nitsche (Arquiteto de Sistemas Epistêmicos e Governança Neuro-Simbólica).",
-      "M1 (Mês 1 - Concluído na Devnet): Repositório aberto eidos-tokenization + 12 testes Playwright E2E. M2 (Mês 2): Rodada sociotécnica IPIT no Farcaster com 30+ contribuidores recompensados on-chain. M3 (Mês 3): Relatório aberto de impacto e attestations Karma GAP.",
-      "US$ 25.000 (100% alocado em recompensas para contribuidores abertos, infraestrutura RPC/indexação e documentação pública). Escopo complementar ao core DeFi do ValueCurator.",
-      "30+ contribuidores únicos via Farcaster/GitHub, 100+ artefatos/manifestos Eidos tokenizados na Devnet/Testnet, 100% de aprovação na suíte automatizada E2E.",
-      "Sustentabilidade garantida pelo motor Tri-Tier do ecossistema (taxa de entrada de 50 bps, manutenção de 1 USDC/nó/mês e 15% sobre rendimentos metabolizados) + royalties de 250 bps (MACHINE_PAYABLE) nos tokens Eidos.",
-      "Risco de baixo engajamento inicial mitigado pela metodologia Micro-Ideathon IPIT (aplicável em ciclos rápidos de 4 horas) e uso gratuito na Devnet.",
-      "Ao contrário de campanhas de airdrop especulativas, nosso experimento vincula cada token cunhado a um entregável técnico verificável no GitHub (commits, PRs e schemas validados).",
-      "100% Open Source sob licença MIT e Creative Commons (CC-BY-4.0), garantindo que todo o ecossistema possa fazer fork e reutilizar.",
-      "Isolamento de autoridade via Program Derived Addresses (PDA) e validação determinística de schemas JSON antes de qualquer cunhagem.",
-      "Carteira/Tesouraria dedicada para recebimento de tranches e contabilidade on-chain separada por programa de grant.",
-      "Repos: https://github.com/compilatorum/eidos-tokenization | https://github.com/smp-sandramariapereira/valuecurator"
-    ];
-  } else if (tpl === "solana_devnet"){
-    d = [
-      "Projeto: ValueCurator (Sovereign Capital Governance & Tri-Tier Fee Engine on Solana) | Branch: feat/tri-tier-admin-fees | Program ID: 6owAcXQjGg6d5p1n2D5gK8mKkG9uH9sE1kL2mP3rMiW5",
-      "Infraestrutura de custódia soberana de segunda ordem na Solana onde agentes de IA propõem estratégias, portões determinísticos validam telemetria Pyth 922 e cofres PDA recolhem 3 taxas administrativas automatizadas.",
-      "Dar chaves privadas cruas para agentes de IA probabilísticos leva à ruína financeira. Além disso, protocolos DeFi carecem de modelos de receita sustentáveis que preservem 100% do principal do usuário.",
-      "Cofre PDA em Rust/Anchor com bloqueio Fail-Closed (6 invariantes matemáticos) e novo motor de 3 taxas administrativas: Taxa de Depósito (50 bps), Taxa Periódica por Época (1 USDC/30 dias) e Taxa de Performance sobre o Lucro (15%).",
-      "Smart Contract Anchor (kairos-engine) na Solana Devnet usando SPL Token-2022 (`transfer_checked`), telemetria Mainnet Pyth Feed 922 e SDK TypeScript (`admin-fee-schedule.ts`).",
-      "Aumenta a segurança institucional de agentes de IA na Solana, movimenta volume em SPL Token-2022 e fornece um padrão aberto de cofres PDA auditáveis.",
-      "Sandra Pereira (Core Solana & Anchor Systems Engineering) & João Nitsche (Epistemic Systems & Quantamental Architecture).",
-      "M1 (Concluído): Implementação das instruções `deposit_with_fee`, `collect_periodic_fee`, `metabolize_yield` e `configure_admin_fees`. M2: Auditoria formal e testes de estresse. M3: Lançamento Mainnet.",
-      "US$ 50.000 (45% Auditoria de Smart Contracts, 35% SDK Agent Armor aberto, 20% Integração de Liquidez e Oráculos).",
-      "2.500 nós PDA ativos no Ano 1, US$ 12,5M em Valor Governado (TVG), 100% de precisão nos bloqueios Fail-Closed.",
-      "Auto-sustentável desde o dia 1 graças às 3 taxas on-chain recolhidas diretamente para o Treasury PDA sem intervenção manual.",
-      "Risco de latência oracular mitigado pelo invariante C3 (bloqueio automático se idade do preço Pyth > 300 segundos).",
-      "Único protocolo que une velocidade de execução autônoma, custódia soberana em PDA com saque de emergência em ~400ms e modelo triplo de receita on-chain.",
-      "Código aberto no GitHub para inspeção pública e composabilidade com outros protocolos Solana.",
-      "Testes unitários em Rust (`math.rs`) + 24 testes E2E Playwright verificando cada condição de contorno e overflow aritmético.",
-      "Pronto para KYC/KYB institucional e recebimento em carteira multisig / Treasury PDA na Solana.",
-      "Branch: https://github.com/smp-sandramariapereira/valuecurator/tree/feat/tri-tier-admin-fees"
-    ];
-  } else {
-    d = [
-      "Projeto: ValueCurator Agent Armor & Multi-Chain Neurosymbolic Gate | GitHub: smp-sandramariapereira/valuecurator & compilatorum/eidos-tokenization",
-      "Middleware aberto de segurança determinística para agentes autônomos de IA e tesourarias de DAOs, empilhando módulos complementares entre Solana, Base/Optimism e Arbitrum.",
-      "Agentes de IA em todas as redes L1/L2 sofrem com alucinações e falta de limites constitucionais verificáveis antes de assinar transações.",
-      "Portão Neuro-Simbólico que exige aprovação em 6 invariantes matemáticos e emite recibos criptográficos Ed25519 antes de liberar qualquer execução on-chain.",
-      "Kernel em TypeScript + Contratos em Rust (Anchor na Solana / Stylus WASM em EVM) + Attestations no Karma GAP.",
-      "Fomenta o ecossistema local fornecendo um SDK aberto (`@valuecurator/agent-armor`) que qualquer desenvolvedor de bot ou DAO da rede pode integrar em 10 minutos.",
-      "Sandra Pereira & João Nitsche — pesquisadores e engenheiros full-stack Web3 e IA neuro-simbólica.",
-      "M1: Especificação e SDK aberto. M2: Integração com oráculos e testes E2E. M3: Adoção por 5 projetos/DAOs do ecossistema.",
-      "US$ 35.000 dedicados exclusivamente à camada de adaptação, documentação e suporte aos desenvolvedores desta rede.",
-      "Dezenas de agentes integrados, zero incidentes de drenagem de cofre, 100% de entregas registradas via EAS.",
-      "Sustentado por assinaturas leves de infraestrutura ($1/nó/mês) e compartilhamento de taxas de performance.",
-      "Isolamento estrito entre chave de operador (quente) e chave de proprietário (fria).",
-      "Substitui guardrails frágeis de prompt por invariantes matemáticos verificados em nível de contrato inteligente.",
-      "Licença MIT Open Source.",
-      "Arquitetura Fail-Closed testada contra oráculos congelados e desvios bruscos de liquidez.",
-      "Conformidade completa com os requisitos da Fundação/DAO.",
-      "Pitch Deck Completo: VALUECURATOR_PITCH_DECK_COMPLETO_E2E_TOKENIZATION.html"
-    ];
+  var d = [
+    "Farcaster Commons Lab — IPIT × ValueCurator | Subtítulo: An open experiment in collective intelligence, contribution incentives and ecosystem regeneration | Equipe: Sandra Maria Pereira & João Nitsche | Repos: compilatorum/concurseiro-grants, compilatorum/IPIT, compilatorum/eidos-tokenization, smp-sandramariapereira/valuecurator",
+    "Estamos construindo e avaliando um protocolo aberto para transformar interações sociais no Farcaster em contribuições verificáveis no GitHub para bens públicos digitais, investigando como diferentes mecanismos de reconhecimento e incentivo afetam participação, coordenação e impacto.",
+    "Comunidades Web3 produzem muitas conversas e ideias, mas o reconhecimento, a coordenação e os incentivos permanecem dispersos, dificultando a formação de uma cadeia rastreável de produção de valor.",
+    "Testamos 4 hipóteses: H1 (Conversação → Contribuição), H2 (Incentivos → Participação), H3 (Evidência → Confiança) e H4 (Produção → Impacto em terceiros).",
+    "Nossa unidade experimental é a Microcontribuição Verificável (reproduzir bug, propor schema, escrever documentação, testar onboarding, revisar hipótese), permitindo colaboração modular e recombinável.",
+    "Separamos 3 instrumentos distintos: Reputação (histórico contextual), Créditos de Utilidade (direito de solicitar análises/revisões) e Token Transferível em Devnet, seguindo a sequência gradual Experimento A → B → C → D.",
+    "Dividimos o sistema em um Core Agnóstico de Rede (modelo de contribuição, protocolo de evidências L1–L5, regras de reconhecimento) e Adaptadores Específicos (Farcaster Mini-App, Solana Anchor/Token-2022, Superchain EAS).",
+    "O ValueCurator coordena políticas determinísticas, recibos assinados Ed25519 e recolhimento de 3 taxas administrativas on-chain (Taxa de Depósito de 50 bps, Taxa Periódica de 1 USDC/época e Taxa de Performance de 15% sobre o lucro).",
+    "Semana 1: Delimitação e EXPERIMENT.md. Semana 2: Primeiro fluxo funcional e Ledger de Créditos. Semana 3: Experimentação pública Farcaster/GitHub + Devnet. Semana 4: Release, relatório e pacote de replicação.",
+    "Separamos Atenção (alcance social), Contribuição (artefato técnico) e Impacto (utilidade real), classificando cada entrega nos níveis L1 (Declarada) a L5 (Impacto Confirmado por Terceiros) em docs/EVIDENCE-PROTOCOL.md.",
+    "Modelamos 6 fluxos (Conhecimento, Trabalho, Atenção, Capital, Reputação e Utilização) para medir empiricamente o ciclo Contribuição → Artefato → Utilização → Impacto → Financiamento → Nova contribuição.",
+    "Estratégia em 5 camadas (A: Recursos próprios; B: Apoio comunitário; C: Grants prospectivos; D: Grants retroativos; E: Módulos complementares) auditada em docs/FUNDING-LEDGER.md sem duplicação de escopo.",
+    "Declaramos explicitamente em cada relatório se os dados medem comportamento simulado (Experimento A), comportamento em Testnet/Devnet (Experimento B) ou uso econômico real (Experimento C).",
+    "Compromisso formal de publicar resultados negativos, limitações amostrais e mudanças de hipótese nos relatórios semanais (docs/reports/week-01..04.md).",
+    "100% Código Aberto (MIT / CC-BY-4.0), devolvendo schemas, ferramentas e documentação reutilizável ao ecossistema.",
+    "Sandra Maria Pereira (Engenheira de Sistemas Solana/Anchor e criadora do IPIT) & João Nitsche (Arquiteto de Sistemas Epistêmicos e Governança Neuro-Simbólica).",
+    "Dossiê completo: https://github.com/compilatorum/concurseiro-grants/tree/main/docs | Tokenização: https://github.com/compilatorum/eidos-tokenization | ValueCurator: https://github.com/smp-sandramariapereira/valuecurator/tree/feat/tri-tier-admin-fees"
+  ];
+  if (tpl === "solana_devnet"){
+    d[0] = "Módulo C — ValueCurator Sovereign Engine & Tri-Tier Fee Protocol (Solana Devnet / Colosseum)";
+    d[11] = "Escopo Exclusivo do Módulo C (US$ 50.000): Engenharia e auditoria das instruções Rust/Anchor (deposit_with_fee, collect_periodic_fee, metabolize_yield) e integração com Pyth Feed 922.";
+  } else if (tpl === "multichain_adapter"){
+    d[0] = "Módulo A & B — Core Agnóstico de Proveniência & Adaptador Multi-Rede (Superchain / Arbitrum / Gitcoin)";
+    d[11] = "Escopo Exclusivo dos Módulos A e B: Schemas abertos de microcontribuições, Farcaster Mini-App e portabilidade multi-rede auditada no FUNDING-LEDGER.md.";
   }
   for (var i = 0; i < FORM.length; i++){
-    S.fx[i] = d[i] || "";
+    S.fx[i] = d[i];
     S.f["f" + i] = true;
   }
   initFrm();
   genProp();
   upd();
-  dbg("Template carregado com sucesso nas 17 seções!", true);
+  dbg("Narrativa e 17 seções preenchidas!", true);
 }
 
 function genProp(){
-  var i, o = "# Application Oficial de Grant — Ecossistema ValueCurator × Compilatorum × IPIT\n\n";
+  var i, o = "# 🌱 Farcaster Commons Lab (IPIT × ValueCurator) — Dossiê & Candidatura de Grant\n\n";
+  o += "> *“A comunidade participa da produção; o protocolo torna as contribuições legíveis; os artefatos permanecem reutilizáveis; e o financiamento pode acompanhar o valor demonstrado.”*\n\n";
   for (i = 0; i < FORM.length; i++){
     o += "## " + (i+1) + ". " + FORM[i][0] + "\n" + (S.fx[i] || "(pendente)") + "\n\n";
   }
   $("propo").textContent = o;
-}
-
-/* 7. ABA COMUNICAÇÃO E CONTAS */
-var UPF = [
-  ["Entregáveis concluídos neste ciclo (links GitHub / Solscan)","up0","Branch feat/tri-tier-admin-fees + Repo compilatorum/eidos-tokenization"],
-  ["Progresso do Experimento Farcaster × IPIT (% e nº de contribuidores)","up1","100% da estrutura pronta na Devnet; 3 artefatos tokenizados e auditados"],
-  ["Bloqueios e mitigação proativa","up2","Sem bloqueios; liquidez de Devnet resolvida com nosso motor determinístico Token-2022"],
-  ["Métricas atuais vs. KPIs prometidos","up3","12/12 passos Playwright E2E passando + 3 taxas administrativas implementadas"],
-  ["Transparência Financeira & Grant Stacking","up4","Escopos 100% segregados por repositório; zero duplicação de custos"],
-  ["Próximos 30 dias (Milestones seguintes)","up5","Rodada pública de mintagem com a comunidade no Farcaster + Attestations Karma GAP"]
-];
-function initCom(){
-  var h = "<h3>✍️ Gerador de Update Quinzenal / Karma GAP</h3>", i;
-  for (i = 0; i < UPF.length; i++){
-    h += "<p style=\"margin:8px 0\"><small>" + UPF[i][0] + "</small><br><input type=\"text\" id=\"" + UPF[i][1] + "\" value=\"" + esc(UPF[i][2]) + "\"></p>";
-  }
-  $("comf").innerHTML = h;
-  genUp();
-}
-function genUp(){
-  var i, o = "# Relatório Público de Milestone & Prestação de Contas (Karma GAP / Build in Public)\n";
-  for (i = 0; i < UPF.length; i++){
-    var el = $(UPF[i][1]);
-    o += "\n- **" + UPF[i][0] + ":** " + (el ? el.value : UPF[i][2]);
-  }
-  $("upo").textContent = o;
-}
-
-/* 8. ABA ECOSSISTEMA */
-function setF(f){ S.flt = f; initEco(); }
-function initEco(){
-  var k, h = "", c = "<button class=\"" + (S.flt === "todos" ? "on" : "") + "\" onclick=\"setF('todos')\">Todos</button>", i, e;
-  for (k in TAGS){ c += "<button class=\"" + (S.flt === k ? "on" : "") + "\" onclick=\"setF('" + k + "')\">" + TAGS[k] + "</button>"; }
-  $("chips").innerHTML = c;
-  for (i = 0; i < ECO.length; i++){
-    e = ECO[i];
-    if (S.flt === "todos" || S.flt === e[0]){
-      h += "<div class=c><span class=\"tag" + (e[0] === "risk" ? " r" : "") + "\">" + TAGS[e[0]] + "</span><h3>" + e[1] + "</h3><div>" + esc(e[2]) + "</div></div>";
-    }
-  }
-  $("eco").innerHTML = h;
-}
-
-/* 9. ABA PRÁTICA */
-function initChk(){
-  var h = "", i, j, g;
-  for (i = 0; i < CHK.length; i++){
-    g = CHK[i]; h += "<div class=c><h3>" + g[0] + "</h3>";
-    for (j = 0; j < g[1].length; j++){ h += boxes("c", i + "-" + j, g[1][j]); }
-    h += "</div>";
-  }
-  $("chk").innerHTML = h;
 }
 
 /* 10. ABA SIMULADO */
@@ -970,7 +1186,7 @@ function initQz(){
   var n = S.q.n, q, h, i, L = "ABCD";
   if (n >= QZ.length){
     $("qz").innerHTML = "<p class=q>🏆 Resultado Final: " + S.q.ok + " de " + QZ.length + " (" + qp() + "%)</p>" +
-      "<p class=lead>Excelente! Você domina a mecânica de Grants Não-Diluidores, Grant Stacking Multi-Chain, RetroPGF e o experimento Farcaster × IPIT.</p>" +
+      "<p class=lead>Domínio completo do protocolo Farcaster Commons Lab (IPIT), Design de Mecanismos (A–D), Hipóteses H1–H4 e Estratégia de Financiamento em Camadas.</p>" +
       "<button class=btn onclick=\"S.q={n:0,ok:0,a:null};initQz();upd()\">🔄 Refazer Simulado</button>";
     return;
   }
@@ -980,7 +1196,7 @@ function initQz(){
     if (S.q.a !== null){ if (i === q[2]){ cl += " ok"; } else if (i === S.q.a){ cl += " no"; } }
     h += "<button class=\"" + cl + "\" onclick=\"ans(" + i + ")\"" + (S.q.a !== null ? " disabled" : "") + "><i>" + L.charAt(i) + "</i>" + esc(q[1][i]) + "</button>";
   }
-  if (S.q.a !== null){ h += "<div class=ex><strong>Fundamentação:</strong> " + esc(q[3]) + "</div><button class=btn onclick=\"S.q.n++;S.q.a=null;initQz()\">Próxima Questão &rarr;</button>"; }
+  if (S.q.a !== null){ h += "<div class=ex><strong>Análise Metodológica:</strong> " + esc(q[3]) + "</div><button class=btn onclick=\"S.q.n++;S.q.a=null;initQz()\">Próxima Questão &rarr;</button>"; }
   $("qz").innerHTML = h;
 }
 function ans(i){
@@ -989,37 +1205,28 @@ function ans(i){
   initQz(); upd();
 }
 
-/* Carregar Caso Real Completo (1 clique) */
 function loadPreset(){
   var i, j;
   for (i = 0; i < FASES.length; i++){
     for (j = 0; j < FASES[i][2].length; j++) S.t[i + "-" + j] = true;
   }
-  for (i = 0; i < CHK.length; i++){
-    for (j = 0; j < CHK[i][1].length; j++) S.c[i + "-" + j] = true;
-  }
-  for (i = 0; i < IPIT_STAGES.length; i++) S.ipit["ip" + i] = true;
-  for (i = 0; i < BIP_CHECKS.length; i++) S.bip["b" + i] = true;
-  for (i = 0; i < STACK_ITEMS.length; i++) S.stk[STACK_ITEMS[i].id] = true;
+  for (i = 0; i < HYPOTHESES.length; i++) S.hyp[i] = true;
+  for (i = 0; i < EXP_SEQ.length; i++) S.exp[i] = true;
+  for (i = 0; i < PLAN_30_DAYS.length; i++) S.p30[i] = true;
+  for (i = 0; i < STACK_MODULES.length; i++) S.stk[i] = true;
   S.q = {n: QZ.length, ok: QZ.length, a: null};
-  loadAppTemplate("farcaster_retro");
-  if (inited.tri) initTri();
-  if (inited.chk) initChk();
-  if (inited.ipit) initIpit();
-  if (inited.stk) initStk();
-  if (inited.bip) initBip();
-  if (inited.qz) initQz();
+  loadAppTemplate("commons_lab");
+  for (var k in INIT){ if (inited[k]) INIT[k](); }
   initDash();
   upd();
-  dbg("⚡ Caso Real ValueCurator × Eidos × IPIT Farcaster carregado (100% Prontidão)!", true);
+  dbg("⚡ Experimento Farcaster Commons Lab (IPIT v3.0) 100% carregado!", true);
 }
 
 var INIT = {
-  dash: initDash, ipit: initIpit, stk: initStk, bip: initBip,
-  tri: initTri, frm: initFrm, com: initCom, eco: initEco, chk: initChk, qz: initQz
+  dash: initDash, conv: initConv, tok: initTok, hyp: initHyp,
+  cal: initCal, map: initMap, stk: initStk, tri: initTri, frm: initFrm, qz: initQz
 };
 
-/* Inicialização */
 (function(){
   loadSaved();
   var h = "", i;
@@ -1029,7 +1236,7 @@ var INIT = {
   $("nav").innerHTML = h;
   show("dash");
   upd();
-  dbg((typeof Chart !== "undefined" && typeof anime !== "undefined") ? "OK: Concurseiro de Grants v2.0 carregado" : "Modo offline ativo", true);
+  dbg("OK: Farcaster Commons Lab (IPIT v3.0) pronto!", true);
 })();
 </script>
 </body>
