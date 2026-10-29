@@ -1,0 +1,105 @@
+{
+  "surfpoolVersion": {
+    "surfnet-version": "1.7.0",
+    "solana-core": "4.3.2",
+    "feature-set": 3383571666
+  },
+  "initialSlot": 462801407,
+  "finalSlot": 462801415,
+  "epoch": 1071,
+  "programId": "6owAcXj4FxJom96cEX9CSFjGrg6zp4U8atTjrpCUMiW5",
+  "nodeVaultPda": "9cgQu9Cnnv3WNSEmDHwqH9Ls9DyU6FxqRmpfB34HWuZt",
+  "nodeBump": 254,
+  "finalBalances": {
+    "rnftOwnerBalance": "1",
+    "vaultUsdcBalance": "1164",
+    "vaultUsdcMicros": "1164000000",
+    "treasuryUsdcBalance": "36",
+    "treasuryUsdcMicros": "36000000",
+    "totalConservedUsdc": "1200.00"
+  },
+  "transactions": [
+    {
+      "step": "TX-01",
+      "name": "Surfnet SOL Airdrop & Node PDA Derivation",
+      "signature": "7oSfHNLLVamRWbrBHUyfF37N1MUBX2psKFkCqgTs9BroCZxfo1xPAhqXmuYRe9Ns2kfNAcYssC2YrYy8ExVKNZa",
+      "details": {
+        "owner": "H3voBRSibSa4y7CN5WwUjaAkGRevdsYrcQQCEjL1tbxG",
+        "operator": "6NYZdvPeS8QBy1BPTFD7PLAtG1unqpwNQ4NumkU2j4zN",
+        "depositor": "dTi2CGJTKYpD6UVtZK8HMVZs1L477K69goCS2Swd6Fy",
+        "treasury": "BveDe1KA6hKmoDpfcYzudrJcEaoZoVMy1gVBLKWS3s6A",
+        "nodeVaultPda": "9cgQu9Cnnv3WNSEmDHwqH9Ls9DyU6FxqRmpfB34HWuZt",
+        "nodeBump": 254
+      }
+    },
+    {
+      "step": "TX-02",
+      "name": "Eidos SPL Token-2022 Research NFT Mint (R-NFT-ONS-001)",
+      "signature": "2DeHerxwxW8HceyVMgUSjQJ17UHScn1AGbCy1MMAXoAsZ7XZ4YqrYJmiU3TBFtD8TwFBPLNtKAx9A19rMgmPYd3J",
+      "details": {
+        "mint": "F3DswYfHxDFdrcQWwubd7KWGMgW2itkeBEj99NJ8W2X5",
+        "ownerAta": "2bnUwqxXwi8cBuQjdobvSksG4Dmc7wYJskHRvih1z1R5",
+        "manifestSha256": "2b0152a7adf07d4dce82a9ad7cbb2ffa05796a6b5ed626eb65d4e6e5d3a7d6b4",
+        "balance": "1"
+      }
+    },
+    {
+      "step": "TX-03",
+      "name": "Initialize USDC-2022 Mint & ATAs (Depositor 1,000 USDC + Operator 200 USDC Yield)",
+      "signature": "4TJDtdNTjUitgfo66whkjZCpezwLiKm6KYhZNn2e3eYoMov2XnxiUKX3MaAZzvjDBXF4vANkC1Zfz5MTcPuEFgmN",
+      "details": {
+        "usdcMint": "HagRVCymJ9oxexA5D6Kew7d4sbzqyCx4TsVJreFLDRmU",
+        "depositorUsdcAta": "6SviNY9JvkAQb8zU6924pqoPrjyeTkgEkJF9BhF6Wogd",
+        "vaultUsdcAta": "7Aurcf5PfJjEDZYW8bWnmQPtKqEPU97AbrQW15hoL5wM",
+        "treasuryUsdcAta": "9PdnUY66pDWjeFQNiHDtaQZ6rmDcCmw2udtrNxt4Xaao"
+      }
+    },
+    {
+      "step": "TX-04",
+      "name": "Tier 1 Fee — deposit_with_fee (50 bps Entry Split: 5.00 USDC Treasury / 995.00 USDC Vault)",
+      "signature": "67pPU446ouVQ7nDcqnXDNeqzSiMwNKUHUW9HmG29MKQ9K3qLTU5iy3y9oN8FGrLEHHuBpJDwNKw5hupkf9FDrUmZ",
+      "details": {
+        "grossAmountMicros": "1000000000",
+        "depositFeeMicros": "5000000",
+        "netVaultedMicros": "995000000"
+      }
+    },
+    {
+      "step": "TX-05",
+      "name": "Tier 2 Fee — collect_periodic_fee (1.00 USDC / 30-Day Epoch Settlement)",
+      "signature": "4G9gSSZJZ7phRp8GVqoZzAVus74C7X6dex9bEQkFnun4mqp1Age6vGhEFaZj8h9bLJ3C97gEQ61uuHBRm7roJ8M",
+      "details": {
+        "epochsSettled": 1,
+        "periodicFeeMicros": "1000000"
+      }
+    },
+    {
+      "step": "TX-06",
+      "name": "Tier 3 Fee — metabolize_yield (15/85 Split: 30.00 USDC Treasury / 170.00 USDC Vault)",
+      "signature": "5LYp8tUk56Cirv46EicXwfx2J94RDk4PL5M9eXThjw4pNG2rmzFa8d5KDwHeqKLRKCnWCFasfoKH46vViD518nMM",
+      "details": {
+        "grossYieldMicros": "200000000",
+        "performanceFeeMicros": "30000000",
+        "netReinvestedMicros": "170000000",
+        "svmLogMessages": [
+          "Program TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb invoke [1]",
+          "Program log: Instruction: TransferChecked",
+          "Program TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb consumed 2030 of 400000 compute units",
+          "Program TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb success",
+          "Program TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb invoke [1]",
+          "Program log: Instruction: TransferChecked",
+          "Program TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb consumed 2030 of 397970 compute units",
+          "Program TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb success"
+        ]
+      }
+    }
+  ],
+  "surfpoolServerLogs": [
+    "Oct 29 04:44:56.265 \u001b[32mINFO\u001b[0m Binding studio server to 127.0.0.1:18488",
+    "Oct 29 04:44:57.257 \u001b[32mINFO\u001b[0m Datasource connection successful. Epoch 1071 / Slot index 129407 / Slot 462801407.",
+    "Oct 29 04:44:57.257 \u001b[32mINFO\u001b[0m No keypair found at provided path /home/tester/.config/solana/id.json; skipping airdrop for that keypair",
+    "Oct 29 04:44:57.498 \u001b[32mINFO\u001b[0m Account H3voBRSibSa4y7CN5WwUjaAkGRevdsYrcQQCEjL1tbxG updated.",
+    "Oct 29 04:44:57.718 \u001b[32mINFO\u001b[0m Account dTi2CGJTKYpD6UVtZK8HMVZs1L477K69goCS2Swd6Fy updated.",
+    "Oct 29 04:44:57.925 \u001b[32mINFO\u001b[0m Account 6NYZdvPeS8QBy1BPTFD7PLAtG1unqpwNQ4NumkU2j4zN updated."
+  ]
+}

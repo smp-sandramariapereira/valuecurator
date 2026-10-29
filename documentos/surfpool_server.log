@@ -1,0 +1,6 @@
+Oct 29 04:44:56.265 [32mINFO[0m Binding studio server to 127.0.0.1:18488
+Oct 29 04:44:57.257 [32mINFO[0m Datasource connection successful. Epoch 1071 / Slot index 129407 / Slot 462801407.
+Oct 29 04:44:57.257 [32mINFO[0m No keypair found at provided path /home/tester/.config/solana/id.json; skipping airdrop for that keypair
+Oct 29 04:44:57.498 [32mINFO[0m Account H3voBRSibSa4y7CN5WwUjaAkGRevdsYrcQQCEjL1tbxG updated.
+Oct 29 04:44:57.718 [32mINFO[0m Account dTi2CGJTKYpD6UVtZK8HMVZs1L477K69goCS2Swd6Fy updated.
+Oct 29 04:44:57.925 [32mINFO[0m Account 6NYZdvPeS8QBy1BPTFD7PLAtG1unqpwNQ4NumkU2j4zN updated.
