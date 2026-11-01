@@ -169,7 +169,9 @@ export function evaluateMultiAssetProposal(input: {
   if (!Array.isArray(m.allowedAssets) || new Set(m.allowedAssets.map((a) => a.assetId)).size !== m.allowedAssets.length) {
     reasons.push("invalid or duplicate asset allowances");
   }
-  const allowance = m.allowedAssets?.find((a) => a.assetId === p.assetId);
+  const allowance = Array.isArray(m.allowedAssets)
+    ? m.allowedAssets.find((a) => a !== null && typeof a === "object" && a.assetId === p.assetId)
+    : undefined;
   if (!allowance) reasons.push("asset is not in owner mandate");
   if (!p.assetId || !p.outputMint || !p.inputMint ||
       p.inputMint !== m.inputMint || p.outputMint === p.inputMint ||
