@@ -65,15 +65,25 @@ def split_rows(rows: list[dict[str, Any]], train_ratio: float = 0.75) -> tuple[l
     timestamps = [x["published_at"] for x in rows]
     if all(timestamps):
         ordered = sorted(rows, key=lambda x: (x["published_at"], x["description"]))
+        cut = max(1, min(len(ordered) - 1, int(len(ordered) * train_ratio)))
+        train, test = ordered[:cut], ordered[cut:]
         method = "chronological"
     elif not any(timestamps):
-        # Stable, input-order-independent split. NOT valid for causal market prediction.
-        ordered = sorted(rows, key=lambda x: hashlib.sha256(x["description"].casefold().encode()).hexdigest())
-        method = "deterministic-hash-noncausal"
+        # Deterministically stratify by label to avoid one-class evaluation.
+        # This is NOT valid for causal market prediction.
+        train, test = [], []
+        for label in LABELS:
+            group = sorted((x for x in rows if x["label"] == label),
+                           key=lambda x: hashlib.sha256(x["description"].casefold().encode()).hexdigest())
+            if len(group) < 2:
+                raise ValueError("At least two unique records per class required for stratification")
+            cut = max(1, min(len(group) - 1, int(len(group) * train_ratio)))
+            train.extend(group[:cut])
+            test.extend(group[cut:])
+        method = "stratified-deterministic-hash-noncausal"
     else:
         raise ValueError("Mixed timestamp availability: refuse ambiguous temporal split")
-    cut = max(1, min(len(ordered) - 1, int(len(ordered) * train_ratio)))
-    return ordered[:cut], ordered[cut:], method
+    return train, test, method
 
 
 def tokens(text: str) -> list[str]:
