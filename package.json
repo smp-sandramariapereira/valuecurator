@@ -26,7 +26,12 @@
     "typecheck": "pnpm --filter @valuecurator/oracle-contracts build && pnpm --filter @valuecurator/discovery-contracts build && pnpm --filter @valuecurator/discovery-contracts typecheck && pnpm --filter @valuecurator/discovery-api typecheck && pnpm --filter @valuecurator/web exec tsc --noEmit && pnpm --filter @kairos/metabolic-agent typecheck",
     "typecheck:discovery": "pnpm --filter @valuecurator/discovery-contracts build && pnpm --filter @valuecurator/discovery-api typecheck",
     "lint:web": "pnpm --filter @valuecurator/web lint",
-    "security:check": "pnpm --filter @valuecurator/web security:check"
+    "security:check": "pnpm --filter @valuecurator/web security:check",
+    "surfpool:local": "node scripts/surfpool.mjs local",
+    "surfpool:devnet-fork": "node scripts/surfpool.mjs devnet-fork",
+    "surfpool:local:check": "node scripts/surfpool.mjs local-check",
+    "surfpool:devnet:check": "node scripts/surfpool.mjs devnet-check",
+    "surfpool:test": "node --test scripts/surfpool.test.mjs"
   },
   "pnpm": {
     "overrides": {
