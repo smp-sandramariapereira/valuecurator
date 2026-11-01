@@ -7,8 +7,9 @@
  * Never changes ~/.config/solana/cli/config.yml or handles signing keys.
  */
 import { spawnSync } from "node:child_process";
-import { fileURLToPath } from "node:url";
-import { DEVNET_RPC, rpcEndpoint, rpcRequest, surfpoolArgs } from "./surfpool-profiles.mjs";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+import { rpcEndpoint, rpcRequest, surfpoolArgs } from "./surfpool-profiles.mjs";
 
 async function rpcStatus(profile) {
   const url = rpcEndpoint(profile);
@@ -71,6 +72,6 @@ export async function main(argv = process.argv.slice(2)) {
   }
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === fileURLToPath(new URL(`file://${process.argv[1].startsWith("/") ? "" : process.cwd() + "/"}${process.argv[1]}`))) {
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   await main();
 }
