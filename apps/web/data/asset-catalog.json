@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "assetId": "equity:US:AAPL",
+      "ticker": "AAPL",
+      "displayName": "Apple Inc.",
+      "assetClass": "EQUITY",
+      "status": "REFERENCE_DOCUMENTED",
+      "referenceSymbol": "AAPLx",
+      "network": "mainnet-beta",
+      "mint": "XsbEhLAtcf6HdfpFZ5xEMdqW8nfAvcsP5bdudRLJzJp",
+      "source": "Existing ValueCurator AAPLx read-only documentation",
+      "devnetMint": null
+    },
+    {
+      "assetId": "equity:US:NVDA",
+      "ticker": "NVDA",
+      "displayName": "NVIDIA Corporation",
+      "assetClass": "EQUITY",
+      "status": "CANDIDATE",
+      "referenceSymbol": null,
+      "network": null,
+      "mint": null,
+      "source": "Research catalog seed; not an issuer or mint verification",
+      "devnetMint": null
+    },
+    {
+      "assetId": "equity:US:TSLA",
+      "ticker": "TSLA",
+      "displayName": "Tesla, Inc.",
+      "assetClass": "EQUITY",
+      "status": "CANDIDATE",
+      "referenceSymbol": null,
+      "network": null,
+      "mint": null,
+      "source": "Research catalog seed; not an issuer or mint verification",
+      "devnetMint": null
+    },
+    {
+      "assetId": "equity:US:MSFT",
+      "ticker": "MSFT",
+      "displayName": "Microsoft Corporation",
+      "assetClass": "EQUITY",
+      "status": "CANDIDATE",
+      "referenceSymbol": null,
+      "network": null,
+      "mint": null,
+      "source": "Research catalog seed; not an issuer or mint verification",
+      "devnetMint": null
+    }
+  ]
+}
