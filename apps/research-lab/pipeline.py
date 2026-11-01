@@ -198,6 +198,8 @@ def load_rows(args: argparse.Namespace) -> list[dict[str, Any]]:
         return [json.loads(line) for line in Path(args.input).read_text(encoding="utf-8").splitlines() if line.strip()]
     if not args.hf_id or not args.hf_revision:
         raise ValueError("Hugging Face ingestion requires both dataset ID and pinned revision")
+    if not re.fullmatch(r"[0-9a-fA-F]{40}", args.hf_revision):
+        raise ValueError("Hugging Face revision must be a 40-character immutable commit SHA")
     try:
         from datasets import load_dataset
     except ImportError as exc:
