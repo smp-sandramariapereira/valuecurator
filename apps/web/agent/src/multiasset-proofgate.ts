@@ -135,8 +135,10 @@ export function parseResearchSummary(value: unknown, assetId: string): { digest:
       !isSha256(data.dataset.snapshot_sha256) ||
       !isSha256(data.experiment?.model_sha256)) reasons.push("research dataset or model provenance missing");
   if (!Array.isArray(data.per_asset) ||
-      !data.per_asset.some((item) => item.asset_id === assetId) ||
-      data.per_asset.some((item) => item.proposed_action !== "NONE" || item.authorized !== false)) {
+      !data.per_asset.every((item) => item !== null && typeof item === "object" &&
+        typeof item.asset_id === "string" && item.proposed_action === "NONE" &&
+        item.authorized === false) ||
+      !data.per_asset.some((item) => item.asset_id === assetId)) {
     reasons.push("research output cannot authorize assets or trades");
   }
   return { digest: contentDigest(value), reasons: unique(reasons) };
