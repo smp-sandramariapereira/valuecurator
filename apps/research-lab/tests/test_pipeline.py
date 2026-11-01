@@ -44,6 +44,8 @@ class ResearchLabTests(unittest.TestCase):
         self.assertEqual(a["mode"], "RESEARCH_ONLY")
         self.assertFalse(a["execution"]["allowed"])
         self.assertTrue(all(x["proposed_action"] == "NONE" for x in a["per_asset"]))
+        self.assertEqual(a["experiment"]["split"], "stratified-deterministic-hash-noncausal")
+        self.assertTrue(all(a["experiment"]["evaluation"]["by_class"][str(label)]["support"] > 0 for label in (0, 1)))
 
     def test_conflicting_duplicate_labels_fail_closed(self):
         with self.assertRaisesRegex(ValueError, "Conflicting labels"):
