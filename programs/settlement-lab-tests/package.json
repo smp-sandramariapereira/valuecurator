@@ -1,0 +1,10 @@
+{
+  "name": "settlement-lab-tests",
+  "private": true,
+  "type": "module",
+  "description": "Offline Surfpool suite for the isolated Settlement Lab. Not part of the KAIROS app.",
+  "dependencies": {
+    "@solana/spl-token": "0.4.15",
+    "@solana/web3.js": "1.99.0"
+  }
+}

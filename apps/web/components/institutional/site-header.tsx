@@ -19,6 +19,14 @@ export function SiteHeader() {
           <div className="flex items-center gap-4">
             {onInformation ? null : (
               <Link
+                href="/lab"
+                className="text-sm text-stocklana-muted hover:text-white"
+              >
+                ProofGate Lab
+              </Link>
+            )}
+            {onInformation ? null : (
+              <Link
                 href="/about"
                 className="institutional-link inline-flex h-11 items-center rounded-xl border border-institutional-emerald/70 bg-institutional-emerald/15 px-4 text-sm font-semibold text-institutional-emerald hover:bg-institutional-emerald hover:text-institutional-ink"
               >

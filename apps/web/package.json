@@ -29,6 +29,7 @@
     "@solana/wallet-adapter-solflare": "^0.6.34",
     "@solana/web3.js": "^1.99.0",
     "@valuecurator/discovery-contracts": "workspace:*",
+    "@valuecurator/proofgate-authorization-service": "workspace:*",
     "@valuecurator/oracle-contracts": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

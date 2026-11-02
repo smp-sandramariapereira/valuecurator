@@ -14,6 +14,13 @@ const nextConfig = {
       },
     ];
   },
+  experimental: {
+    serverComponentsExternalPackages: [
+      "@valuecurator/proofgate-authorization-service",
+      "@solana/web3.js",
+      "tweetnacl",
+    ],
+  },
   transpilePackages: [
     "@valuecurator/discovery-contracts",
     "@solana/wallet-adapter-base",

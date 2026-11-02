@@ -1,0 +1,22 @@
+{
+  "name": "@valuecurator/proofgate-authorization-service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic ProofGate authorization boundary for the local Settlement Lab. Not a production signer.",
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@solana/web3.js": "1.99.0",
+    "tweetnacl": "1.0.3"
+  },
+  "exports": {
+    ".": "./src/service.mjs",
+    "./gateway": "./src/gateway.mjs",
+    "./canonical": "./src/canonical.mjs",
+    "./environment": "./src/environment.mjs",
+    "./settlement-tx": "./src/settlement-tx.mjs",
+    "./node": "./src/node-gateway.mjs"
+  }
+}

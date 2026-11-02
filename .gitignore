@@ -27,6 +27,7 @@ coverage/
 **/*.pem
 **/*.key
 **/*-keypair.json
+programs/.local-keys/*.json
 
 # App-specific generated outputs
 apps/discovery-api/.data/

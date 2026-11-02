@@ -4,19 +4,21 @@
 separate from `apps/web/Cargo.toml` and the deployed KAIROS Engine. No KAIROS
 program, Program ID, vault or existing instruction is modified.
 
-The separate package intentionally does not register a new deployable Program ID
-yet. The temporary `declare_id!` in Rust is a **build-only placeholder** and
-must be replaced through a reviewed key-generation and Anchor key-sync procedure
-before any Devnet deployment. Do not commit deploy keypairs.
+The local Surfpool identity is `CJ2NA3E8ZWZFMjrLtzAKxGZNomLBP4Tvnh8hQiFD3ecA`.
+Its secret is `programs/.local-keys/proofgate-settlement-lab-keypair.json`,
+which Git ignores. That identity is for the offline simulator only. Do not
+deploy it to public Devnet, and do not reuse the KAIROS program id.
+
+What the program checks, and what ProofGate still has to check off-chain, is
+separated in `proofgate-settlement-lab/AUTHORIZATION.md`.
 
 ## Build prerequisites
 
 - Pin compatible Rust/Solana/Anchor CLI versions after an isolated build.
 - `cd programs && cargo test -p proofgate-settlement-lab`
-- `cd programs && cargo check -p proofgate-settlement-lab`
-- Before deployment: generate a fresh unique program keypair with controlled
-  authority, synchronize the Program ID, run Anchor local-validator integration
-  tests, and document the upgrade authority.
+- `cd programs && CARGO_TARGET_DIR="$PWD/target" cargo-build-sbf --manifest-path proofgate-settlement-lab/Cargo.toml`
+- Offline Surfpool suite, after the `.so` exists: `node settlement-lab-tests/run.mjs`
+  from `programs/`. The suite binds `127.0.0.1` and refuses any other RPC.
 - Do not deploy without passing the gates in `docs/icmlab/THREAT_MODEL.md`.
 
 This stage implements SPL Token (classic) only. **Token-2022 extensions, live
