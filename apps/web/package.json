@@ -17,7 +17,8 @@
     "test:e2e": "NO_DNA=1 anchor test",
     "test:ui": "playwright test -c e2e/playwright.config.ts",
     "security:check": "node scripts/check-no-tracked-secrets.mjs",
-    "test:lab-http": "node --test lib/lab-authorize-status.test.mjs lib/lab-progress.test.mjs scripts/check-no-tracked-secrets.test.mjs"
+    "test:lab-http": "node --test lib/lab-authorize-status.test.mjs lib/lab-progress.test.mjs scripts/check-no-tracked-secrets.test.mjs",
+    "test:ux": "pnpm --filter @kairos/metabolic-agent exec node --import tsx --test ../lib/ux-journey.test.ts"
   },
   "dependencies": {
     "@coral-xyz/anchor": "0.32.1",

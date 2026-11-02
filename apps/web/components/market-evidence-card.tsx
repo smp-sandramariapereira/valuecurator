@@ -55,7 +55,7 @@ export function MarketEvidenceCard() {
               <Badge className={evidence.simulated
                 ? "border-amber-500/60 text-amber-300"
                 : "border-stocklana-accent/30 text-stocklana-accent"}>
-                {evidence.simulated ? "SIMULATED DATA" : "LIVE PYTH PRO"}
+                {evidence.simulated ? "SIMULATED DATA" : `LIVE ${evidence.source}`}
               </Badge>
             ) : null}
             <Button type="button" size="sm" variant="outline" disabled={refreshing} onClick={() => void refresh("live")}>
@@ -98,12 +98,12 @@ export function MarketEvidenceCard() {
         {refreshing ? (
           <p className="mb-3 font-mono text-xs text-stocklana-muted">
             {pendingScenario === "live"
-              ? "Querying Pyth, xStocks and Jupiter on the server…"
+              ? "Querying the configured reference provider, xStocks and Jupiter on the server…"
               : "Generating a simulated scenario on the server…"}
           </p>
         ) : null}
         {!evidence ? (
-          <p className="font-mono text-xs text-stocklana-muted">Evidence unavailable — execution must remain blocked.</p>
+          <p className="font-mono text-xs text-stocklana-muted">Reference price unavailable. Market evaluation cannot be approved.</p>
         ) : (
           <div className="space-y-4">
             {evidence.simulated ? (
@@ -114,6 +114,7 @@ export function MarketEvidenceCard() {
               </div>
             ) : null}
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div><p className="text-xs uppercase tracking-wider text-stocklana-muted">Provider</p><p className="font-mono text-white">{evidence.simulated ? "simulation" : evidence.source}</p></div>
               <div><p className="text-xs uppercase tracking-wider text-stocklana-muted">Asset</p><p className="font-mono text-white">{evidence.symbol}</p></div>
               <div><p className="text-xs uppercase tracking-wider text-stocklana-muted">Reference</p><p className="font-mono text-stocklana-accent">{usd(evidence.referencePriceMicros)}</p></div>
               <div><p className="text-xs uppercase tracking-wider text-stocklana-muted">Executable</p><p className="font-mono text-white">{evidence.executablePriceMicros === null ? "unavailable" : usd(evidence.executablePriceMicros)}</p></div>
@@ -127,6 +128,8 @@ export function MarketEvidenceCard() {
               </div>
             </div>
             <div className="grid gap-2 font-mono text-xs text-stocklana-muted sm:grid-cols-3">
+              <p>currency {evidence.currency ?? "USD"}</p>
+              <p>quoted {evidence.publishTimeMs ? new Date(evidence.publishTimeMs).toISOString() : "unavailable"}</p>
               <p>age {formatAgeComparison(evidence.priceAgeMs, evidence.maximumPriceAgeMs)}</p>
               <p>confidence {evidence.confidenceBps} / {evidence.maximumConfidenceBps} bps</p>
               <p>deviation {evidence.deviationBps === null ? "—" : evidence.deviationBps} / {evidence.maximumDeviationBps} bps</p>
@@ -175,11 +178,13 @@ export function MarketEvidenceCard() {
                   </a>
                 </Button>
               ) : null}
-              <Button asChild type="button" size="sm" variant="outline">
-                <a href="https://www.pyth.network/price-feeds" target="_blank" rel="noreferrer">
-                  <ExternalLink className="h-3.5 w-3.5" /> Pyth catalog · feed {evidence.referenceFeedId}
-                </a>
-              </Button>
+              {evidence.source === "pyth-pro" || evidence.source === "pyth-hermes" ? (
+                <Button asChild type="button" size="sm" variant="outline">
+                  <a href="https://www.pyth.network/price-feeds" target="_blank" rel="noreferrer">
+                    <ExternalLink className="h-3.5 w-3.5" /> {evidence.source} catalog · feed {evidence.referenceFeedId}
+                  </a>
+                </Button>
+              ) : null}
               <Badge className="border-stocklana-border text-stocklana-muted">
                 On-chain transaction unavailable
               </Badge>

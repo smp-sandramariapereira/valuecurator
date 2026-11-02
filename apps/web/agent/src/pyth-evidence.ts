@@ -1,5 +1,6 @@
 import { mkdirSync, renameSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
+import type { ProviderId } from "@valuecurator/oracle-contracts";
 import type { PythPrice } from "./pyth.js";
 
 export type ExecutableQuoteEvidence = {
@@ -20,7 +21,9 @@ export type ExecutableQuoteEvidence = {
 
 export type LivePythEvidenceReport = {
   schemaVersion: 1;
-  source: "pyth-pro";
+  source: ProviderId;
+  currency?: "USD";
+  provenance?: string;
   simulated: false;
   transactionSubmitted: false;
   generatedAt: string;
@@ -73,6 +76,8 @@ function ratioBps(numerator: bigint, denominator: bigint): number {
 export function createLivePythEvidence(options: {
   price: PythPrice;
   symbol: string;
+  source?: ProviderId;
+  provenance?: string;
   executableQuote?: ExecutableQuoteEvidence;
   additionalReasons?: readonly string[];
   nowMs?: number;
@@ -165,7 +170,9 @@ export function createLivePythEvidence(options: {
 
   return {
     schemaVersion: 1,
-    source: "pyth-pro",
+    source: options.source ?? "pyth-pro",
+    currency: "USD",
+    ...(options.provenance ? { provenance: options.provenance } : {}),
     simulated: false,
     transactionSubmitted: false,
     generatedAt: new Date(nowMs).toISOString(),

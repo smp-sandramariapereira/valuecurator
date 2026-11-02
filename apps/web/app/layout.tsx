@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { SiteHeader } from "@/components/institutional/site-header";
+import { ProductFrame } from "@/components/navigation/product-frame";
 import { WalletProviders } from "@/components/wallet-providers";
 import { SITE_URL } from "@/lib/institutional";
 import "./globals.css";
@@ -55,7 +56,7 @@ export default function RootLayout({
       >
         <WalletProviders>
           <SiteHeader />
-          {children}
+          <ProductFrame>{children}</ProductFrame>
         </WalletProviders>
       </body>
     </html>

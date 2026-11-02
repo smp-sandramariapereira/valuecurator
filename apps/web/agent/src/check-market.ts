@@ -63,9 +63,10 @@ if (oracleProvider !== "pyth-pro") {
 }
 
 const result = await refreshMarketEvidence({
+  providerId: "pyth-pro",
   feedId: required("KAIROS_PYTH_FEED_ID"),
-  pythApiKey: required("KAIROS_PYTH_API_KEY"),
-  pythApiUrl: process.env.KAIROS_PYTH_API_URL?.trim() || DEFAULT_PYTH_PRO_URL,
+  apiKey: required("KAIROS_PYTH_API_KEY"),
+  apiUrl: process.env.KAIROS_PYTH_API_URL?.trim() || DEFAULT_PYTH_PRO_URL,
   xstocksApiUrl: process.env.KAIROS_XSTOCKS_API_URL?.trim() || DEFAULT_XSTOCKS_API_URL,
   symbol: process.env.KAIROS_XSTOCK_SYMBOL?.trim() || "AAPLx",
   marketRpcUrl: process.env.KAIROS_MARKET_RPC_URL?.trim() || DEFAULT_MAINNET_RPC_URL,

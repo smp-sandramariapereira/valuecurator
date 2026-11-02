@@ -1,0 +1,72 @@
+{
+  "project": "ValueCurator",
+  "subject": "market-price-refresh",
+  "timestamp_utc": "2026-11-02T15:15:56Z",
+  "live_provider_call": "not_executed",
+  "live_provider_reason": "KAIROS_ORACLE_PROVIDER is unset and no provider credential is present",
+  "local_route_probe": {
+    "live": {
+      "http": 503,
+      "error": "Missing configuration: KAIROS_ORACLE_PROVIDER"
+    },
+    "safe": {
+      "http": 200,
+      "simulated": true,
+      "source": "fixture",
+      "scenario": "safe",
+      "decision": "APPROVED",
+      "transactionSubmitted": false
+    }
+  },
+  "tests": [
+    {
+      "id": "market_oracle_unit",
+      "kind": "unit_and_mock",
+      "command": "node --import tsx --test src/market-oracle.test.ts",
+      "result": "passed",
+      "passed": 12,
+      "failed": 0,
+      "covers": ["T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T11", "T12", "T13", "T14", "T15", "T16", "T17"]
+    },
+    {
+      "id": "pnpm_test",
+      "kind": "unit_and_integration",
+      "command": "pnpm test",
+      "result": "passed",
+      "passed": 13,
+      "failed": 0
+    },
+    {
+      "id": "pnpm_test_agent",
+      "kind": "unit_and_mock",
+      "command": "pnpm test:agent",
+      "result": "passed",
+      "passed": 117,
+      "failed": 0,
+      "note": "Includes the oracle adapter suite and the 12 new market-oracle tests. T18 is this regression."
+    },
+    {
+      "id": "typecheck",
+      "kind": "static",
+      "command": "pnpm typecheck",
+      "result": "passed",
+      "exit_code": 0
+    },
+    {
+      "id": "build_web",
+      "kind": "build",
+      "command": "pnpm build:web",
+      "result": "passed",
+      "exit_code": 0
+    },
+    {
+      "id": "security_check",
+      "kind": "static",
+      "command": "pnpm security:check",
+      "result": "passed",
+      "exit_code": 0,
+      "files_inspected": 225
+    }
+  ],
+  "overall_status": "ARCHITECTURE_CORRECTED_LIVE_UNAVAILABLE"
+}

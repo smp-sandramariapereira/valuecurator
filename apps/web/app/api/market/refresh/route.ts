@@ -1,12 +1,12 @@
 import { PublicKey } from "@solana/web3.js";
 import { NextRequest, NextResponse } from "next/server";
 import { createExecutionProposal } from "../../../../agent/src/execution-proposal";
-import { refreshMarketEvidence } from "../../../../agent/src/market-refresh";
+import { MARKET_REFRESH_SAFEGUARDS, refreshMarketEvidence } from "../../../../agent/src/market-refresh";
+import { readMarketOracleSelection } from "../../../../agent/src/market-oracle-config";
 import {
   createMarketSimulation,
   type MarketSimulationScenario,
 } from "../../../../agent/src/market-simulation";
-import { DEFAULT_PYTH_PRO_URL } from "../../../../agent/src/pyth-pro";
 import { DEFAULT_XSTOCKS_API_URL } from "../../../../agent/src/xstocks";
 
 export const runtime = "nodejs";
@@ -21,12 +21,6 @@ type MarketScenario = "live" | MarketSimulationScenario;
 
 const requestWindows = new Map<string, { startedAt: number; count: number }>();
 let liveInFlight: Promise<Awaited<ReturnType<typeof buildPayload>>> | null = null;
-
-function required(name: string): string {
-  const value = process.env[name]?.trim();
-  if (!value) throw new Error(`Missing configuration: ${name}`);
-  return value;
-}
 
 function boundedInt(name: string, fallback: number, min: number, max: number): number {
   const value = Number.parseInt(process.env[name] ?? String(fallback), 10);
@@ -90,9 +84,7 @@ async function buildPayload(
 ) {
   const evidence = scenario === "live"
     ? (await refreshMarketEvidence({
-    feedId: required("KAIROS_PYTH_FEED_ID"),
-    pythApiKey: required("KAIROS_PYTH_API_KEY"),
-    pythApiUrl: process.env.KAIROS_PYTH_API_URL?.trim() || DEFAULT_PYTH_PRO_URL,
+    ...readMarketOracleSelection(process.env),
     xstocksApiUrl: process.env.KAIROS_XSTOCKS_API_URL?.trim() || DEFAULT_XSTOCKS_API_URL,
     symbol: process.env.KAIROS_XSTOCK_SYMBOL?.trim() || "AAPLx",
     marketRpcUrl: process.env.KAIROS_MARKET_RPC_URL?.trim() || DEFAULT_MAINNET_RPC_URL,
@@ -129,11 +121,7 @@ async function buildPayload(
     refreshedAt: new Date().toISOString(),
     evidence,
     proposal,
-    safeguards: {
-      walletLoaded: false as const,
-      transactionConstructed: false as const,
-      transactionSubmitted: false as const,
-    },
+    safeguards: MARKET_REFRESH_SAFEGUARDS,
   };
 }
 

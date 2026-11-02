@@ -1,7 +1,7 @@
 export type ReportScenario = "live" | "safe" | "stale" | "divergent";
 
 export type ReportEvidence = {
-  source: "fixture" | "pyth-pro";
+  source: "fixture" | "pyth-pro" | "pyth-hermes" | "chainlink" | "switchboard" | "redstone";
   simulated: boolean;
   generatedAt: string;
   symbol: string;
@@ -170,7 +170,7 @@ export function createFinalExecutionReport(options: {
     },
     marketEvidence: {
       generatedAt: evidence.generatedAt,
-      provider: evidence.source === "pyth-pro" ? "Pyth Pro" : "fixture",
+      provider: evidence.source === "pyth-pro" ? "Pyth Pro" : evidence.source,
       reference: {
         feedId: evidence.referenceFeedId,
         priceMicros: evidence.referencePriceMicros,

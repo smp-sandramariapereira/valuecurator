@@ -5,6 +5,7 @@ import { Activity, Wallet } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { WalletConnectButton } from "@/components/wallet-connect-button";
+import { JourneyShortcuts } from "@/components/navigation/journey-shortcuts";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -107,7 +108,7 @@ function GateIntro({ onResetDefaults }: { onResetDefaults: () => void }) {
         <div>
           <p className="text-xs uppercase tracking-wider text-stocklana-muted">Mandate</p>
           <p className="mt-1 font-mono text-white">
-            {evidence ? `${evidence.symbol} · feed ${evidence.referenceFeedId}` : "AAPLx · feed 922"}
+            {evidence ? `${evidence.symbol} · ${evidence.simulated ? "simulation" : evidence.source} · feed ${evidence.referenceFeedId}` : "AAPLx · reference provider not configured"}
           </p>
         </div>
         <div>
@@ -239,6 +240,7 @@ export function Dashboard() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-6xl flex-col gap-6 px-4 pb-28 pt-6 sm:px-6 sm:pb-32 sm:pt-8">
+      <JourneyShortcuts />
       <header className="proofgate-hero overflow-hidden rounded-2xl border p-5 sm:p-7">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-3xl">

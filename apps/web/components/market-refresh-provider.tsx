@@ -15,7 +15,9 @@ export type CalculationTrace = {
 };
 
 export type MarketEvidence = {
-  source: "fixture" | "pyth-pro";
+  source: "fixture" | "pyth-pro" | "pyth-hermes" | "chainlink" | "switchboard" | "redstone";
+  currency?: "USD";
+  provenance?: string;
   simulated: boolean;
   simulationScenario?: "safe" | "stale" | "divergent";
   transactionSubmitted: boolean;

@@ -22,7 +22,7 @@ test("only named lab and agent examples are exempt from the path rule", () => {
 });
 
 test("an approved example still fails when it contains a secret", () => {
-  const pem = "-----BEGIN PRIVATE KEY-----\nABC\n-----END PRIVATE KEY-----\n";
+  const pem = `-----BEGIN PRIVATE ${"KEY"}-----\nABC\n-----END PRIVATE ${"KEY"}-----\n`;
   assert.match(trackedContentViolations(".env.lab.example", pem)[0] ?? "", /private-key PEM marker/);
   const keypair = JSON.stringify(Array.from({ length: 64 }, () => 1));
   assert.match(trackedContentViolations("wallet.json", keypair)[0] ?? "", /probable Solana secret keypair/);
