@@ -4,6 +4,10 @@ import { useCallback, useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Connection, Transaction } from "@solana/web3.js";
 import { WalletConnectButton } from "@/components/wallet-connect-button";
+import { labProgress } from "@/lib/lab-progress.mjs";
+
+const INPUT_NAME = "Synthetic dUSDC";
+const INPUT_SYMBOL = "dUSDC";
 
 type LabConfig = {
   ok?: boolean;
@@ -14,6 +18,8 @@ type LabConfig = {
   authorizationEpoch?: string;
   paused?: boolean;
   policySigner?: string;
+  inputMint?: string;
+  outputMint?: string;
   reasons?: string[];
   error?: string;
   networkIdentity?: string;
@@ -30,6 +36,8 @@ type LabAsset = {
 
 type Mandate = {
   exists?: boolean;
+  portfolioExists?: boolean;
+  mandateExists?: boolean;
   owner?: string;
   pool?: string;
   inputMint?: string;
@@ -234,6 +242,17 @@ export function ProofGateLab() {
   }
 
   const verified = assets.find((asset) => asset.lane === "LAB_VERIFIED");
+  const outputName = verified?.displayName ?? "Synthetic dAAPL";
+  const inputMint = config?.inputMint ?? mandate?.inputMint;
+  const outputMint = verified?.mint ?? config?.outputMint ?? mandate?.outputMint;
+  const progress = labProgress({
+    connected: Boolean(publicKey),
+    setupKnown: !publicKey || mandate !== null,
+    portfolioExists: Boolean(mandate?.portfolioExists || mandate?.exists),
+    mandateExists: Boolean(mandate?.exists),
+    decision,
+  });
+  const currentStep = progress.steps.find((step) => step.state === "current");
 
   return (
     <main className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 sm:px-6">
@@ -245,6 +264,32 @@ export function ProofGateLab() {
           Phantom must use the RPC shown below. This page never receives the ProofGate key.
         </p>
       </header>
+
+      <section className="rounded-2xl border border-white/10 bg-white/5 p-4">
+        <h2 className="text-sm font-semibold">Settlement pair</h2>
+        <p className="mt-2 text-sm">{INPUT_NAME} ({INPUT_SYMBOL}) → {outputName}</p>
+        <p className="mt-1 text-xs text-stocklana-muted">These names are labels on this page. Phantom shows the mint address.</p>
+        <dl className="mt-3 space-y-1 font-mono text-xs text-stocklana-muted">
+          <div>Input mint {inputMint ?? "waiting for the lab API"}</div>
+          <div>Output mint {outputMint ?? "waiting for the lab API"}</div>
+          <div>Wallet RPC {config?.rpcUrl ?? "waiting for the lab API"}</div>
+        </dl>
+        <p className="mt-3 text-sm text-stocklana-muted">Set the Phantom network to this RPC before connecting.</p>
+        <div className="mt-4 border-t border-white/10 pt-3">
+          <h3 className="text-sm font-semibold">Next step</h3>
+          <p className="mt-2 text-sm">{progress.current === "loading" ? "Reading the portfolio and mandate." : currentStep ? currentStep.title : "The local swap is confirmed. The receipt below is the record."}</p>
+          {currentStep ? <p className="mt-1 text-sm text-stocklana-muted">{currentStep.wallet}</p> : null}
+          <ol className="mt-3 space-y-2 text-sm">
+            {progress.steps.map((step, index) => (
+              <li key={step.id} className={step.state === "current" ? "text-white" : "text-stocklana-muted"}>
+                <span className="font-mono text-xs">{index + 1}. {step.state === "done" ? "Done" : step.state === "current" ? "Now" : "Later"}</span>
+                <span> · {step.title}</span>
+                <span className="mt-1 block text-xs">{step.wallet}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
 
       <section className="grid gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 md:grid-cols-2">
         <div>
@@ -284,8 +329,8 @@ export function ProofGateLab() {
           <dl className="mt-3 grid gap-1 font-mono text-xs text-stocklana-muted md:grid-cols-2">
             <div>Owner {mandate.owner}</div>
             <div>Pool {mandate.pool}</div>
-            <div>Input {mandate.inputMint}</div>
-            <div>Output {mandate.outputMint}</div>
+            <div>Input {INPUT_NAME} {mandate.inputMint}</div>
+            <div>Output {outputName} {mandate.outputMint}</div>
             <div>Per trade {mandate.maxPerTrade}</div>
             <div>Daily {mandate.maxDaily}</div>
             <div>Spent {mandate.spent}</div>
@@ -299,8 +344,8 @@ export function ProofGateLab() {
             <p>{publicKey ? "This wallet has no portfolio or mandate on the current Surfpool." : "Connect a wallet to read a mandate."}</p>
             {publicKey ? (
               <div className="flex gap-2">
-                <button className="rounded-lg border border-white/20 px-3 py-2" type="button" disabled={busy} onClick={() => void setup("portfolio")}>Initialize portfolio</button>
-                <button className="rounded-lg border border-white/20 px-3 py-2" type="button" disabled={busy} onClick={() => void setup("mandate")}>Initialize mandate</button>
+                <button className="rounded-lg border border-white/20 px-3 py-2 disabled:opacity-50" type="button" disabled={busy || Boolean(mandate?.portfolioExists)} onClick={() => void setup("portfolio")}>Initialize portfolio</button>
+                <button className="rounded-lg border border-white/20 px-3 py-2 disabled:opacity-50" type="button" disabled={busy || !mandate?.portfolioExists} onClick={() => void setup("mandate")}>Initialize mandate</button>
               </div>
             ) : null}
           </div>
@@ -310,7 +355,7 @@ export function ProofGateLab() {
       <section className="rounded-2xl border border-white/10 bg-white/5 p-4">
         <h2 className="text-sm font-semibold">Proposal</h2>
         <p className="mt-2 text-sm text-stocklana-muted">
-          Asset {verified ? "Synthetic dAAPL" : "no verified synthetic mint in this runtime"}. Evidence is the pool&apos;s fixed rate, rebuilt by the server.
+          {verified ? `${INPUT_NAME} → ${outputName}` : "No verified synthetic mint in this runtime"}. Evidence is the pool&apos;s fixed rate, rebuilt by the server.
         </p>
         <div className="mt-3 flex flex-wrap gap-3">
           <label className="text-xs text-stocklana-muted">Amount

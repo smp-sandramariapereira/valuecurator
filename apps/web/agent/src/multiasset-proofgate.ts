@@ -178,8 +178,9 @@ export function evaluateMultiAssetProposal(input: {
       (allowance && p.outputMint !== allowance.mint)) reasons.push("proposal mint/identity mismatch");
 
   const matching = registry.filter((asset) => asset.assetId === p.assetId);
-  if (matching.length !== 1 || matching[0].status !== "VERIFIED" ||
-      matching[0].devnetMint !== p.outputMint) reasons.push("asset has no verified Devnet settlement mapping");
+  const verified = matching[0];
+  if (matching.length !== 1 || verified === undefined || verified.status !== "VERIFIED" ||
+      verified.devnetMint !== p.outputMint) reasons.push("asset has no verified Devnet settlement mapping");
 
   const amount = unsigned(p.amountIn);
   const minimum = unsigned(p.minAmountOut);

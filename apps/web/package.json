@@ -16,7 +16,8 @@
     "anchor:build": "NO_DNA=1 anchor build && cp target/idl/kairos_engine.json idl/kairos_engine.json",
     "test:e2e": "NO_DNA=1 anchor test",
     "test:ui": "playwright test -c e2e/playwright.config.ts",
-    "security:check": "node scripts/check-no-tracked-secrets.mjs"
+    "security:check": "node scripts/check-no-tracked-secrets.mjs",
+    "test:lab-http": "node --test lib/lab-authorize-status.test.mjs lib/lab-progress.test.mjs scripts/check-no-tracked-secrets.test.mjs"
   },
   "dependencies": {
     "@coral-xyz/anchor": "0.32.1",

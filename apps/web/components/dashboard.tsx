@@ -20,7 +20,7 @@ import { MarketRefreshProvider, useMarketRefresh } from "@/components/market-ref
 import { DecisionHistoryCard } from "@/components/decision-history-card";
 import { FinalReportCard } from "@/components/final-report-card";
 import { MandateBuilder, createInitialMandateDraft } from "@/components/mandate-builder";
-import { version as productVersion } from "../package.json";
+import webPackage from "../package.json";
 import { useDevnetReferencePrice } from "@/components/use-devnet-reference-price";
 import { useKairosNode } from "@/components/use-kairos-node";
 import {
@@ -242,25 +242,21 @@ export function Dashboard() {
       <header className="proofgate-hero overflow-hidden rounded-2xl border p-5 sm:p-7">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-3xl">
-            <div className="flex items-center gap-4">
+            <h1>
               <Image
-                src="/proofgate-mark.svg"
-                alt="ValueCurator symbol"
-                width={56}
-                height={56}
+                src="/valuecurator-logo.png"
+                alt=""
+                width={627}
+                height={505}
                 priority
-                className="proofgate-brand-mark h-12 w-12 sm:h-14 sm:w-14"
+                className="h-auto w-full max-w-[280px] sm:max-w-[340px]"
               />
-              <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-stocklana-blue sm:text-[11px]">
-                  Deep tech · Artificial intelligence · Solana · RWA
-                </p>
-                <h1 className="mt-0.5 text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
-                  Value<span className="text-stocklana-accent">Curator</span>
-                </h1>
-                <p className="mt-1 text-sm text-stocklana-muted">AI-powered financial infrastructure</p>
-              </div>
-            </div>
+              <span className="sr-only">ValueCurator</span>
+            </h1>
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.24em] text-stocklana-blue sm:text-[11px]">
+              Deep tech · Artificial intelligence · Solana · RWA
+            </p>
+            <p className="mt-1 text-sm text-stocklana-muted">AI-powered financial infrastructure</p>
 
             <div className="proofgate-pitch mt-6 space-y-3">
               <p className="max-w-2xl text-xl font-semibold leading-snug tracking-[-0.02em] text-white sm:text-2xl">
@@ -804,7 +800,7 @@ export function Dashboard() {
 
       <footer className="flex flex-col gap-2 border-t border-stocklana-border py-5 text-xs text-stocklana-muted sm:flex-row sm:items-center sm:justify-between">
         <p>
-          <span className="font-semibold text-white">ValueCurator</span> · {productVersion} · AI-powered financial infrastructure
+          <span className="font-semibold text-white">ValueCurator</span> · {webPackage.version} · AI-powered financial infrastructure
         </p>
         <p className="font-mono text-[10px] uppercase tracking-[0.12em]">
           KAIROS Engine technical core · <span className="text-blue-300">Devnet</span> custody / <span className="text-stocklana-purple">Mainnet</span> evidence

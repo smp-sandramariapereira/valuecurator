@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { HomeButton } from "@/components/home-button";
 import { NAV_LINKS } from "@/lib/institutional";
-import { version } from "../../package.json";
+import webPackage from "../../package.json";
 
 const INFO_PREFIXES = ["/about", "/technology", "/solutions", "/journey", "/team", "/roadmap", "/partners", "/pitchdeck"];
 
@@ -33,7 +33,7 @@ export function SiteHeader() {
                 About
               </Link>
             )}
-            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-stocklana-muted">{version}</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-stocklana-muted">{webPackage.version}</p>
           </div>
         </div>
         {onInformation ? (

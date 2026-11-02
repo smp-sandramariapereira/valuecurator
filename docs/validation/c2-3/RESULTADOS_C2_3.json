@@ -1,0 +1,170 @@
+{
+  "project": "ValueCurator",
+  "milestone": "C2.3",
+  "timestamp_utc": "2026-11-02T13:56:11Z",
+  "started_utc": "2026-11-02T13:47:18Z",
+  "branch": "feature/proofgate-multiasset-devnet-e2e",
+  "commit": "0cd5ebb7bddb23594a5a9c141bfde2d627963ce0",
+  "corrections": [
+    "P2-01 secret check allowlist for the named lab example",
+    "P2-02 type narrowing in multiasset proofgate",
+    "P2-04 settlement-lab-tests added to the pnpm workspace",
+    "P3-01 authorize HTTP 400 for a malformed body",
+    "P3-02 default import of package.json version"
+  ],
+  "tests": [
+    {
+      "id": "security_check",
+      "command": "pnpm security:check",
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_sec": 1.08
+    },
+    {
+      "id": "lab_http_unit",
+      "command": "pnpm --filter @valuecurator/web test:lab-http",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": { "passed": 10, "failed": 0, "skipped": 0 },
+      "elapsed_sec": 0.84
+    },
+    {
+      "id": "typecheck",
+      "command": "pnpm typecheck",
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_sec": 23.46
+    },
+    {
+      "id": "pnpm_test",
+      "command": "pnpm test",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": { "passed": 13, "failed": 0, "skipped": 0 },
+      "elapsed_sec": 8.04
+    },
+    {
+      "id": "test_agent",
+      "command": "pnpm test:agent",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": { "passed": 105, "failed": 0, "skipped": 0 },
+      "elapsed_sec": 10.75
+    },
+    {
+      "id": "authorization_service",
+      "command": "pnpm --filter @valuecurator/proofgate-authorization-service test",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": { "passed": 18, "failed": 0, "skipped": 0 },
+      "elapsed_sec": 1.29
+    },
+    {
+      "id": "build_web",
+      "command": "pnpm build:web",
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_sec": 74.97,
+      "build_id": "IAhIdeeqrHcoWtQdJG4nm"
+    },
+    {
+      "id": "cargo_test",
+      "command": "cargo test -p proofgate-settlement-lab",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": { "passed": 6, "failed": 0, "skipped": 0 },
+      "elapsed_sec": 1.72
+    },
+    {
+      "id": "cargo_build_sbf",
+      "command": "CARGO_TARGET_DIR=$PWD/target NO_DNA=1 cargo-build-sbf --manifest-path proofgate-settlement-lab/Cargo.toml",
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_sec": 1.14,
+      "artifact_bytes": 399432
+    },
+    {
+      "id": "surfpool_suite",
+      "command": "node settlement-lab-tests/run.mjs",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": { "passed": 74, "failed": 0, "skipped": 0 },
+      "elapsed_sec": 74.99
+    },
+    {
+      "id": "provision_lab",
+      "command": "node settlement-lab-tests/provision-lab.mjs",
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_sec": 20.37,
+      "note": "No --owner because no public wallet address was supplied. Mints from this run were replaced by the later owner provision."
+    },
+    {
+      "id": "provision_lab_owner",
+      "command": "node settlement-lab-tests/provision-lab.mjs --owner=<public>",
+      "result": "passed",
+      "exit_code": 0,
+      "timestamp_utc": "2026-11-02T14:06:23Z",
+      "note": "First attempt on Surfpool pid 22875 failed because the deployed program upgrade authority did not match the newly generated local admin. That Surfpool was stopped and a clean one started as pid 25043. The retry exited 0."
+    },
+    {
+      "id": "lab_http_43147",
+      "command": "HTTP probes against http://127.0.0.1:43147",
+      "result": "passed",
+      "exit_code": 0,
+      "note": "Served by pre-existing next-server pid 8984 after .env.local was created. A new dev process failed with EADDRINUSE. That process was later stopped."
+    },
+    {
+      "id": "lab_http_43147_restart",
+      "command": "HTTP probes against http://127.0.0.1:43147 after restart",
+      "result": "passed",
+      "exit_code": 0,
+      "timestamp_utc": "2026-11-02T14:08:26Z",
+      "web_pid": 25392,
+      "note": "GET /lab 200. GET /api/lab/config 200 with the owner runtime. GET /api/lab/assets 200 with lab:dAAPL LAB_VERIFIED. Browser showed the decision button disabled while disconnected."
+    }
+  ],
+  "security_check": {
+    "result": "passed",
+    "exit_code": 0,
+    "files_inspected": 218
+  },
+  "typecheck": {
+    "result": "passed",
+    "exit_code": 0
+  },
+  "surfpool": {
+    "version": "1.5.0",
+    "rpc": "http://127.0.0.1:18999",
+    "program_id": "CJ2NA3E8ZWZFMjrLtzAKxGZNomLBP4Tvnh8hQiFD3ecA",
+    "suite": { "passed": 74, "failed": 0 },
+    "manual_server_pid": 6231,
+    "previous_manual_server_pid": 25043,
+    "input_mint": "23xb6oDGDrQi5VU6ncpFpPRCUn3efzSAzwxuxymsjVzz",
+    "output_mint": "FnZg68f1Yvgj7K4qZhX5gtfH3poiRuZfJCeJQzQg6tft",
+    "config": "FJbW18soXnWuNSTDJuiytZFXLwGQo7NamN8bW6hh2B83"
+  },
+  "lab": {
+    "url": "http://127.0.0.1:43147/lab",
+    "rpc_url": "http://127.0.0.1:18999",
+    "program_id": "CJ2NA3E8ZWZFMjrLtzAKxGZNomLBP4Tvnh8hQiFD3ecA",
+    "runtime": "programs/target/lab-runtime.json",
+    "web_pid": 6509,
+    "previous_web_pid": 25392
+  },
+  "phantom": {
+    "status": "NOT_EXECUTED",
+    "owner": "CTgnTLsYi42jVFYT9Q12PKiLqQpQKcMRbXTpvZjzBKPU",
+    "balances_before": {
+      "lamports": 2000000000,
+      "input_base_units": "10000000",
+      "output_base_units": "0"
+    },
+    "transaction_signature": null,
+    "receipt": null
+  },
+  "blockers": [
+    "Phantom manual signature was not performed. The local lab is prepared for the supplied public owner."
+  ],
+  "overall_status": "APPROVED_WITH_RESERVATIONS"
+}

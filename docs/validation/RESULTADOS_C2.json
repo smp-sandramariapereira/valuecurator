@@ -1,0 +1,177 @@
+{
+  "project": "ValueCurator",
+  "milestone": "C2",
+  "timestamp_utc": "2026-11-02T12:33:28Z",
+  "started_utc": "2026-11-02T12:17:09Z",
+  "repository": "/home/aquila/darvin/valuecurator-feature-proofgate-multiasset-devnet-e2e",
+  "branch": "feature/proofgate-multiasset-devnet-e2e",
+  "commit": "0cd5ebb7bddb23594a5a9c141bfde2d627963ce0",
+  "environment": {
+    "node": "v20.20.2",
+    "pnpm": "9.15.9",
+    "rust": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "cargo": "cargo 1.97.1 (c980f4866 2026-06-30)",
+    "solana": "solana-cli 3.1.10",
+    "surfpool": "1.5.0",
+    "svm": "4.1.2",
+    "cargo_build_sbf": "solana-cargo-build-sbf 3.1.10 / platform-tools v1.52 / rustc 1.89.0"
+  },
+  "tests": [
+    {
+      "id": "install",
+      "command": "CI=true pnpm install --frozen-lockfile",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": null,
+      "elapsed_sec": 4.2,
+      "log_ref": "docs/validation/EXECUCAO_C2.log#install"
+    },
+    {
+      "id": "security_check",
+      "command": "pnpm security:check",
+      "result": "failed",
+      "exit_code": 1,
+      "tests": null,
+      "elapsed_sec": 1.05,
+      "log_ref": "docs/validation/raw/monorepo-and-auth.log"
+    },
+    {
+      "id": "pnpm_test",
+      "command": "pnpm test",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": { "passed": 13, "failed": 0, "skipped": 0 },
+      "elapsed_sec": 7.23,
+      "log_ref": "docs/validation/raw/pnpm-test-unsandboxed.log",
+      "note": "A tentativa no sandbox caiu no encerramento do worker depois de 10 testes de entrevista. O resultado aceito é a repetição no host."
+    },
+    {
+      "id": "test_agent",
+      "command": "pnpm test:agent",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": { "passed": 105, "failed": 0, "skipped": 0 },
+      "elapsed_sec": 10.86,
+      "log_ref": "docs/validation/raw/monorepo-and-auth.log"
+    },
+    {
+      "id": "typecheck",
+      "command": "pnpm typecheck",
+      "result": "failed",
+      "exit_code": 2,
+      "tests": null,
+      "elapsed_sec": 21.16,
+      "log_ref": "docs/validation/raw/monorepo-and-auth.log"
+    },
+    {
+      "id": "build_web",
+      "command": "pnpm build:web",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": null,
+      "elapsed_sec": 100.57,
+      "log_ref": "docs/validation/raw/build-web.log",
+      "note": "Aviso de import nomeado version. BUILD_ID 4wHBnzK9n7i3Qm-gsA9R1."
+    },
+    {
+      "id": "authorization_service",
+      "command": "pnpm --filter @valuecurator/proofgate-authorization-service test",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": { "passed": 18, "failed": 0, "skipped": 0 },
+      "coverage": null,
+      "elapsed_sec": 1.21,
+      "log_ref": "docs/validation/raw/monorepo-and-auth.log"
+    },
+    {
+      "id": "cargo_test",
+      "command": "cargo test -p proofgate-settlement-lab",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": { "passed": 6, "failed": 0, "skipped": 0 },
+      "elapsed_sec": 62.69,
+      "log_ref": "docs/validation/raw/rust-and-sbf.log"
+    },
+    {
+      "id": "cargo_build_sbf",
+      "command": "CARGO_TARGET_DIR=$PWD/target NO_DNA=1 cargo-build-sbf --manifest-path proofgate-settlement-lab/Cargo.toml",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": null,
+      "elapsed_sec": 1.81,
+      "artifact_bytes": 399432,
+      "artifact_sha256": "1e0817e7c2c78eac900b484920be5923b8f79035a6b0f8960c65dfdd72c89ef0",
+      "stack_overflow_observed": false,
+      "log_ref": "docs/validation/raw/rust-and-sbf.log"
+    },
+    {
+      "id": "surfpool_suite",
+      "command": "node settlement-lab-tests/run.mjs",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": { "passed": 74, "failed": 0, "skipped": 0 },
+      "elapsed_sec": 74.67,
+      "program_id": "CJ2NA3E8ZWZFMjrLtzAKxGZNomLBP4Tvnh8hQiFD3ecA",
+      "rpc": "http://127.0.0.1:18999",
+      "log_ref": "docs/validation/raw/surfpool-suite.log"
+    },
+    {
+      "id": "provision_lab",
+      "command": "node settlement-lab-tests/provision-lab.mjs",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": null,
+      "elapsed_sec": 20.56,
+      "log_ref": "docs/validation/raw/provision-lab.log"
+    },
+    {
+      "id": "lab_http_configured",
+      "command": "HTTP probes against http://127.0.0.1:43148",
+      "result": "passed",
+      "exit_code": 0,
+      "tests": null,
+      "log_ref": "docs/validation/raw/api-probes.log"
+    },
+    {
+      "id": "lab_http_documented_port",
+      "command": "HTTP probes against http://127.0.0.1:43147",
+      "result": "blocked",
+      "exit_code": null,
+      "tests": null,
+      "log_ref": "docs/validation/raw/api-probes.log",
+      "note": "Pre-existing Next.js without LAB_* returned 503."
+    },
+    {
+      "id": "phantom_manual",
+      "command": "manual Phantom signature",
+      "result": "not_executed",
+      "exit_code": null,
+      "tests": null,
+      "log_ref": "docs/validation/VALIDACAO_C2.md#10-phantom"
+    }
+  ],
+  "suite_counts": {
+    "discovery_api": { "passed": 13, "failed": 0, "skipped": 0 },
+    "metabolic_agent": { "passed": 105, "failed": 0, "skipped": 0 },
+    "authorization_service": { "passed": 18, "failed": 0, "skipped": 0 },
+    "settlement_lab_rust": { "passed": 6, "failed": 0, "skipped": 0 },
+    "surfpool_e2e": { "passed": 74, "failed": 0, "skipped": 0 }
+  },
+  "totals": {
+    "passed": 10,
+    "failed": 2,
+    "skipped": 0,
+    "not_executed": 1,
+    "blocked": 1,
+    "unit": "authoritative commands, not mixed test cases"
+  },
+  "blockers": [
+    "Phantom extension is not injected in the browser used for this run.",
+    "Port 43147 is held by a pre-existing Next.js process without lab environment variables."
+  ],
+  "manual_phantom": {
+    "status": "NOT_EXECUTED",
+    "signature": null
+  },
+  "overall_status": "APPROVED_WITH_RESERVATIONS"
+}

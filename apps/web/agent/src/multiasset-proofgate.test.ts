@@ -54,7 +54,9 @@ describe("ProofGate Multi-Asset Stage 3: review without execution", () => {
     assert.equal(decision.reasons.length, 0);
   });
   it("does not allow an unverified candidate or an unknown asset", () => {
-    assert.match(evaluate({ registry: [{ ...registry[0], status: "CANDIDATE" }] }).reasons.join(), /verified Devnet/);
+    const record = registry[0];
+    if (!record) throw new Error("fixture registry is empty");
+    assert.match(evaluate({ registry: [{ ...record, status: "CANDIDATE" }] }).reasons.join(), /verified Devnet/);
     assert.match(evaluate({ proposal: { ...proposal, assetId: "equity:US:TSLA" } }).reasons.join(), /not in owner mandate/);
   });
   it("blocks quote mismatches, stale quotes and excessive slippage", () => {

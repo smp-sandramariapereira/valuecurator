@@ -38,7 +38,8 @@ export const metadata: Metadata = {
       "Research-driven intelligence, verifiable authorization, and blockchain infrastructure for tokenized assets.",
   },
   icons: {
-    icon: "/proofgate-mark.svg",
+    icon: "/valuecurator-mark.png",
+    apple: "/valuecurator-mark.png",
   },
 };
 

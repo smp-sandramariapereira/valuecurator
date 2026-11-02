@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./public/proofgate-mark.svg" alt="ValueCurator" width="92" />
+  <img src="./public/valuecurator-logo.png" alt="ValueCurator" width="280" />
 </p>
 
 <h1 align="center">ValueCurator</h1>

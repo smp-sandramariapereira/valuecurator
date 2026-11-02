@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { InstitutionalFrame } from "@/components/institutional/institutional-ui";
 import { CONTACT_EMAIL, NAV_LINKS } from "@/lib/institutional";
-import { version } from "../../package.json";
+import webPackage from "../../package.json";
 
 const summaries: Record<string, string> = {
   "/technology": "KAIROS Engine, the Discovery API, market evidence and the Devnet program.",
@@ -21,7 +21,7 @@ export function AboutIndex() {
           <span className="h-2.5 w-2.5 rounded-full bg-institutional-emerald" aria-hidden="true" />
           <span className="h-2.5 w-2.5 rounded-full bg-institutional-cyan/70" aria-hidden="true" />
           <span className="h-2.5 w-2.5 rounded-full bg-white/25" aria-hidden="true" />
-          <p className="ml-2 text-[11px] tracking-wide text-institutional-cyan">valuecurator — about — {version}</p>
+          <p className="ml-2 text-[11px] tracking-wide text-institutional-cyan">valuecurator — about — {webPackage.version}</p>
         </div>
         <div className="space-y-5 px-4 py-5 text-sm leading-6 sm:px-6">
           <p>

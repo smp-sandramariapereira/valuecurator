@@ -89,6 +89,24 @@ export function createLabGateway({
     };
   }
 
+  async function ownerSetupPresence(owner) {
+    if (!runtime) return { portfolioExists: false, mandateExists: false };
+    const ownerKey = new PublicKey(owner);
+    const portfolio = PublicKey.findProgramAddressSync(
+      [Buffer.from("portfolio"), ownerKey.toBuffer(), new PublicKey(runtime.inputMint).toBuffer()],
+      SETTLEMENT_PROGRAM_ID,
+    )[0];
+    const mandate = PublicKey.findProgramAddressSync(
+      [Buffer.from("mandate"), ownerKey.toBuffer(), new PublicKey(runtime.pool).toBuffer()],
+      SETTLEMENT_PROGRAM_ID,
+    )[0];
+    const [portfolioAccount, mandateAccount] = await Promise.all([
+      account(portfolio.toBase58()),
+      account(mandate.toBase58()),
+    ]);
+    return { portfolioExists: Boolean(portfolioAccount), mandateExists: Boolean(mandateAccount) };
+  }
+
   async function loadTrustedMandate(owner) {
     if (!runtime) return null;
     const ownerKey = new PublicKey(owner);
@@ -162,6 +180,8 @@ export function createLabGateway({
         authorizationEpoch: config.authorizationEpoch.toString(),
         paused: config.paused,
         wallet: null,
+        inputMint: runtime.inputMint,
+        outputMint: runtime.outputMint,
         networkIdentity: "loopback RPC only; Surfpool does not provide a genesis hash",
       };
     } catch (error) {
@@ -189,11 +209,14 @@ export function createLabGateway({
     const key = text(owner, 64);
     if (!key) return { ok: false, status: "ERROR", reasons: ["owner is invalid"] };
     try {
+      const setup = await ownerSetupPresence(key);
       const mandate = await loadTrustedMandate(key);
-      if (!mandate) return { ok: true, exists: false, owner: key };
+      if (!mandate) return { ok: true, exists: false, owner: key, ...setup };
       return {
         ok: true,
         exists: true,
+        portfolioExists: true,
+        mandateExists: true,
         owner: mandate.owner,
         pool: mandate.pool,
         inputMint: mandate.inputMint,
