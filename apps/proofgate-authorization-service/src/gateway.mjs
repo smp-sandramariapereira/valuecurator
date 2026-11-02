@@ -30,6 +30,33 @@ function digits(value) {
   return typeof value === "string" && /^(0|[1-9][0-9]{0,19})$/.test(value) ? value : null;
 }
 
+function listedLabAssets(runtime) {
+  if (!runtime) return [];
+  if (Array.isArray(runtime.assets) && runtime.assets.length > 0) return runtime.assets;
+  if (!runtime.asset) return [];
+  return [{
+    ...runtime.asset,
+    pool: runtime.asset.pool ?? runtime.pool,
+    mint: runtime.asset.mint ?? runtime.outputMint,
+  }];
+}
+
+function selectedLabAsset(runtime, assetId) {
+  const assets = listedLabAssets(runtime);
+  if (typeof assetId === "string" && assetId.length > 0) {
+    return assets.find((asset) => asset.assetId === assetId) ?? null;
+  }
+  return assets.find((asset) => asset.assetId === runtime?.asset?.assetId) ?? assets[0] ?? null;
+}
+
+function assetPool(runtime, asset) {
+  return asset?.pool ?? runtime?.pool ?? null;
+}
+
+function assetOutputMint(runtime, asset) {
+  return asset?.mint ?? runtime?.outputMint ?? null;
+}
+
 export function createLabGateway({
   env,
   policySigner,
@@ -49,9 +76,9 @@ export function createLabGateway({
       service = createAuthorizationService({
         policySigner,
         now: () => chainSeconds * 1000,
-        labRegistry: new Map(runtime?.asset ? [[runtime.asset.assetId, runtime.asset]] : []),
+        labRegistry: new Map(listedLabAssets(runtime).map((asset) => [asset.assetId, asset])),
         loadConfig: () => loadTrustedConfig(),
-        loadMandate: (request) => loadTrustedMandate(request.owner),
+        loadMandate: (request) => loadTrustedMandate(request.owner, selectedLabAsset(runtime, request.assetId)),
       });
     }
     return service;
@@ -89,15 +116,15 @@ export function createLabGateway({
     };
   }
 
-  async function ownerSetupPresence(owner) {
-    if (!runtime) return { portfolioExists: false, mandateExists: false };
+  async function ownerSetupPresence(owner, asset) {
+    if (!runtime || !asset || !assetPool(runtime, asset)) return { portfolioExists: false, mandateExists: false };
     const ownerKey = new PublicKey(owner);
     const portfolio = PublicKey.findProgramAddressSync(
       [Buffer.from("portfolio"), ownerKey.toBuffer(), new PublicKey(runtime.inputMint).toBuffer()],
       SETTLEMENT_PROGRAM_ID,
     )[0];
     const mandate = PublicKey.findProgramAddressSync(
-      [Buffer.from("mandate"), ownerKey.toBuffer(), new PublicKey(runtime.pool).toBuffer()],
+      [Buffer.from("mandate"), ownerKey.toBuffer(), new PublicKey(assetPool(runtime, asset)).toBuffer()],
       SETTLEMENT_PROGRAM_ID,
     )[0];
     const [portfolioAccount, mandateAccount] = await Promise.all([
@@ -107,10 +134,11 @@ export function createLabGateway({
     return { portfolioExists: Boolean(portfolioAccount), mandateExists: Boolean(mandateAccount) };
   }
 
-  async function loadTrustedMandate(owner) {
-    if (!runtime) return null;
+  async function loadTrustedMandate(owner, asset) {
+    const poolId = assetPool(runtime, asset);
+    if (!runtime || !asset || !poolId) return null;
     const ownerKey = new PublicKey(owner);
-    const pool = new PublicKey(runtime.pool);
+    const pool = new PublicKey(poolId);
     const inputMint = new PublicKey(runtime.inputMint);
     const portfolio = PublicKey.findProgramAddressSync(
       [Buffer.from("portfolio"), ownerKey.toBuffer(), inputMint.toBuffer()],
@@ -141,8 +169,9 @@ export function createLabGateway({
       portfolioRemaining: portfolioData.readBigUInt64LE(72) - portfolioData.readBigUInt64LE(80),
       rateNumerator: poolData.readBigUInt64LE(104),
       rateDenominator: poolData.readBigUInt64LE(112),
+      rateExpiresAt: Number(poolData.readBigInt64LE(120)),
       paused: data[112] !== 0,
-      poolPaused: poolData[120] !== 0,
+      poolPaused: poolData[128] !== 0,
       portfolioPaused: portfolioData[96] !== 0,
       expiresAt: Number(data.readBigInt64LE(104)),
     };
@@ -192,25 +221,33 @@ export function createLabGateway({
   async function getAssets() {
     if (!environment.ok) return { ok: false, status: "ERROR", reasons: environment.reasons, confirmed: false };
     const research = researchAssets.map((asset) => publicAsset(asset, "RESEARCH_ONLY"));
-    if (!runtime?.asset) return { ok: true, assets: research };
+    const records = listedLabAssets(runtime);
+    if (records.length === 0) return { ok: true, assets: research };
     try {
-      const mint = await account(runtime.asset.mint);
-      const lane = mint ? "LAB_VERIFIED" : "BLOCKED";
-      return {
-        ok: true,
-        assets: [...research, { ...publicAsset(runtime.asset, lane === "LAB_VERIFIED" ? "LAB_VERIFIED" : "RESEARCH_ONLY"), lane, mint: mint ? runtime.asset.mint : null }],
-      };
+      const listed = [];
+      for (const record of records) {
+        const mint = await account(record.mint);
+        const lane = mint ? "LAB_VERIFIED" : "BLOCKED";
+        listed.push({
+          ...publicAsset(record, lane === "LAB_VERIFIED" ? "LAB_VERIFIED" : "RESEARCH_ONLY"),
+          lane,
+          mint: mint ? record.mint : null,
+        });
+      }
+      return { ok: true, assets: [...research, ...listed] };
     } catch (error) {
       return { ok: false, status: "ERROR", reasons: [error instanceof Error ? error.message : "RPC unavailable"], confirmed: false };
     }
   }
 
-  async function getMandate(owner) {
+  async function getMandate(owner, assetId) {
     const key = text(owner, 64);
     if (!key) return { ok: false, status: "ERROR", reasons: ["owner is invalid"] };
+    const asset = selectedLabAsset(runtime, assetId);
+    if (assetId && !asset) return { ok: false, status: "ERROR", reasons: ["asset is not the verified lab mint"] };
     try {
-      const setup = await ownerSetupPresence(key);
-      const mandate = await loadTrustedMandate(key);
+      const setup = await ownerSetupPresence(key, asset);
+      const mandate = await loadTrustedMandate(key, asset);
       if (!mandate) return { ok: true, exists: false, owner: key, ...setup };
       return {
         ok: true,
@@ -229,6 +266,7 @@ export function createLabGateway({
         paused: mandate.paused || mandate.poolPaused || mandate.portfolioPaused,
         rateNumerator: mandate.rateNumerator.toString(),
         rateDenominator: mandate.rateDenominator.toString(),
+        rateExpiresAt: mandate.rateExpiresAt,
       };
     } catch (error) {
       return { ok: false, status: "ERROR", reasons: [error instanceof Error ? error.message : "RPC unavailable"], confirmed: false };
@@ -243,30 +281,36 @@ export function createLabGateway({
   async function proposalFromChain(owner, body) {
     const current = await chainNow();
     chainSeconds = current;
-    const mandate = await loadTrustedMandate(owner);
+    const asset = selectedLabAsset(runtime, body.assetId);
+    if (!asset) return { error: "asset is not the verified lab mint" };
+    const mandate = await loadTrustedMandate(owner, asset);
     if (!mandate) return { error: "mandate not found" };
+    const remaining = mandate.rateExpiresAt - current;
+    if (remaining <= 0) return { error: "conversion rate expired" };
+    const ttl = Math.min(body.authorizationTtlSeconds ?? 120, remaining);
     const observedAt = current - 5;
+    const outputMint = assetOutputMint(runtime, asset);
     const evidence = {
       schema: "lab-fixed-rate-v1",
       profile: "DEVNET_LAB",
-      assetId: runtime.asset.assetId,
+      assetId: asset.assetId,
       inputMint: runtime.inputMint,
-      outputMint: runtime.outputMint,
+      outputMint,
       rateNumerator: mandate.rateNumerator.toString(),
       rateDenominator: mandate.rateDenominator.toString(),
       observedAt,
-      expiresAt: current + 120,
+      expiresAt: current + ttl,
     };
     return {
       current,
       request: {
         profile: "DEVNET_LAB",
-        assetId: runtime.asset.assetId,
+        assetId: asset.assetId,
         owner,
         mandate: mandate.mandate,
-        pool: runtime.pool,
+        pool: assetPool(runtime, asset),
         inputMint: runtime.inputMint,
-        outputMint: runtime.outputMint,
+        outputMint,
         tokenProgram: CLASSIC_TOKEN_PROGRAM,
         network: "devnet-lab",
         amountIn: body.amountIn,
@@ -274,7 +318,7 @@ export function createLabGateway({
         rateNumerator: mandate.rateNumerator.toString(),
         rateDenominator: mandate.rateDenominator.toString(),
         nonce: body.nonce,
-        authorizationTtlSeconds: body.authorizationTtlSeconds ?? 120,
+        authorizationTtlSeconds: ttl,
         evidence,
       },
     };
@@ -302,12 +346,13 @@ export function createLabGateway({
       signature: text(body.challenge?.signature, 120),
     });
     if (!auth.ok) return { ok: false, decision: "BLOCKED", reasons: [auth.error], proof: null, signerInvocations: service?.signerInvocations ?? 0 };
-    if (body.assetId && body.assetId !== runtime?.asset?.assetId) {
+    const asset = selectedLabAsset(runtime, body.assetId);
+    if (body.assetId && !asset) {
       return { ok: false, decision: "BLOCKED", reasons: ["asset is not the verified lab mint"], proof: null, signerInvocations: signer().signerInvocations };
     }
     let built;
     try {
-      built = await proposalFromChain(owner, { amountIn, minimumAmountOut, nonce, authorizationTtlSeconds: body.authorizationTtlSeconds });
+      built = await proposalFromChain(owner, { assetId: asset?.assetId, amountIn, minimumAmountOut, nonce, authorizationTtlSeconds: body.authorizationTtlSeconds });
     } catch (error) {
       return { ok: false, status: "ERROR", decision: "ERROR", reasons: [error instanceof Error ? error.message : "RPC unavailable"], proof: null, confirmed: false };
     }
@@ -318,7 +363,8 @@ export function createLabGateway({
       return { ok: true, decision: "BLOCKED", reasons: decision.reasons, proof: null, signerInvocations: signer().signerInvocations, signed: signer().signerInvocations > beforeSigns };
     }
     const latest = await rpc.getLatestBlockhash("confirmed");
-    const mandate = await loadTrustedMandate(owner);
+    const settled = asset ?? selectedLabAsset(runtime, body.assetId);
+    const mandate = await loadTrustedMandate(owner, settled);
     const portfolio = PublicKey.findProgramAddressSync(
       [Buffer.from("portfolio"), new PublicKey(owner).toBuffer(), new PublicKey(runtime.inputMint).toBuffer()],
       SETTLEMENT_PROGRAM_ID,
@@ -327,11 +373,11 @@ export function createLabGateway({
       authorization: decision,
       proof: decision.proof,
       owner,
-      pool: runtime.pool,
+      pool: assetPool(runtime, settled),
       mandate: mandate.mandate,
       portfolio,
       inputMint: runtime.inputMint,
-      outputMint: runtime.outputMint,
+      outputMint: assetOutputMint(runtime, settled),
       config: runtime.config,
       blockhash: latest.blockhash,
       lastValidBlockHeight: latest.lastValidBlockHeight,
@@ -361,9 +407,9 @@ export function createLabGateway({
       signerInvocations: signer().signerInvocations,
       signed: true,
       evidenceDigest: evidenceDigest({
-        assetId: runtime.asset.assetId,
+        assetId: settled.assetId,
         inputMint: new PublicKey(runtime.inputMint),
-        outputMint: new PublicKey(runtime.outputMint),
+        outputMint: new PublicKey(assetOutputMint(runtime, settled)),
         rateNumerator: mandate.rateNumerator,
         rateDenominator: mandate.rateDenominator,
         observedAt: built.request.evidence.observedAt,
@@ -382,7 +428,8 @@ export function createLabGateway({
     });
     if (!auth.ok) return { ok: false, decision: "BLOCKED", reasons: [auth.error] };
     const kind = body.kind === "portfolio" || body.kind === "mandate" ? body.kind : null;
-    if (!kind || !runtime) return { ok: false, decision: "BLOCKED", reasons: ["setup is unavailable"] };
+    const asset = selectedLabAsset(runtime, body.assetId);
+    if (!kind || !runtime || !asset || !assetPool(runtime, asset)) return { ok: false, decision: "BLOCKED", reasons: ["setup is unavailable"] };
     const maxPerTrade = BigInt(runtime.limits.maxPerTrade);
     const maxDaily = BigInt(runtime.limits.maxDaily);
     const portfolioDaily = BigInt(runtime.limits.portfolioDaily);
@@ -394,13 +441,13 @@ export function createLabGateway({
       SETTLEMENT_PROGRAM_ID,
     )[0];
     const mandate = PublicKey.findProgramAddressSync(
-      [Buffer.from("mandate"), ownerKey.toBuffer(), new PublicKey(runtime.pool).toBuffer()],
+      [Buffer.from("mandate"), ownerKey.toBuffer(), new PublicKey(assetPool(runtime, asset)).toBuffer()],
       SETTLEMENT_PROGRAM_ID,
     )[0];
     const built = buildOwnerSetupTransaction({
       kind,
       owner,
-      pool: runtime.pool,
+      pool: assetPool(runtime, asset),
       inputMint: runtime.inputMint,
       portfolio,
       mandate,

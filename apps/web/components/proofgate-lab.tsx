@@ -50,6 +50,7 @@ type Mandate = {
   paused?: boolean;
   rateNumerator?: string;
   rateDenominator?: string;
+  rateExpiresAt?: number;
 };
 
 type DecisionName = "PENDING" | "BLOCKED" | "AUTHORIZED" | "EXPIRED" | "REVOKED" | "ERROR" | "EXECUTED";
@@ -101,6 +102,7 @@ export function ProofGateLab() {
   const [authorization, setAuthorization] = useState<Record<string, string | number> | null>(null);
   const [receipt, setReceipt] = useState<Record<string, unknown> | null>(null);
   const [busy, setBusy] = useState(false);
+  const [selectedAssetId, setSelectedAssetId] = useState("lab:dAAPL");
 
   const refresh = useCallback(async () => {
     const [configResponse, assetResponse] = await Promise.all([
@@ -111,16 +113,23 @@ export function ProofGateLab() {
     const assetPayload = await assetResponse.json();
     setAssets(assetPayload.assets ?? []);
     if (publicKey) {
-      const mandateResponse = await fetch(`/api/lab/mandate?owner=${publicKey.toBase58()}`);
+      const assetQuery = selectedAssetId ? `&asset=${encodeURIComponent(selectedAssetId)}` : "";
+      const mandateResponse = await fetch(`/api/lab/mandate?owner=${publicKey.toBase58()}${assetQuery}`);
       setMandate(await mandateResponse.json());
     } else {
       setMandate(null);
     }
-  }, [publicKey]);
+  }, [publicKey, selectedAssetId]);
 
   useEffect(() => {
     void refresh();
   }, [refresh, connected, disconnecting]);
+
+  useEffect(() => {
+    const verifiedIds = assets.filter((asset) => asset.lane === "LAB_VERIFIED").map((asset) => asset.assetId);
+    if (verifiedIds.length === 0 || verifiedIds.includes(selectedAssetId)) return;
+    setSelectedAssetId(verifiedIds[0]);
+  }, [assets, selectedAssetId]);
 
   async function authenticated(path: string, extra: Record<string, unknown>) {
     if (!publicKey || !signMessage) throw new Error("Connect a wallet before requesting a signature.");
@@ -144,7 +153,7 @@ export function ProofGateLab() {
     setAuthorization(null);
     try {
       const result = await authenticated("/api/lab/authorize", {
-        assetId: "lab:dAAPL",
+        assetId: selectedAssetId,
         amountIn: amount,
         minimumAmountOut: minimum,
         nonce: String(Date.now()),
@@ -217,7 +226,7 @@ export function ProofGateLab() {
   async function setup(kind: "portfolio" | "mandate") {
     setBusy(true);
     try {
-      const prepared = await authenticated("/api/lab/setup", { kind });
+      const prepared = await authenticated("/api/lab/setup", { kind, assetId: selectedAssetId });
       if (!prepared.payload.transaction || !signTransaction || !config?.rpcUrl || !localRpc(config.rpcUrl)) {
         setDecision("ERROR");
         setReasons(prepared.payload.reasons ?? ["The lab could not prepare the owner account."]);
@@ -241,7 +250,8 @@ export function ProofGateLab() {
     }
   }
 
-  const verified = assets.find((asset) => asset.lane === "LAB_VERIFIED");
+  const verifiedAssets = assets.filter((asset) => asset.lane === "LAB_VERIFIED");
+  const verified = verifiedAssets.find((asset) => asset.assetId === selectedAssetId) ?? verifiedAssets[0];
   const outputName = verified?.displayName ?? "Synthetic dAAPL";
   const inputMint = config?.inputMint ?? mandate?.inputMint;
   const outputMint = verified?.mint ?? config?.outputMint ?? mandate?.outputMint;
@@ -260,7 +270,7 @@ export function ProofGateLab() {
         <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-stocklana-muted">ProofGate Lab · synthetic only</p>
         <h1 className="text-2xl font-semibold">Local settlement experiment</h1>
         <p className="max-w-3xl text-sm text-stocklana-muted">
-          dAAPL is an experimental SPL token in this Surfpool. It is not a share of Apple. The research catalog cannot settle.
+          Each synthetic mint in this Surfpool is an experimental SPL token. It is not a share of the named company. The research catalog cannot settle.
           Phantom must use the RPC shown below. This page never receives the ProofGate key.
         </p>
       </header>
@@ -268,7 +278,23 @@ export function ProofGateLab() {
       <section className="rounded-2xl border border-white/10 bg-white/5 p-4">
         <h2 className="text-sm font-semibold">Settlement pair</h2>
         <p className="mt-2 text-sm">{INPUT_NAME} ({INPUT_SYMBOL}) → {outputName}</p>
-        <p className="mt-1 text-xs text-stocklana-muted">These names are labels on this page. Phantom shows the mint address.</p>
+        <label className="mt-3 block text-xs text-stocklana-muted">Synthetic twin
+          <select
+            className="mt-1 block rounded-lg border border-white/20 bg-transparent px-3 py-2 text-sm text-white"
+            value={verified?.assetId ?? selectedAssetId}
+            onChange={(event) => {
+              setSelectedAssetId(event.target.value);
+              setAuthorization(null);
+              setDecision("PENDING");
+              setReasons([]);
+            }}
+          >
+            {(verifiedAssets.length > 0 ? verifiedAssets : [{ assetId: "lab:dAAPL", displayName: "Synthetic dAAPL" }]).map((asset) => (
+              <option key={asset.assetId} value={asset.assetId}>{asset.displayName}</option>
+            ))}
+          </select>
+        </label>
+        <p className="mt-1 text-xs text-stocklana-muted">These names are labels on this page. Phantom shows the mint address. Each twin has its own pool and its own mandate. The portfolio stays on Synthetic dUSDC.</p>
         <dl className="mt-3 space-y-1 font-mono text-xs text-stocklana-muted">
           <div>Input mint {inputMint ?? "waiting for the lab API"}</div>
           <div>Output mint {outputMint ?? "waiting for the lab API"}</div>
@@ -338,6 +364,7 @@ export function ProofGateLab() {
             <div>Expires {mandate.expiresAt}</div>
             <div>Paused {mandate.paused ? "yes" : "no"}</div>
             <div>Pool rate {mandate.rateNumerator}/{mandate.rateDenominator}</div>
+            <div>Rate expires {mandate.rateExpiresAt ?? "unavailable"}</div>
           </dl>
         ) : (
           <div className="mt-3 flex flex-col gap-2 text-sm text-stocklana-muted">

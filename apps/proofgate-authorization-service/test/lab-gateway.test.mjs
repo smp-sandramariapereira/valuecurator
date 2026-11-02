@@ -250,11 +250,12 @@ test("gateway signs once for an authenticated lab proposal and refuses a changed
     return data;
   }
   function poolData() {
-    const data = Buffer.alloc(122);
+    const data = Buffer.alloc(130);
     inputMint.toBuffer().copy(data, 40);
     outputMint.toBuffer().copy(data, 72);
     data.writeBigUInt64LE(1n, 104);
     data.writeBigUInt64LE(1n, 112);
+    data.writeBigInt64LE(1_700_000_200n, 120);
     return data;
   }
   function portfolioData() {
@@ -328,4 +329,49 @@ test("gateway signs once for an authenticated lab proposal and refuses a changed
   });
   assert.equal(wrongAsset.decision, "BLOCKED");
   assert.equal(gateway.signerInvocations, 1);
+});
+
+test("gateway lists every synthetic twin recorded in the runtime", async () => {
+  const policySigner = Keypair.generate();
+  const owner = Keypair.generate();
+  const pool = Keypair.generate().publicKey;
+  const nvdaPool = Keypair.generate().publicKey;
+  const inputMint = Keypair.generate().publicKey;
+  const outputMint = Keypair.generate().publicKey;
+  const nvdaMint = Keypair.generate().publicKey;
+  const config = Keypair.generate().publicKey;
+  const runtime = runtimeFor(policySigner, owner, pool, inputMint, outputMint, config);
+  runtime.assets = [
+    { ...runtime.asset, pool: pool.toBase58() },
+    {
+      assetId: "lab:dNVDA",
+      ticker: "dNVDA",
+      displayName: "Synthetic dNVDA",
+      mint: nvdaMint.toBase58(),
+      pool: nvdaPool.toBase58(),
+      network: "devnet-lab",
+      tokenProgram: TOKEN,
+      verificationStatus: "VERIFIED",
+      synthetic: true,
+    },
+  ];
+  const gateway = createLabGateway({
+    env: env(),
+    policySigner,
+    runtime,
+    now: () => NOW,
+    connection: {
+      getAccountInfo: async (key) => {
+        const id = key.toBase58();
+        if (id === outputMint.toBase58() || id === nvdaMint.toBase58()) return { executable: false, data: Buffer.alloc(82) };
+        return null;
+      },
+    },
+    researchAssets: [{ assetId: "equity:US:NVDA", ticker: "NVDA", displayName: "NVIDIA" }],
+  });
+  const listed = await gateway.getAssets();
+  const verified = listed.assets.filter((asset) => asset.lane === "LAB_VERIFIED");
+  assert.equal(verified.length, 2);
+  assert.equal(verified.find((asset) => asset.assetId === "lab:dNVDA").mint, nvdaMint.toBase58());
+  assert.equal(listed.assets[0].lane, "RESEARCH_ONLY");
 });

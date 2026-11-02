@@ -3,6 +3,7 @@
  * Refuses any RPC that is not loopback. Does not print private keys.
  *
  * The Surfpool process must already be listening on 127.0.0.1:18999.
+ * One Synthetic dUSDC mint is shared. Each equity twin gets its own mint and pool.
  * Owner portfolio and mandate are not created here. The connected wallet signs those.
  */
 import { createHash } from "node:crypto";
@@ -31,6 +32,12 @@ const PROGRAM_SO = resolve(PROGRAMS, "target/deploy/proofgate_settlement_lab.so"
 const RUNTIME = resolve(PROGRAMS, "target/lab-runtime.json");
 const ADMIN_PATH = resolve(PROGRAMS, "target/surfpool-admin-keypair.json");
 const DEPLOYMENT_ID = Buffer.alloc(32, 7);
+const TWINS = [
+  { assetId: "lab:dAAPL", ticker: "dAAPL", displayName: "Synthetic dAAPL" },
+  { assetId: "lab:dNVDA", ticker: "dNVDA", displayName: "Synthetic dNVDA" },
+  { assetId: "lab:dTSLA", ticker: "dTSLA", displayName: "Synthetic dTSLA" },
+  { assetId: "lab:dMSFT", ticker: "dMSFT", displayName: "Synthetic dMSFT" },
+];
 
 function assertLocal() {
   const host = new URL(RPC).hostname;
@@ -61,6 +68,56 @@ async function send(connection, instructions, signers) {
   await connection.confirmTransaction({ signature, ...latest }, "confirmed");
   const detail = await connection.getTransaction(signature, { commitment: "confirmed", maxSupportedTransactionVersion: 0 });
   if (detail?.meta?.err) throw new Error(JSON.stringify(detail.meta.err));
+}
+
+async function createTwin(connection, admin, inputMint, twin) {
+  const outputMint = await createMint(connection, admin, admin.publicKey, null, 6);
+  const pool = PublicKey.findProgramAddressSync(
+    [Buffer.from("pool"), admin.publicKey.toBuffer(), inputMint.toBuffer(), outputMint.toBuffer()],
+    PROGRAM_ID,
+  )[0];
+  const poolInput = getAssociatedTokenAddressSync(inputMint, pool, true);
+  const poolOutput = getAssociatedTokenAddressSync(outputMint, pool, true);
+  const adminOutput = await getOrCreateAssociatedTokenAccount(connection, admin, outputMint, admin.publicKey);
+  await mintTo(connection, admin, outputMint, adminOutput.address, admin, 10_000_000n);
+  await send(connection, [new TransactionInstruction({
+    programId: PROGRAM_ID,
+    keys: [
+      { pubkey: admin.publicKey, isSigner: true, isWritable: true },
+      { pubkey: inputMint, isSigner: false, isWritable: false },
+      { pubkey: outputMint, isSigner: false, isWritable: false },
+      { pubkey: pool, isSigner: false, isWritable: true },
+      { pubkey: poolInput, isSigner: false, isWritable: true },
+      { pubkey: poolOutput, isSigner: false, isWritable: true },
+      { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+      { pubkey: ASSOCIATED_TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+      { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
+    ],
+    data: Buffer.concat([disc("initialize_pool"), u64(1n), u64(1n)]),
+  })], [admin]);
+  await send(connection, [new TransactionInstruction({
+    programId: PROGRAM_ID,
+    keys: [
+      { pubkey: admin.publicKey, isSigner: false, isWritable: true },
+      { pubkey: pool, isSigner: false, isWritable: false },
+      { pubkey: outputMint, isSigner: false, isWritable: false },
+      { pubkey: adminOutput.address, isSigner: false, isWritable: true },
+      { pubkey: poolOutput, isSigner: false, isWritable: true },
+      { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+    ],
+    data: Buffer.concat([disc("fund_reserve"), u64(5_000_000n)]),
+  })], [admin]);
+  return {
+    assetId: twin.assetId,
+    ticker: twin.ticker,
+    displayName: twin.displayName,
+    mint: outputMint.toBase58(),
+    pool: pool.toBase58(),
+    network: "devnet-lab",
+    tokenProgram: TOKEN_PROGRAM_ID.toBase58(),
+    verificationStatus: "VERIFIED",
+    synthetic: true,
+  };
 }
 
 async function main() {
@@ -117,42 +174,9 @@ async function main() {
     })], [initializer]);
   }
   const inputMint = await createMint(connection, admin, admin.publicKey, null, 6);
-  const outputMint = await createMint(connection, admin, admin.publicKey, null, 6);
-  const pool = PublicKey.findProgramAddressSync(
-    [Buffer.from("pool"), admin.publicKey.toBuffer(), inputMint.toBuffer(), outputMint.toBuffer()],
-    PROGRAM_ID,
-  )[0];
-  const poolInput = getAssociatedTokenAddressSync(inputMint, pool, true);
-  const poolOutput = getAssociatedTokenAddressSync(outputMint, pool, true);
-  const adminOutput = await getOrCreateAssociatedTokenAccount(connection, admin, outputMint, admin.publicKey);
-  await mintTo(connection, admin, outputMint, adminOutput.address, admin, 10_000_000n);
-  await send(connection, [new TransactionInstruction({
-    programId: PROGRAM_ID,
-    keys: [
-      { pubkey: admin.publicKey, isSigner: true, isWritable: true },
-      { pubkey: inputMint, isSigner: false, isWritable: false },
-      { pubkey: outputMint, isSigner: false, isWritable: false },
-      { pubkey: pool, isSigner: false, isWritable: true },
-      { pubkey: poolInput, isSigner: false, isWritable: true },
-      { pubkey: poolOutput, isSigner: false, isWritable: true },
-      { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-      { pubkey: ASSOCIATED_TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-      { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
-    ],
-    data: Buffer.concat([disc("initialize_pool"), u64(1n), u64(1n)]),
-  })], [admin]);
-  await send(connection, [new TransactionInstruction({
-    programId: PROGRAM_ID,
-    keys: [
-      { pubkey: admin.publicKey, isSigner: false, isWritable: true },
-      { pubkey: pool, isSigner: false, isWritable: false },
-      { pubkey: outputMint, isSigner: false, isWritable: false },
-      { pubkey: adminOutput.address, isSigner: false, isWritable: true },
-      { pubkey: poolOutput, isSigner: false, isWritable: true },
-      { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-    ],
-    data: Buffer.concat([disc("fund_reserve"), u64(5_000_000n)]),
-  })], [admin]);
+  const assets = [];
+  for (const twin of TWINS) assets.push(await createTwin(connection, admin, inputMint, twin));
+  const primary = assets[0];
   if (ownerText) {
     const owner = new PublicKey(ownerText);
     const ata = await getOrCreateAssociatedTokenAccount(connection, admin, inputMint, owner);
@@ -162,23 +186,17 @@ async function main() {
     deploymentId: DEPLOYMENT_ID.toString("hex"),
     config: config.toBase58(),
     policySigner: policy.publicKey.toBase58(),
-    pool: pool.toBase58(),
+    pool: primary.pool,
     inputMint: inputMint.toBase58(),
-    outputMint: outputMint.toBase58(),
+    outputMint: primary.mint,
     admin: admin.publicKey.toBase58(),
-    asset: {
-      assetId: "lab:dAAPL",
-      displayName: "Synthetic dAAPL",
-      mint: outputMint.toBase58(),
-      network: "devnet-lab",
-      tokenProgram: TOKEN_PROGRAM_ID.toBase58(),
-      verificationStatus: "VERIFIED",
-      synthetic: true,
-    },
+    asset: primary,
+    assets,
     limits: { maxPerTrade: "2000000", maxDaily: "5000000", portfolioDaily: "1000000" },
   };
   writeFileSync(RUNTIME, JSON.stringify(runtime, null, 2));
-  process.stdout.write(`lab runtime written\nprogram ${PROGRAM_ID.toBase58()}\noutput mint ${outputMint.toBase58()}\npolicy signer ${policy.publicKey.toBase58()}\n`);
+  const lines = assets.map((asset) => `${asset.ticker} mint ${asset.mint} pool ${asset.pool}`).join("\n");
+  process.stdout.write(`lab runtime written\nprogram ${PROGRAM_ID.toBase58()}\ninput mint ${inputMint.toBase58()}\n${lines}\npolicy signer ${policy.publicKey.toBase58()}\n`);
 }
 
 main().catch((error) => {

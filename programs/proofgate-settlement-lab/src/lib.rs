@@ -42,10 +42,30 @@ pub mod proofgate_settlement_lab {
         pool.admin = ctx.accounts.admin.key();
         pool.input_mint = ctx.accounts.input_mint.key();
         pool.output_mint = ctx.accounts.output_mint.key();
+        let now = Clock::get()?.unix_timestamp;
         pool.rate_numerator = rate_numerator;
         pool.rate_denominator = rate_denominator;
+        pool.rate_expires_at = now.saturating_add(MAX_QUOTE_LIFETIME_SECONDS);
         pool.paused = false;
         pool.bump = ctx.bumps.pool;
+        Ok(())
+    }
+
+    /// Replaces the pool rate. The new expiry must fall inside the next 300 seconds.
+    /// This does not authorize a swap and does not read an oracle.
+    pub fn refresh_pool_rate(
+        ctx: Context<RefreshPoolRate>,
+        rate_numerator: u64,
+        rate_denominator: u64,
+        expires_at: i64,
+    ) -> Result<()> {
+        let now = Clock::get()?.unix_timestamp;
+        require!(rate_numerator > 0 && rate_denominator > 0, LabError::InvalidRate);
+        accept_rate_expiry(now, expires_at)?;
+        let pool = &mut ctx.accounts.pool;
+        pool.rate_numerator = rate_numerator;
+        pool.rate_denominator = rate_denominator;
+        pool.rate_expires_at = expires_at;
         Ok(())
     }
 
@@ -190,6 +210,7 @@ pub mod proofgate_settlement_lab {
             issued_at <= now && expires_at > now && expires_at > issued_at,
             LabError::AuthorizationExpired
         );
+        require!(ctx.accounts.pool.rate_expires_at > now, LabError::RateExpired);
         require!(quoted_rate_numerator == ctx.accounts.pool.rate_numerator &&
             quoted_rate_denominator == ctx.accounts.pool.rate_denominator, LabError::QuoteChanged);
         require!(out_amount >= minimum_out && out_amount > 0, LabError::MinimumOutputNotMet);
@@ -444,6 +465,15 @@ pub fn execution_digest(parameters: &ExecutionParameters) -> [u8; 32] {
 
 /// Rate applies directly to raw SPL base units; client must account for mint
 /// decimals. No floating point and no feed conversion occurs on-chain.
+pub fn accept_rate_expiry(now: i64, expires_at: i64) -> Result<()> {
+    require!(expires_at > now, LabError::RateExpired);
+    require!(
+        expires_at <= now.saturating_add(MAX_QUOTE_LIFETIME_SECONDS),
+        LabError::RateExpired
+    );
+    Ok(())
+}
+
 pub fn calculate_output(amount: u64, numerator: u64, denominator: u64) -> Result<u64> {
     require!(amount > 0 && numerator > 0 && denominator > 0, LabError::InvalidRate);
     let result = (amount as u128).checked_mul(numerator as u128)
@@ -462,6 +492,7 @@ pub struct Pool {
     pub output_mint: Pubkey,
     pub rate_numerator: u64,
     pub rate_denominator: u64,
+    pub rate_expires_at: i64,
     pub paused: bool,
     pub bump: u8,
 }
@@ -541,6 +572,13 @@ pub struct InitializePool<'info> {
     pub token_program: Program<'info, Token>,
     pub associated_token_program: Program<'info, AssociatedToken>,
     pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct RefreshPoolRate<'info> {
+    pub admin: Signer<'info>,
+    #[account(mut, has_one = admin @ LabError::Unauthorized)]
+    pub pool: Account<'info, Pool>,
 }
 
 #[derive(Accounts)]
@@ -752,6 +790,8 @@ pub enum LabError {
     Expired,
     #[msg("Quote is no longer the pool's immutable rate")]
     QuoteChanged,
+    #[msg("Conversion rate is outside its 300 second validity window")]
+    RateExpired,
     #[msg("Risk limits exceeded")]
     LimitExceeded,
     #[msg("Minimum output not met")]
@@ -788,6 +828,12 @@ mod tests {
     fn rate_rounds_down_in_integer_base_units() {
         assert_eq!(calculate_output(100, 3, 2).unwrap(), 150);
         assert_eq!(calculate_output(101, 1, 2).unwrap(), 50);
+    }
+    #[test]
+    fn rate_expiry_must_be_inside_the_next_five_minutes() {
+        assert!(accept_rate_expiry(1_000, 1_300).is_ok());
+        assert!(accept_rate_expiry(1_000, 1_000).is_err());
+        assert!(accept_rate_expiry(1_000, 1_301).is_err());
     }
     #[test]
     fn zero_denominator_and_overflow_are_rejected() {

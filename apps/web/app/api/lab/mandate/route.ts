@@ -7,6 +7,9 @@ export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   const opened = openLocalLab(request);
   if ("error" in opened && opened.error) return opened.error;
-  const mandate = await opened.gateway.getMandate(request.nextUrl.searchParams.get("owner") ?? "");
+  const mandate = await opened.gateway.getMandate(
+    request.nextUrl.searchParams.get("owner") ?? "",
+    request.nextUrl.searchParams.get("asset") ?? "",
+  );
   return NextResponse.json(mandate, { status: mandate.ok ? 200 : 503 });
 }

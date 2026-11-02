@@ -93,8 +93,9 @@ export async function runServiceE2E({
         portfolioRemaining: readU64(portfolioAccount.data, 72) - readU64(portfolioAccount.data, 80),
         rateNumerator: readU64(poolAccount.data, 104),
         rateDenominator: readU64(poolAccount.data, 112),
+        rateExpiresAt: Number(readI64(poolAccount.data, 120)),
         paused: mandateAccount.data[112] !== 0,
-        poolPaused: poolAccount.data[120] !== 0,
+        poolPaused: poolAccount.data[128] !== 0,
         portfolioPaused: portfolioAccount.data[96] !== 0,
         expiresAt: Number(readI64(mandateAccount.data, 104)),
       };
